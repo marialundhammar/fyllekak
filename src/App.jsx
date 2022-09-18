@@ -1,10 +1,13 @@
 import { Routes, Route, useRoutes } from 'react-router-dom'
-import { ReactQueryDevtools } from 'react-query/devtools'
 import HomePage from './pages/HomePage'
 import NotFound from './pages/NotFound'
-import './App.css'
+import './assets/App.css'
 
-function App() {
+
+function App () {
+
+
+
   return (
     <div className="App">
     <Routes>
