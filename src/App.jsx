@@ -2,6 +2,7 @@ import { Routes, Route, useRoutes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
 import NotFound from './pages/NotFound'
 import AdminPage from './pages/AdminPage'
+import LoginPage from './pages/LoginPage'
 import './assets/App.css'
 
 
@@ -16,6 +17,7 @@ function App() {
 				<Route path="*" element={<NotFound />} />
 				<Route path="/" element={<HomePage />} />
 
+				<Route path="/login" element={<LoginPage />} />
 				<Route path="/admin" element={<AdminPage />} />
 
 
