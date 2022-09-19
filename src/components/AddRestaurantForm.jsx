@@ -8,7 +8,6 @@ const AddRestaurantForm = () => {
 	const { handleSubmit, register, reset } = useForm()
 
 	const onTest = async (data) => {
-
 		// Write input value to collection
 		await addDoc(collection(db, 'restaurants'), {
 			namn: data.namn,
@@ -23,9 +22,9 @@ const AddRestaurantForm = () => {
 			instagram: data.instagram,
 		})
 
+		// Reset form lol
 		reset()
 	}
-
 
 	return (
 		<form onSubmit={handleSubmit(onTest)} noValidate>
@@ -55,27 +54,27 @@ const AddRestaurantForm = () => {
 				{...register("vego")}
 			/>
 			<input
-				type="text"
+				type="email"
 				placeholder="E-Post"
 				{...register("epost")}
 			/>
 			<input
-				type="text"
+				type="tel"
 				placeholder="Telefon"
 				{...register("telefon")}
 			/>
 			<input
-				type="text"
+				type="url"
 				placeholder="Hemsida"
 				{...register("hemsida")}
 			/>
 			<input
-				type="text"
+				type="url"
 				placeholder="Facebook"
 				{...register("facebook")}
 			/>
 			<input
-				type="text"
+				type="url"
 				placeholder="Instagram"
 				{...register("instagram")}
 			/>
