@@ -9,7 +9,7 @@ const HomePage = () => {
         <>
         <div className="container mx-auto flex justify-center text-lg">HOMEPAGE</div>
         <div className="flex justify-center">
-            <Map/>
+        <Map/>
         </div>
       </>
     )

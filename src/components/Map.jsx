@@ -1,21 +1,17 @@
 import React from 'react'
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
-
+import { GoogleMap,useJsApiLoader, Marker } from '@react-google-maps/api';
+import useMap from '../hooks/useMap'
 
 
 const Map = () => {
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyDjwKG-ZAmhe10gH1w3vUBkviGJk1CrFWw"
-    })
-  
- 
-  
-  return isLoaded && (
+  const showMap = useMap()
+
+
+  return showMap.isLoaded && (
       <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={coords}
+        mapContainerStyle={ showMap.containerStyle}
+        center={ showMap.coords}
         zoom={15}
         >
        
@@ -25,7 +21,7 @@ const Map = () => {
           scale: 7,
          
         }}
-        position={coords}
+        position={showMap.coords}
         label = "Maria"
         />
  
@@ -34,7 +30,7 @@ const Map = () => {
           path: google.maps.SymbolPath.CIRCLE,
           scale: 7,
         }}
-        position={coords2}
+        position={showMap.coords2}
         label = "Alexander"
         />
   
