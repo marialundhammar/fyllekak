@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage'
 import NotFound from './pages/NotFound'
 import RestaurantPage from './pages/RestaurantPage'
 import AdminPage from './pages/AdminPage'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import './assets/App.css'
 
 
@@ -22,8 +23,9 @@ function App() {
 
 
 
-
 			</Routes>
+
+			<ReactQueryDevtools />
 		</div>
 	)
 }
