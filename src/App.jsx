@@ -5,6 +5,7 @@ import RestaurantPage from './pages/RestaurantPage'
 import AdminPage from './pages/AdminPage'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import './assets/App.css'
+import Navigation from './pages/partials/Navigation'
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
 
 	return (
 		<div className="App">
+			<Navigation />
 			<Routes>
 
 				<Route path="*" element={<NotFound />} />
