@@ -4,13 +4,12 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase'
 
 const AddRestaurantForm = () => {
-	// const [message, setMessage] = useState('')
 
 	const { handleSubmit, register, reset } = useForm()
 
 	const onTest = async (data) => {
-		// data.preventDefault()
 
+		// Write input value to collection
 		await addDoc(collection(db, 'restaurants'), {
 			name: data.name
 		})
