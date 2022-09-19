@@ -11,7 +11,16 @@ const AddRestaurantForm = () => {
 
 		// Write input value to collection
 		await addDoc(collection(db, 'restaurants'), {
-			name: data.name
+			namn: data.namn,
+			adress: data.adress,
+			ort: data.ort,
+			beskrivning: data.beskrivning,
+			vego: data.vego,
+			epost: data.epost,
+			telefon: data.telefon,
+			hemsida: data.hemsida,
+			facebook: data.facebook,
+			instagram: data.instagram,
 		})
 
 		reset()
@@ -22,8 +31,53 @@ const AddRestaurantForm = () => {
 		<form onSubmit={handleSubmit(onTest)} noValidate>
 			<input
 				type="text"
-				placeholder="test input"
-				{...register("name")}
+				placeholder="Namn"
+				{...register("namn")}
+			/>
+			<input
+				type="text"
+				placeholder="Gatuadress"
+				{...register("adress")}
+			/>
+			<input
+				type="text"
+				placeholder="Ort"
+				{...register("ort")}
+			/>
+			<input
+				type="text"
+				placeholder="Beskrivning"
+				{...register("beskrivning")}
+			/>
+			<input
+				type="text"
+				placeholder="Vegetariskt"
+				{...register("vego")}
+			/>
+			<input
+				type="text"
+				placeholder="E-Post"
+				{...register("epost")}
+			/>
+			<input
+				type="text"
+				placeholder="Telefon"
+				{...register("telefon")}
+			/>
+			<input
+				type="text"
+				placeholder="Hemsida"
+				{...register("hemsida")}
+			/>
+			<input
+				type="text"
+				placeholder="Facebook"
+				{...register("facebook")}
+			/>
+			<input
+				type="text"
+				placeholder="Instagram"
+				{...register("instagram")}
 			/>
 			<input type="submit" />
 		</form>
