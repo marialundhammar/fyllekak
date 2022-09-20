@@ -1,7 +1,5 @@
 import React from 'react'
 import Map from '../components/Map'
-import Markers from '../components/Markers'
-
 
 const HomePage = () => { 
 
@@ -12,7 +10,6 @@ const HomePage = () => {
         <div className="flex justify-center">
           <Map/>
 
-          <Markers/>
         </div>
       
       </>
