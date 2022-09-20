@@ -8,15 +8,13 @@ const AdminPage = () => {
 
 	const [toggleForm, setToggleForm] = useState(false)
 
-	console.log(currentUser)
-
 	return (
 		<div>
 			<h1>Admin Page</h1>
 
-			<p>Inloggad användare: {currentUser}</p>
+			<p>Inloggad användare: {currentUser.email}</p>
 
-			<button onClick={() => setToggleForm(!toggleForm)}>Show add form</button>
+			<button onClick={() => setToggleForm(!toggleForm)}>Show add hak form</button>
 
 			{toggleForm && <AddRestaurantForm />}
 		</div>

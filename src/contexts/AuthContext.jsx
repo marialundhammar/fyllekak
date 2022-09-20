@@ -48,6 +48,7 @@ const AuthContextProvider = ({ children }) => {
 	}, [])
 
 	const contextValues = {
+		currentUser,
 		login,
 		logout,
 		reloadUser
