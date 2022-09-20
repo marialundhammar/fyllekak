@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom'
 
 
 const LoginPage = () => {
-	const emailRef = useRef()
-	const passwordRef = useRef()
+	const emailRef = useRef(null)
+	const passwordRef = useRef(null)
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -29,7 +29,7 @@ const LoginPage = () => {
 
 		try {
 			setLoading(true)
-			// await login(email, password)
+			// await login(email, password)	
 			await login(emailRef.current.value, passwordRef.current.value)
 			navigate('/admin')
 		} catch (err) {
@@ -51,13 +51,13 @@ const LoginPage = () => {
 					type="email"
 					placeholder="E-post"
 					ref={emailRef}
-					{...register("email")}
+				// {...register("email")}
 				/>
 				<input
 					type="password"
 					placeholder="Lösenord"
 					ref={passwordRef}
-					{...register("password")}
+				// {...register("password")}
 				/>
 				<input type="submit" />
 				{/* <button
