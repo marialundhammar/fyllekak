@@ -5,35 +5,35 @@ const Table = ({ restaurants }) => {
     console.log("restaurants ==>", restaurants)
 
     return (
-        <table>
+        <table className="w-3/4">
             <thead>
                 <tr>
-                    <th>Namn</th>
-                    <th>Adress</th>
-                    <th>Ort</th>
-                    <th>Beskrivning</th>
-                    <th>Hemsida</th>
-                    <th>Telefon</th>
-                    <th>Epost</th>
-                    <th>Facebook</th>
-                    <th>Instagram</th>
-                    <th>Vego</th>
+                    <th className="text-center border border-black">Namn</th>
+                    <th className="text-center border border-black">Adress</th>
+                    <th className="text-center border border-black">Ort</th>
+                    <th className="text-center border border-black">Beskrivning</th>
+                    <th className="text-center border border-black">Hemsida</th>
+                    <th className="text-center border border-black">Telefon</th>
+                    <th className="text-center border border-black">Epost</th>
+                    <th className="text-center border border-black">Facebook</th>
+                    <th className="text-center border border-black">Instagram</th>
+                    <th className="text-center border border-black">Vego</th>
                 </tr>
             </thead>
             <tbody>
 
                 {restaurants.data && restaurants.data.map(res => (
                     <tr key={res.id}>
-                        <td>{res.namn}</td>
-                        <td>{res.adress}</td>
-                        <td>{res.ort}</td>
-                        <td>{res.beskrivning}</td>
-                        <td>{res.hemsida}</td>
-                        <td>{res.telefon}</td>
-                        <td>{res.epost}</td>
-                        <td>{res.facebook}</td>
-                        <td>{res.instagram}</td>
-                        <td>{res.vego}</td>
+                        <td className="text-center border border-black">{res.namn}</td>
+                        <td className="text-center border border-black">{res.adress}</td>
+                        <td className="text-center border border-black">{res.ort}</td>
+                        <td className="text-center border border-black">{res.beskrivning}</td>
+                        <td className="text-center border border-black">{res.hemsida}</td>
+                        <td className="text-center border border-black">{res.telefon}</td>
+                        <td className="text-center border border-black">{res.epost}</td>
+                        <td className="text-center border border-black">{res.facebook}</td>
+                        <td className="text-center border border-black">{res.instagram}</td>
+                        <td className="text-center border border-black">{res.vego}</td>
                     </tr>
                 ))}
             </tbody>
