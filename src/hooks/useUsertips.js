@@ -2,7 +2,7 @@ import { useFirestoreQueryData } from "@react-query-firebase/firestore"
 import { collection, query } from "@firebase/firestore"
 import { db } from '../firebase'
 
-const useUsertips = () => {
+const useUserTips = () => {
     const tipRef = collection(db, 'usertips')
 
     const queryRef = query(tipRef)
@@ -15,4 +15,4 @@ const useUsertips = () => {
     return tipQuery
 }
 
-export default useUsertips
+export default useUserTips
