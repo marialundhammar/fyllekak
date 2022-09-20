@@ -1,13 +1,10 @@
 import React from 'react'
 
 const RestaurantInfoCard = ({ restaurant }) => {
-    console.log('restaurant ==>', restaurant)
-
     return (
-        <div className="border-2 border-blue-800 bg-blue-400 w-1/2 rounded-xl">
-            <div className="flex justify-between">
+        <div className="border-2 border-blue-800 bg-blue-400 w-1/5 rounded-xl">
+            <div>
                 <h1 className="text-3xl m-2">{restaurant.namn}</h1>
-                <div className="text-xl m-3">❌</div>
             </div>
             <div className="flex justify-around w-8/12">
                 <div className="border-2 border-blue-800 rounded-md p-1"><a href={restaurant.facebook}>Facebook</a></div>
