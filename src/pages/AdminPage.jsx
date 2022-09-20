@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import AddRestaurantForm from '../components/AddRestaurantForm'
+import Table from '../components/Table'
 import { useAuthContext } from '../contexts/AuthContext'
-
+import useRestaurants from '../hooks/useRestaurants'
 
 const AdminPage = () => {
 	const { currentUser } = useAuthContext()
+	const restaurants = useRestaurants()
 
 	const [toggleForm, setToggleForm] = useState(false)
 
@@ -19,6 +21,8 @@ const AdminPage = () => {
 			{toggleForm && <AddRestaurantForm
 				col={'restaurants'}
 			/>}
+
+			<Table restaurants={restaurants} />
 		</div>
 	)
 }
