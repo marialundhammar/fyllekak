@@ -9,6 +9,8 @@ const Navigation = () => {
             <div>
                 <a href="/admin" className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4">Admin</a>
                 <a href="/restaurant" className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4">Restaurant</a>
+                <a href="/usertips" className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4">User tips</a>
+                <a href="/login" className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4">Login</a>
             </div>
         </nav>
     )
