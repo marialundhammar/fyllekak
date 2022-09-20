@@ -16,7 +16,9 @@ const AdminPage = () => {
 
 			<button onClick={() => setToggleForm(!toggleForm)}>Show add hak form</button>
 
-			{toggleForm && <AddRestaurantForm />}
+			{toggleForm && <AddRestaurantForm
+				col={'restaurants'}
+			/>}
 		</div>
 	)
 }
