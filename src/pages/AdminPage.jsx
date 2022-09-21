@@ -71,7 +71,7 @@ const AdminPage = () => {
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Restauranger</h1>
 
-			<Table data={restaurants} />
+			<Table columns={columns} data={restaurants} />
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
