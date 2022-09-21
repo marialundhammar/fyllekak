@@ -12,12 +12,12 @@ const Table = ({ columns, data }) => {
 	} = tableInstance
 
     return (
-        <table hover {...getTableProps()} className="w-4/5">
+        <table hover {...getTableProps()} className="w-4/5 bg-yellow-200">
             <thead>
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()} className="text-center border border-black w-[10%]">
+                            <th {...column.getHeaderProps()} className="text-center border border-yellow-600 w-[10%] bg-yellow-400">
                                 {column.render('Header')}
                             </th>
                         ))}
@@ -31,7 +31,7 @@ const Table = ({ columns, data }) => {
                     return (
                         <tr {...row.getRowProps()}>
                             {row.cells.map(cell => (
-                                <td {...cell.getCellProps()} className="text-center border border-black w-[10%]">
+                                <td {...cell.getCellProps()} className="text-center border border-yellow-600 w-[10%] px-2">
                                     {cell.render('Cell')}
                                 </td>
                             ))}
