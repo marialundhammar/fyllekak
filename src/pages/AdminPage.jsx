@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import AddRestaurantForm from '../components/AddRestaurantForm'
 import Table from '../components/Table'
 import { useAuthContext } from '../contexts/AuthContext'
@@ -11,6 +11,51 @@ const AdminPage = () => {
 	const userTips = useUserTips()
 
 	const [toggleForm, setToggleForm] = useState(false)
+
+	const columns = useMemo(() => {
+		return [
+			{
+				Header: 'Namn',
+				accessor: 'namn'
+			},
+			{
+				Header: 'Adress',
+				accessor: 'adress'
+			},
+			{
+				Header: 'Ort',
+				accessor: 'ort'
+			},
+			{
+				Header: 'Beskrivning',
+				accessor: 'beskrivning'
+			},
+			{
+				Header: 'Hemsida',
+				accessor: 'hemsida'
+			},
+			{
+				Header: 'Telefon',
+				accessor: 'telefon'
+			},
+			{
+				Header: 'Epost',
+				accessor: 'epost'
+			},
+			{
+				Header: 'Facebook',
+				accessor: 'facebook'
+			},
+			{
+				Header: 'Instagram',
+				accessor: 'instagram'
+			},
+			{
+				Header: 'Vego',
+				accessor: 'vego'
+			},
+		]
+	}, [])
 
 	return (
 		<div>
@@ -30,7 +75,7 @@ const AdminPage = () => {
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
-			<Table restaurants={userTips} />
+			<Table columns={columns} restaurants={userTips} />
 		</div>
 	)
 }

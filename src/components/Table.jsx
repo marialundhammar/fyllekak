@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Table = ({ restaurants }) => {
+const Table = ({ columns, restaurants }) => {
 
     return (
         <table className="w-4/5">
