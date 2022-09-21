@@ -71,11 +71,11 @@ const AdminPage = () => {
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Restauranger</h1>
 
-			<Table restaurants={restaurants} />
+			<Table data={restaurants} />
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
-			<Table columns={columns} restaurants={userTips} />
+			<Table columns={columns} data={userTips} />
 		</div>
 	)
 }
