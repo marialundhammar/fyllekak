@@ -7,8 +7,11 @@ import useUserTips from '../hooks/useUsertips'
 
 const AdminPage = () => {
 	const { currentUser } = useAuthContext()
-	const restaurants = useRestaurants()
-	const userTips = useUserTips()
+	const { data: restaurants, error: restaurantError, isError: restaurantIsError, isLoading: restaurantIsLoading } = useRestaurants()
+	const { data: userTips, error: userTipsError, isError: userTipsIsError, isLoading: userTipsIsLoading } = useUserTips()
+
+	console.log('Restaurants ==>', restaurants)
+	console.log('userTips ==>', userTips)
 
 	const [toggleForm, setToggleForm] = useState(false)
 
@@ -71,11 +74,23 @@ const AdminPage = () => {
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Restauranger</h1>
 
-			<Table columns={columns} data={restaurants} />
+			{restaurantIsLoading && <p>Loading...</p>}
+
+			{restaurantIsError && <p>Error! {restaurantError.message}</p>}
+
+			{restaurants && 
+				<Table columns={columns} data={restaurants} />
+			}
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
-			<Table columns={columns} data={userTips} />
+			{userTipsIsLoading && <p>Loading...</p>}
+
+			{userTipsIsError && <p>Error! {userTipsError.message}</p>}
+
+			{userTips && 
+				<Table columns={columns} data={userTips} />
+			}
 		</div>
 	)
 }
