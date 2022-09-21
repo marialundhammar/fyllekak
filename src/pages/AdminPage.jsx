@@ -9,10 +9,7 @@ const AdminPage = () => {
 	const { currentUser } = useAuthContext()
 	const { data: restaurants, error: restaurantError, isError: restaurantIsError, isLoading: restaurantIsLoading } = useRestaurants()
 	const { data: userTips, error: userTipsError, isError: userTipsIsError, isLoading: userTipsIsLoading } = useUserTips()
-
-	console.log('Restaurants ==>', restaurants)
-	console.log('userTips ==>', userTips)
-
+	
 	const [toggleForm, setToggleForm] = useState(false)
 
 	const columns = useMemo(() => {

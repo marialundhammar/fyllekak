@@ -1,15 +1,13 @@
-import { useTable } from 'react-table'
+import { useTable, useSortBy } from 'react-table'
 
 const Table = ({ columns, data }) => {
-    const tableInstance = useTable({ columns, data })
-
     const {
 		getTableProps,
 		getTableBodyProps,
 		headerGroups,
 		rows,
 		prepareRow,
-	} = tableInstance
+	} = useTable({ columns, data }, useSortBy)
 
     return (
         <table hover {...getTableProps()} className="w-4/5 bg-yellow-200">
@@ -17,8 +15,16 @@ const Table = ({ columns, data }) => {
                 {headerGroups.map(headerGroup => (
                     <tr {...headerGroup.getHeaderGroupProps()}>
                         {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()} className="text-center border border-yellow-600 w-[10%] bg-yellow-400">
+                            <th {...column.getHeaderProps( column.getSortByToggleProps() )} className="text-center border border-yellow-600 w-[10%] bg-yellow-400">
                                 {column.render('Header')}
+                                <span>
+                                    {column.isSorted
+                                        ? column.isSortedDesc
+                                            ? ' ⬇️'
+                                            : ' ⬆️'
+                                        : ''
+                                    }
+                                </span>
                             </th>
                         ))}
                     </tr>
