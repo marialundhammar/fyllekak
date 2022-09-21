@@ -1,23 +1,16 @@
-import React from 'react'
-import Map from '../components/Map'
+import React from "react";
+import Map from "../components/Map";
 
-const HomePage = () => { 
+const HomePage = () => {
+  return (
+    <>
+      <div className="container mx-auto flex justify-center text-lg">HOMEPAGE </div>
 
-    return(
-        <>
-        <div className="container mx-auto flex justify-center text-lg">HOMEPAGE </div>
-    
-        <div className="flex justify-center">
-          <Map/>
+      <div className="flex justify-center">
+        <Map />
+      </div>
+    </>
+  );
+};
 
-        </div>
-      
-      </>
-    )
-  
-}
-
-
-
-
-export default HomePage
+export default HomePage;
