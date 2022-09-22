@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import AddRestaurantForm from '../components/AddRestaurantForm'
 import { useAuthContext } from '../contexts/AuthContext'
 
-import useRestaurants from '../hooks/useRestaurants'
+import useGetRestaurant from '../hooks/useGetRestaurant'
 
 
-const AdminPage = () => {
+const EditRestaurantPage = () => {
 	const { currentUser } = useAuthContext()
+	const { id } = useParams()
 
-	const resQuery = useRestaurants()
+	const { data, loading } = useGetRestaurant(id)
+	// const restaurant = useRestaurants('restaurants', id)
 
 	const [toggleForm, setToggleForm] = useState(false)
 
-	const restaurantID = '5Diz4IxqrUq3rDQYipjL'
 
 	useEffect(() => {
-		console.log(resQuery)
-	})
+		console.log(id)
+	}, [])
 
 	return (
 		<div>
@@ -28,10 +30,10 @@ const AdminPage = () => {
 
 			{toggleForm && <AddRestaurantForm
 				col={'restaurants'}
-				exData={resQuery}
+				exData={data}
 			/>}
 		</div>
 	)
 }
 
-export default AdminPage
+export default EditRestaurantPage

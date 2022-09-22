@@ -36,7 +36,7 @@ function App() {
 						<AdminPage />
 					</RequireAuth>
 				} />
-				<Route path="/edit" element={
+				<Route path="/edit/:id" element={
 					<RequireAuth>
 						<EditRestaurantPage />
 					</RequireAuth>

@@ -39,26 +39,32 @@ const AddRestaurantForm = ({ col, exData }) => {
 				<input
 					type="text"
 					placeholder="Namn"
-					defaultValue={exData ? exData.namn : ''}
-					{...register("namn")}
+					defaultValue={exData ? exData.name : ''}
+					{...register("name")}
 				/>
 				<input
 					type="text"
 					placeholder="Gatuadress"
-					defaultValue={exData ? exData.adress : ''}
-					{...register("adress")}
+					defaultValue={exData ? exData.street : ''}
+					{...register("street")}
+				/>
+				<input
+					type="text"
+					placeholder="Gatunummer"
+					defaultValue={exData ? exData.number : ''}
+					{...register("number")}
 				/>
 				<input
 					type="text"
 					placeholder="Ort"
-					defaultValue={exData ? exData.ort : ''}
-					{...register("ort")}
+					defaultValue={exData ? exData.city : ''}
+					{...register("city")}
 				/>
 				<input
 					type="text"
 					placeholder="Beskrivning"
-					defaultValue={exData ? exData.beskrivning : ''}
-					{...register("beskrivning")}
+					defaultValue={exData ? exData.description : ''}
+					{...register("description")}
 				/>
 				<input
 					type="text"
@@ -69,20 +75,20 @@ const AddRestaurantForm = ({ col, exData }) => {
 				<input
 					type="email"
 					placeholder="E-Post"
-					defaultValue={exData ? exData.epost : ''}
-					{...register("epost")}
+					defaultValue={exData ? exData.email : ''}
+					{...register("email")}
 				/>
 				<input
 					type="tel"
 					placeholder="Telefon"
-					defaultValue={exData ? exData.telefon : ''}
-					{...register("telefon")}
+					defaultValue={exData ? exData.phone : ''}
+					{...register("phone")}
 				/>
 				<input
 					type="url"
 					placeholder="Hemsida"
-					defaultValue={exData ? exData.hemsida : ''}
-					{...register("hemsida")}
+					defaultValue={exData ? exData.website : ''}
+					{...register("website")}
 				/>
 				<input
 					type="url"
