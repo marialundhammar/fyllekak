@@ -1,3 +1,4 @@
+
 import React from "react";
 import {
   GoogleMap,
@@ -10,7 +11,11 @@ import useRestaurants from "../hooks/useRestaurants";
 const Map = ({ query }) => {
   const showMap = useMap({ query });
 
+
   console.log(showMap);
+const Map = ( location ) => {
+  console.log('location ==>', location.userLocation)
+
 
   return (
     showMap.isLoaded && (
@@ -24,18 +29,39 @@ const Map = ({ query }) => {
           center={showMap.coords}
           zoom={15}
         >
-          <MarkerF
-            icon={{
-              path: google.maps.SymbolPath.CIRCLE,
-              scale: 10,
-            }}
-            position={showMap.coords}
-            label="Maria"
-          />
-        </GoogleMap>
-      </>
-    )
-  );
-};
 
-export default Map;
+        <MarkerF
+        icon={{
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 7,
+         
+        }}
+        position={showMap.coords}
+        label = "Maria"
+        />
+ 
+        <MarkerF
+        icon={{
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 7,
+        }}
+        position={showMap.coords2}
+        label = "Alexander"
+        />
+
+        <MarkerF
+        icon={{
+          path: google.maps.SymbolPath.CIRCLE,
+          scale: 7,
+        }}
+        position={location.userLocation}
+        label = "User Location"
+        />
+  
+      </GoogleMap>
+  )
+ 
+ }
+ 
+ export default Map
+   
