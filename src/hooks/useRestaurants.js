@@ -2,17 +2,17 @@ import { useFirestoreQueryData } from '@react-query-firebase/firestore'
 import { collection, query } from '@firebase/firestore'
 import { db } from '../firebase'
 
-const useRestaurants = () => {
-    const resRef = collection(db, 'restaurants')
+const useRestaurants = (col) => {
+	const resRef = collection(db, col)
 
-    const queryRef = query(resRef)
+	const queryRef = query(resRef)
 
-    const resQuery = useFirestoreQueryData(['restaurants'], queryRef, {
-        idField: 'id',
-        subscribe: true,
-    })
+	const resQuery = useFirestoreQueryData([col], queryRef, {
+		idField: 'id',
+		subscribe: true,
+	})
 
-    return resQuery
+	return resQuery
 }
 
 export default useRestaurants

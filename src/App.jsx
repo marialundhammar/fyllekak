@@ -5,6 +5,7 @@ import NotFound from './pages/NotFound'
 import RestaurantPage from './pages/RestaurantPage'
 import AdminPage from './pages/AdminPage'
 import LoginPage from './pages/LoginPage'
+import LogoutPage from './pages/LogoutPage'
 import UserTipsPage from './pages/UserTipsPage'
 import EditRestaurantPage from './pages/EditRestaurantPage'
 import RequireAuth from './components/RequireAuth'
@@ -27,6 +28,7 @@ function App() {
 				<Route path="/restaurant" element={<RestaurantPage />} />
 				<Route path="/usertips" element={<UserTipsPage />} />
 				<Route path="/login" element={<LoginPage />} />
+				<Route path="/logout" element={<LogoutPage />} />
 
 				{/* Protected routes */}
 				<Route path="/admin" element={

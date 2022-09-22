@@ -4,7 +4,7 @@ import RestaurantInfoCard from './RestaurantInfoCard'
 
 const RestaurantList = () => {
     const [infoCard, setInfoCard] = useState()
-    const restaurant = useRestaurants()
+    const restaurant = useRestaurants('restaurants')
 
     const toggleCard = (res) => {
         if (infoCard == res) setInfoCard()
@@ -13,17 +13,17 @@ const RestaurantList = () => {
 
     return (
         <div className="flex">
-            <ul className="bg-blue-400 w-1/5">
+            <ul className="bg-blue-100 w-1/5">
                 {restaurant.data && restaurant.data.map(res => (
                     <div className="border border-blue-800 flex justify-between" key={res.id}>
-                        <li className="p-2" onClick={() => toggleCard(res)}>{res.namn}</li>
-                        <a className="p-2 text-blue-900" href={res.hemsida}>Hemsida</a>
+                        <li className="p-2" onClick={() => toggleCard(res)}>{res.name}</li>
+                        <a className="p-2 text-blue-900" href={res.website}>Hemsida</a>
                     </div>
                 ))}
-                
+
             </ul>
 
-            {infoCard && 
+            {infoCard &&
                 <RestaurantInfoCard key={infoCard.id} restaurant={infoCard} />
             }
         </div>

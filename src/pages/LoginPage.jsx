@@ -13,6 +13,7 @@ const LoginPage = () => {
 	const [loading, setLoading] = useState(false)
 	const navigate = useNavigate()
 	const { login } = useAuthContext()
+
 	// const { handleSubmit, register, reset, getValues } = useForm()
 
 	const handleLogin = async (e) => {

@@ -15,7 +15,7 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
-	const [userName, setUserName] = useState(null)
+	// const [userName, setUserName] = useState(null)
 	const [userEmail, setUserEmail] = useState(null)
 	const [loading, setLoading] = useState(false)
 
@@ -30,7 +30,7 @@ const AuthContextProvider = ({ children }) => {
 	const reloadUser = async () => {
 		await auth.currentUser.reload()
 		setCurrentUser(auth.currentUser)
-		setUserName(auth.currentUser.displayName)
+		// setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
 		return true
 	}
@@ -39,7 +39,7 @@ const AuthContextProvider = ({ children }) => {
 		// auth state changes
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setCurrentUser(user)
-			setUserName(user?.displayName)
+			// setUserName(user?.displayName)
 			setUserEmail(user?.email)
 			setLoading(false)
 		})
@@ -51,7 +51,8 @@ const AuthContextProvider = ({ children }) => {
 		currentUser,
 		login,
 		logout,
-		reloadUser
+		reloadUser,
+		userEmail
 	}
 
 	return (

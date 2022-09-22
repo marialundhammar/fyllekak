@@ -12,8 +12,10 @@ const AdminPage = () => {
 
 	const [toggleForm, setToggleForm] = useState(false)
 
-	useEffect(() => {
+	const restaurantID = '5Diz4IxqrUq3rDQYipjL'
 
+	useEffect(() => {
+		console.log(resQuery)
 	})
 
 	return (
