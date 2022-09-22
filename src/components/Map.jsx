@@ -1,18 +1,12 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import useMap from "../hooks/useMap";
 import useRestaurants from "../hooks/useRestaurants";
 
-const Map = () => {
-  const showMap = useMap();
+const Map = ({ query }) => {
+  const showMap = useMap({ query });
 
-  const { data } = useRestaurants();
-
-  console.log(data);
-
-  if (data) {
-    data.data.map((res) => console.log("this is the mapping", res.name));
-  }
+  console.log(showMap.addresses);
 
   return (
     showMap.isLoaded && (
