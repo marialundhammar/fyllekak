@@ -2,6 +2,7 @@ import { useJsApiLoader } from "@react-google-maps/api";
 import MapsAPI from "../services/MapsAPI";
 import { useState } from "react";
 import { useEffect } from "react";
+import { useQuery } from "react-query";
 
 const useMap = ({ query }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
@@ -9,7 +10,9 @@ const useMap = ({ query }) => {
   const addresses = [];
 
   if (query.isSuccess) {
-    query.data.map((res) => addresses.push(res.adress));
+    query.data.map((res) =>
+      addresses.push(`${res.street}+${res.number}+${res.city}`)
+    );
   }
 
   console.log("this is addresses", addresses);

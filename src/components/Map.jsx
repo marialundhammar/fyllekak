@@ -1,12 +1,16 @@
 import React from "react";
-import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+} from "@react-google-maps/api";
 import useMap from "../hooks/useMap";
 import useRestaurants from "../hooks/useRestaurants";
 
 const Map = ({ query }) => {
   const showMap = useMap({ query });
 
-  console.log(showMap.addresses);
+  console.log(showMap);
 
   return (
     showMap.isLoaded && (
@@ -15,7 +19,11 @@ const Map = ({ query }) => {
           {showMap.coords.lat}, {showMap.coords.lng}
         </p>
 
-        <GoogleMap mapContainerStyle={showMap.containerStyle} center={showMap.coords} zoom={15}>
+        <GoogleMap
+          mapContainerStyle={showMap.containerStyle}
+          center={showMap.coords}
+          zoom={15}
+        >
           <MarkerF
             icon={{
               path: google.maps.SymbolPath.CIRCLE,
