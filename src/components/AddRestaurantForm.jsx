@@ -1,37 +1,37 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../firebase'
-import { useAuthContext } from '../contexts/AuthContext'
-
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState('')
 
-	const { handleSubmit, register, reset } = useForm()
+	const { handleSubmit, register, reset } = useForm();
 
-	const { currentUser } = useAuthContext()
+	const { currentUser } = useAuthContext();
 
 	const onTest = async (data) => {
 		// Write input value to collection
 		await addDoc(collection(db, col), {
-			namn: data.namn,
-			adress: data.adress,
-			ort: data.ort,
-			beskrivning: data.beskrivning,
+			name: data.name,
+			street: data.street,
+			number: data.number,
+			city: data.city,
+			description: data.description,
 			vego: data.vego,
-			epost: data.epost,
-			telefon: data.telefon,
-			hemsida: data.hemsida,
+			email: data.email,
+			phone: data.phone,
+			website: data.website,
 			facebook: data.facebook,
 			instagram: data.instagram,
-			uid: currentUser ? currentUser.uid : '',
-		})
+			uid: currentUser ? currentUser.uid : "",
+		});
 
 		// Reset form
-		reset()
-		setMessage('Tack för tipset!')
-	}
+		reset();
+		setMessage("Tack för tipset!");
+	};
 
 	return (
 		<>
@@ -103,4 +103,4 @@ const AddRestaurantForm = ({ col, exData }) => {
 	)
 }
 
-export default AddRestaurantForm
+export default AddRestaurantForm;
