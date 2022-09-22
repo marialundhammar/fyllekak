@@ -1,49 +1,48 @@
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { useJsApiLoader } from "@react-google-maps/api";
+import MapsAPI from "../services/MapsAPI";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useQuery } from "react-query";
 
+const useMap = ({ query }) => {
+  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
+  const [coords, setCoords] = useState({ lat: 0, lng: 0 });
+  const addresses = [];
 
+  if (query.isSuccess) {
+    query.data.map((res) =>
+      addresses.push(`${res.street}+${res.number}+${res.city}`)
+    );
+  }
 
+  console.log("this is addresses", addresses);
 
-
-const useMap = () => {
-
-    const googleAPI =  import.meta.env.VITE_GOOGLE_MAP_API
-    console.log("this is the api", googleAPI)
-
-    //Just trying with some coords 
-    const coords =  {
-    lat: 55.593242405381694,
-    lng:13.016352876632064,
-    }
- 
-    //Just trying with some coords 
-    const coords2 =  {
-     lat:55.58477609505269,
-     lng:13.011208857604752,
-    }
-
-    //style of map container
-   const containerStyle = {
+  //style of map container
+  const containerStyle = {
     width: "100em",
-    height: '100em'
-    };  
-  
+    height: "100em",
+  };
 
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: `${googleAPI}`
-    })
+  //maybe this should be in a MapsAPI??
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: `${googleAPI}`,
+  });
 
- 
-  
-    return {
-        isLoaded,
-        coords, 
-        coords2, 
-        containerStyle
-    }
+  //fetching the coords/location when the data is loaded from MapsApi
+  useEffect(() => {
+    (async () => {
+      const data = await MapsAPI.getCoords();
+      setCoords(data.results[0].geometry.location);
+    })();
+  }, []);
 
+  return {
+    isLoaded,
+    containerStyle,
+    coords,
+    addresses,
+  };
+};
 
-}
-
-
-export default useMap
+export default useMap;

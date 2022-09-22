@@ -1,21 +1,35 @@
-import React from 'react'
-import { GoogleMap,useJsApiLoader, MarkerF } from '@react-google-maps/api';
-import useMap from '../hooks/useMap'
+
+import React from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  MarkerF,
+} from "@react-google-maps/api";
+import useMap from "../hooks/useMap";
+import useRestaurants from "../hooks/useRestaurants";
+
+const Map = ({ query }) => {
+  const showMap = useMap({ query });
 
 
+  console.log(showMap);
 const Map = ( location ) => {
   console.log('location ==>', location.userLocation)
 
-  const showMap = useMap()
 
+  return (
+    showMap.isLoaded && (
+      <>
+        <p>
+          {showMap.coords.lat}, {showMap.coords.lng}
+        </p>
 
-  return showMap.isLoaded && (
-      <GoogleMap
-        mapContainerStyle={ showMap.containerStyle}
-        center={ showMap.coords}
-        zoom={15}
+        <GoogleMap
+          mapContainerStyle={showMap.containerStyle}
+          center={showMap.coords}
+          zoom={15}
         >
-       
+
         <MarkerF
         icon={{
           path: google.maps.SymbolPath.CIRCLE,

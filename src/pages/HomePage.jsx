@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
-import Map from '../components/Map'
+
+import React from "react";
+import Map from "../components/Map";
+import useRestaurants from "../hooks/useRestaurants";
 
 //just for showing cazpian
+
+const HomePage = () => {
+  const restaurantQuery = useRestaurants();
 
 
 const HomePage = () => { 
@@ -35,7 +40,7 @@ const HomePage = () => {
         <div className="container mx-auto flex justify-center text-lg">HOMEPAGE</div>
         <button onClick={() => {getUserLocation()}}>User Location</button>
         <div className="flex justify-center">
-        <Map userLocation={ location } />
+        <Map userLocation={ location } query={restaurantQuery} />
         </div>
       </>
     )
@@ -45,4 +50,4 @@ const HomePage = () => {
 
 
 
-export default HomePage
+export default HomePage;
