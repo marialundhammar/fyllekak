@@ -5,7 +5,7 @@ import { db } from '../firebase'
 import { useAuthContext } from '../contexts/AuthContext'
 
 
-const AddRestaurantForm = ({ col }) => {
+const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState('')
 
 	const { handleSubmit, register, reset } = useForm()
@@ -39,51 +39,61 @@ const AddRestaurantForm = ({ col }) => {
 				<input
 					type="text"
 					placeholder="Namn"
+					defaultValue={exData ? exData.namn : ''}
 					{...register("namn")}
 				/>
 				<input
 					type="text"
 					placeholder="Gatuadress"
+					defaultValue={exData ? exData.adress : ''}
 					{...register("adress")}
 				/>
 				<input
 					type="text"
 					placeholder="Ort"
+					defaultValue={exData ? exData.ort : ''}
 					{...register("ort")}
 				/>
 				<input
 					type="text"
 					placeholder="Beskrivning"
+					defaultValue={exData ? exData.beskrivning : ''}
 					{...register("beskrivning")}
 				/>
 				<input
 					type="text"
 					placeholder="Vegetariskt"
+					defaultValue={exData ? exData.vego : ''}
 					{...register("vego")}
 				/>
 				<input
 					type="email"
 					placeholder="E-Post"
+					defaultValue={exData ? exData.epost : ''}
 					{...register("epost")}
 				/>
 				<input
 					type="tel"
 					placeholder="Telefon"
+					defaultValue={exData ? exData.telefon : ''}
 					{...register("telefon")}
 				/>
 				<input
 					type="url"
 					placeholder="Hemsida"
+					defaultValue={exData ? exData.hemsida : ''}
 					{...register("hemsida")}
 				/>
 				<input
 					type="url"
 					placeholder="Facebook"
+					defaultValue={exData ? exData.facebook : ''}
 					{...register("facebook")}
 				/>
 				<input
 					type="url"
 					placeholder="Instagram"
+					defaultValue={exData ? exData.instagram : ''}
 					{...register("instagram")}
 				/>
 				<input type="submit" />
