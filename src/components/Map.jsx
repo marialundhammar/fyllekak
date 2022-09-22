@@ -13,28 +13,25 @@ const Map = () => {
   if (data) {
     data.data.map((res) => console.log("this is the mapping", res.name));
   }
- */
+
   return (
     showMap.isLoaded && (
-      <GoogleMap mapContainerStyle={showMap.containerStyle} center={showMap.coords} zoom={15}>
-        <Marker
-          icon={{
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
-          }}
-          position={showMap.coords}
-          label="Maria"
-        />
+      <>
+        <p>
+          {showMap.coords.lat}, {showMap.coords.lng}
+        </p>
 
-        <Marker
-          icon={{
-            path: google.maps.SymbolPath.CIRCLE,
-            scale: 7,
-          }}
-          position={showMap.coords2}
-          label="Alexander"
-        />
-      </GoogleMap>
+        <GoogleMap mapContainerStyle={showMap.containerStyle} center={showMap.coords} zoom={15}>
+          <MarkerF
+            icon={{
+              path: google.maps.SymbolPath.CIRCLE,
+              scale: 10,
+            }}
+            position={showMap.coords}
+            label="Maria"
+          />
+        </GoogleMap>
+      </>
     )
   );
 };
