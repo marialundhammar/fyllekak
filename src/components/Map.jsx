@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   GoogleMap,
@@ -8,60 +7,47 @@ import {
 import useMap from "../hooks/useMap";
 import useRestaurants from "../hooks/useRestaurants";
 
-const Map = ({ query }) => {
+const Map = (location, query) => {
+  console.log("location ==>", location.userLocation);
   const showMap = useMap({ query });
-
-
   console.log(showMap);
-const Map = ( location ) => {
-  console.log('location ==>', location.userLocation)
-
 
   return (
     showMap.isLoaded && (
-      <>
-        <p>
-          {showMap.coords.lat}, {showMap.coords.lng}
-        </p>
-
-        <GoogleMap
-          mapContainerStyle={showMap.containerStyle}
-          center={showMap.coords}
-          zoom={15}
-        >
-
+      <GoogleMap
+        mapContainerStyle={showMap.containerStyle}
+        center={showMap.coords}
+        zoom={15}
+      >
         <MarkerF
-        icon={{
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 7,
-         
-        }}
-        position={showMap.coords}
-        label = "Maria"
-        />
- 
-        <MarkerF
-        icon={{
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 7,
-        }}
-        position={showMap.coords2}
-        label = "Alexander"
+          icon={{
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+          }}
+          position={showMap.coords}
+          label="Maria"
         />
 
         <MarkerF
-        icon={{
-          path: google.maps.SymbolPath.CIRCLE,
-          scale: 7,
-        }}
-        position={location.userLocation}
-        label = "User Location"
+          icon={{
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+          }}
+          position={showMap.coords2}
+          label="Alexander"
         />
-  
+
+        <MarkerF
+          icon={{
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 7,
+          }}
+          position={location.userLocation}
+          label="User Location"
+        />
       </GoogleMap>
-  )
- 
- }
- 
- export default Map
-   
+    )
+  );
+};
+
+export default Map;
