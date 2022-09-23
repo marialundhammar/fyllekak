@@ -8,8 +8,7 @@ const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
 const lat = `55.59309041799387`;
 const lng = `13.01655957305921`;
 
-//just for testing now
-const address = `3+Listergatan+Malmo`;
+/* const address = "Listergatan+3+Malmo"; */
 
 const get = async (endpoint) => {
   const response = await axios.get(endpoint);
@@ -22,7 +21,7 @@ export const getAddress = () => {
 };
 
 //from address ---> coords
-export const getCoords = () => {
+export const getCoords = (address) => {
   return get(`geocode/json?address=${address}&key=${googleAPI}`);
 };
 

@@ -6,8 +6,7 @@ import { useState } from "react";
 
 const HomePage = () => {
   const restaurantQuery = useRestaurants();
-
-  const [location, setLocation] = useState();
+  const [location, setLocation] = useState({});
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
@@ -27,6 +26,10 @@ const HomePage = () => {
     }
   };
 
+  if (restaurantQuery.isLoading) {
+    return <div>"loading..."</div>;
+  }
+
   return (
     <>
       <div className="container mx-auto flex justify-center text-lg">
@@ -40,7 +43,7 @@ const HomePage = () => {
         User Location
       </button>
       <div className="flex justify-center">
-        <Map userLocation={location} query={restaurantQuery} />
+        <Map userLocation={location} query={restaurantQuery.data} />
       </div>
     </>
   );
