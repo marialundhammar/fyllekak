@@ -25,15 +25,6 @@ const Navigation = () => {
 									ml-2 
 									p-4
 							">Admin</NavLink>
-							<NavLink to="/edit"
-								className="
-									text-lg 
-									no-underline 
-									text-grey-darkest 
-									hover:text-blue-dark 
-									ml-2 
-									p-4
-							">Edit</NavLink>
 							<NavLink to="/logout"
 								className="
 									text-lg 

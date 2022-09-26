@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore"
 import { db } from "../firebase";
-import { useAuthContext } from "../contexts/AuthContext";
+import { useAuthContext } from "../contexts/AuthContext"
+
+// Alex's lil mapping projekt
+// import { inputInfo } from "../utils/inputInfo"
+
 
 const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState('')
@@ -12,6 +16,10 @@ const AddRestaurantForm = ({ col, exData }) => {
 	const { currentUser } = useAuthContext();
 
 	const onTest = async (data) => {
+		// Post to restaurants if admin, and usertips if user
+		col === 'usertips' && currentUser
+			? col = 'restaurants' : null
+
 		// Write input value to collection
 		await addDoc(collection(db, col), {
 			name: data.name,
@@ -26,16 +34,33 @@ const AddRestaurantForm = ({ col, exData }) => {
 			facebook: data.facebook,
 			instagram: data.instagram,
 			uid: currentUser ? currentUser.uid : "",
-		});
+		})
 
 		// Reset form
 		reset();
-		setMessage("Tack för tipset!");
-	};
+		!currentUser
+			? setMessage("Tack för tipset!")
+			: setMessage("Restaurang uppdaterad!")
+	}
 
 	return (
 		<>
 			<form onSubmit={handleSubmit(onTest)} noValidate>
+
+				{/* WORK IN PROGRESS!! Alex's lil' mapping project*/}
+				{/* 
+				{inputInfo.map(field => (
+					<input
+						key={inputInfo.indexOf(field)}
+						type={field.type}
+						placeholder={field.placeholder}
+						defaultValue={exData ? exData.{field.name} : ''}
+						{...register(`${field.name}`)}
+					/>
+				))} */}
+
+
+				{/* Inputs in use */}
 				<input
 					type="text"
 					placeholder="Namn"

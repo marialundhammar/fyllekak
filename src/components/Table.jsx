@@ -4,12 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
-const Table = ({ columns, data }) => {
+const Table = ({ collection, columns, data }) => {
 	const navigate = useNavigate()
-
-	useEffect(() => {
-		console.log("data:", data)
-	}, [])
 
 	const {
 		getTableProps,
@@ -19,9 +15,8 @@ const Table = ({ columns, data }) => {
 		prepareRow,
 	} = useTable({ columns, data }, useSortBy);
 
-	const handleRowClick = (row) => {
-		// console.log(row.original.id)
-		navigate(`/edit/${row.original.id}`)
+	const handleRowClick = (collection, row) => {
+		navigate(`/edit/${collection}/${row.original.id}`)
 	}
 
 	return (
@@ -56,7 +51,7 @@ const Table = ({ columns, data }) => {
 
 					return (
 						<tr {...row.getRowProps()}
-							onClick={() => handleRowClick(row, row.id)}
+							onClick={() => handleRowClick(collection, row)}
 						>
 							{row.cells.map((cell) => (
 								<td {...cell.getCellProps()} className="text-center border border-yellow-600 w-[10%] px-2"

@@ -3,7 +3,6 @@ import AddRestaurantForm from "../components/AddRestaurantForm";
 import Table from "../components/Table";
 import { useAuthContext } from "../contexts/AuthContext";
 import useRestaurants from "../hooks/useRestaurants";
-// import useUserTips from "../hooks/useUsertips";
 
 const AdminPage = () => {
 	const { currentUser } = useAuthContext()
@@ -90,7 +89,7 @@ const AdminPage = () => {
 
 			{restaurantIsError && <p>Error! {restaurantError.message}</p>}
 
-			{restaurants && <Table columns={columns} data={restaurants} />}
+			{restaurants && <Table collection={'restaurant'} columns={columns} data={restaurants} />}
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
@@ -98,7 +97,7 @@ const AdminPage = () => {
 
 			{userTipsIsError && <p>Error! {userTipsError.message}</p>}
 
-			{userTips && <Table columns={columns} data={userTips} />}
+			{userTips && <Table collection={'usertip'} columns={columns} data={userTips} />}
 		</div>
 	);
 };

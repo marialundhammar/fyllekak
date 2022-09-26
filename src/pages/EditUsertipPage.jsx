@@ -3,13 +3,13 @@ import { useParams } from 'react-router-dom'
 import AddRestaurantForm from '../components/AddRestaurantForm'
 import { useAuthContext } from '../contexts/AuthContext'
 
-import useGetRestaurant from '../hooks/useGetRestaurant'
+import useGetUsertip from '../hooks/useGetUsertip'
 
-const EditRestaurantPage = () => {
+const EditUsertipPage = () => {
 	const { currentUser } = useAuthContext()
 	const { id } = useParams()
 
-	const { data, loading } = useGetRestaurant(id)
+	const { data, loading } = useGetUsertip(id)
 
 	const [toggleForm, setToggleForm] = useState(false)
 
@@ -22,11 +22,11 @@ const EditRestaurantPage = () => {
 			<button onClick={() => setToggleForm(!toggleForm)}>Show edit hak form</button>
 
 			{toggleForm && <AddRestaurantForm
-				col={'restaurants'}
+				col={'usertips'}
 				exData={data}
 			/>}
 		</div>
 	)
 }
 
-export default EditRestaurantPage
+export default EditUsertipPage
