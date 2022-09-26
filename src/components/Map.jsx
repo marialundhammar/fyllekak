@@ -7,14 +7,14 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import MapsAPI from "../services/MapsAPI";
-import useRestaurants from "../hooks/useRestaurants";
 import RestaurantInfoCard from "./RestaurantInfoCard";
 
 const Map = ({ location, data }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
   const [restaurants, setRestaurants] = useState([]);
-  const restaurantsAll = useRestaurants();
   const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const center = { lat: 55.59712105786678, lng: 12.997431424230891 };
 
   const containerStyle = {
     width: "80vw",
@@ -61,10 +61,7 @@ const Map = ({ location, data }) => {
       <>
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={{
-            lat: 55.59712105786678,
-            lng: 12.997431424230891,
-          }}
+          center={center}
           zoom={15}
         >
           {restaurants.map((restaurant) => (
