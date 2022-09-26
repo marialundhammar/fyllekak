@@ -43,7 +43,7 @@ const HomePage = () => {
         User Location
       </button>
       <div className="flex justify-center">
-        <Map userLocation={location} data={restaurantQuery.data} />
+        <Map location={location} data={restaurantQuery.data} />
       </div>
     </>
   );
