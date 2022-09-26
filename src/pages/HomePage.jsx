@@ -5,7 +5,7 @@ import { useState } from "react";
 //just for showing cazpian
 
 const HomePage = () => {
-  const restaurantQuery = useRestaurants();
+  const restaurantQuery = useRestaurants("restaurants");
 
   const [location, setLocation] = useState();
 
