@@ -4,12 +4,13 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuthContext();
+  const emailRef = useRef(null)
+  const passwordRef = useRef(null)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { login } = useAuthContext()
+
   // const { handleSubmit, register, reset, getValues } = useForm()
 
   const handleLogin = async (e) => {

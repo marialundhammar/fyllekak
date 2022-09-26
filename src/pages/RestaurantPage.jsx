@@ -4,10 +4,10 @@ import RestaurantList from '../components/RestaurantList'
 import useRestaurants from '../hooks/useRestaurants'
 
 const RestaurantPage = () => {
-    const restaurant = useRestaurants()
+    const restaurant = useRestaurants('restaurants')
 
     return (
-        <div>            
+        <div>
             <RestaurantList />
         </div>
     )

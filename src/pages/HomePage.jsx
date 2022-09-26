@@ -5,8 +5,9 @@ import { useState } from "react";
 //just for showing cazpian
 
 const HomePage = () => {
-  const restaurantQuery = useRestaurants();
-  const [location, setLocation] = useState({});
+  const restaurantQuery = useRestaurants("restaurants");
+
+  const [location, setLocation] = useState();
 
   const getUserLocation = () => {
     if (navigator.geolocation) {
