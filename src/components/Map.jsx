@@ -8,19 +8,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import MapsAPI from "../services/MapsAPI";
 
-const Map = ({ userLocation, query }) => {
-  const addresses = [];
-
-  console.log("THIS IS QUERY", query);
-
-  query.forEach((res) =>
-    addresses.push(`${res.street}+${res.number}+${res.city}`)
-  );
-
-  /*   const showMap = useMap({ query });
-   */
+const Map = ({ userLocation, data }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
-  const [coords, setCoords] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
 
   const containerStyle = {
     width: "100vw",
@@ -32,27 +22,62 @@ const Map = ({ userLocation, query }) => {
     googleMapsApiKey: `${googleAPI}`,
   });
 
-  console.log(addresses);
+  const getRestaurants = async () => {
+    const result = [];
 
-  //fetching the coords/location when the data is loaded from MapsApi
+    for (const res of data) {
+      const address = `${res.street}+${res.number}+${res.city}`;
+      const coords = await MapsAPI.getCoords(
+        `${res.street}+${res.number}+${res.city}`
+      );
+
+      result.push({
+        address: address,
+        id: `${res.id}`,
+        name: `${res.name}`,
+        coord: coords.results[0].geometry.location,
+      });
+    }
+    setRestaurants(result);
+
+    return restaurants;
+  };
+  console.log(restaurants);
+
   useEffect(() => {
+    getRestaurants();
+  }, []);
+
+  const getSelected = () => {
+    console.log(restaurants[0]);
+  };
+
+  /*   const getInfoRestaurant = () => {
+    console.log("this is restaurant", restaurants.coord);
+  };
+ */
+  //fetching the coords/location when the data is loaded from MapsApi
+  /*   useEffect(() => {
     setCoords([]);
     const getCoords = () => {
-      addresses.forEach(async (address) => {
-        const coord = await MapsAPI.getCoords(address);
+      restaurants.forEach(async (restaurant) => {
+        const marker = await MapsAPI.getCoords(restaurant.address);
         setCoords((state) => [
           ...state,
-          coord.results[0].geometry.location,
+          {
+            coord: marker.results[0].geometry.location,
+            id: restaurant.id,
+            name: restaurant.name,
+          },
         ]);
       });
     };
     getCoords();
-  }, []);
-
-  console.log("COORDS", coords);
+  }, []); */
 
   return (
-    isLoaded && (
+    isLoaded &&
+    restaurants && (
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{
@@ -61,14 +86,16 @@ const Map = ({ userLocation, query }) => {
         }}
         zoom={15}
       >
-        {coords.map((coord) => (
+        {restaurants.map((restaurant) => (
           <MarkerF
             icon={{
               path: google.maps.SymbolPath.CIRCLE,
               scale: 7,
             }}
-            position={coord}
-            label="Restaurant name"
+            position={restaurant.coord}
+            label={restaurant.name}
+            onClick={getSelected}
+            key={restaurant.id}
           />
         ))}
 
