@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const SearchBar = () => {
+const SearchBar = ({ handleSearch }) => {
     const [search, setSearch] = useState("")
 
     const handleSubmit = (e) => {
@@ -8,8 +8,10 @@ const SearchBar = () => {
 
         if (!search.length) return
 
-        console.log("Search button clicked")
-        console.log("Search in handleSubmit ==>", search)
+        // console.log("Search button clicked")
+        // console.log("Search in handleSubmit ==>", search)
+
+        handleSearch(search)
     }
 
     return (
