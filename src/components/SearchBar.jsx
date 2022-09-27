@@ -1,10 +1,15 @@
-import React from 'react'
+import { useState } from 'react'
 
 const SearchBar = () => {
+    const [search, setSearch] = useState("")
+
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        if (!search.length) return
+
         console.log("Search button clicked")
+        console.log("Search in handleSubmit ==>", search)
     }
 
     return (
@@ -12,7 +17,8 @@ const SearchBar = () => {
             <input 
                 type="text" 
                 placeholder="Skriv in en adress"
-                onChange={() => {}}
+                onChange={(e) => {setSearch(e.target.value)}}
+                value={search}
             />
             <button>Sök</button>
         </form>
