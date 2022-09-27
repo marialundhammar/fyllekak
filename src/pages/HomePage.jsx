@@ -2,6 +2,7 @@ import React from "react";
 import Map from "../components/Map";
 import useRestaurants from "../hooks/useRestaurants";
 import { useState } from "react";
+import SearchBar from "../components/SearchBar";
 //just for showing cazpian
 
 const HomePage = () => {
@@ -43,6 +44,9 @@ const HomePage = () => {
       >
         User Location
       </button>
+      <div className="container mx-auto flex justify-center text-lg">
+        <SearchBar />
+      </div>
       <div className="flex justify-center">
         <Map location={location} data={restaurantQuery.data} />
       </div>
