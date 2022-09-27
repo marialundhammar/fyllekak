@@ -1,57 +1,59 @@
-import React from "react";
+import React from "react"
 import {
   GoogleMap,
   useJsApiLoader,
   MarkerF,
-} from "@react-google-maps/api";
-import { useState } from "react";
-import { useEffect } from "react";
-import MapsAPI from "../services/MapsAPI";
-import RestaurantInfoCard from "./RestaurantInfoCard";
+} from "@react-google-maps/api"
+import { useState } from "react"
+import { useEffect } from "react"
+import MapsAPI from "../services/MapsAPI"
+import RestaurantInfoCard from "./RestaurantInfoCard"
 
 const Map = ({ location, data }) => {
-  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
-  const [restaurants, setRestaurants] = useState([]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_AP
+  const [restaurants, setRestaurants] = useState([])
+  const [selectedMarker, setSelectedMarker] = useState(null)
 
-  const center = { lat: 55.59712105786678, lng: 12.997431424230891 };
+  const center = { lat: 55.59712105786678, lng: 12.997431424230891 }
 
   const containerStyle = {
     width: "80vw",
     height: "80vh",
-  };
+  }
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: `${googleAPI}`,
-  });
+  })
 
   const getRestaurants = async () => {
-    const result = [];
+    const result = []
 
     for (const res of data) {
-      const address = `${res.street}+${res.number}+${res.city}`;
+      const address = `${res.street}+${res.number}+${res.city}`
       const coords = await MapsAPI.getCoords(
         `${res.street}+${res.number}+${res.city}`
-      );
+      )
 
       result.push({
-        address: address,
+        street: `${res.street}`,
+        number: `${res.number}`,
         id: `${res.id}`,
         name: `${res.name}`,
         coord: coords.results[0].geometry.location,
-      });
+      })
     }
-    setRestaurants(result);
 
-    return restaurants;
-  };
+    setRestaurants(result)
 
-  console.log(selectedMarker);
+    return restaurants
+  }
+
+  console.log(selectedMarker)
 
   useEffect(() => {
-    getRestaurants();
-  }, []);
+    getRestaurants()
+  }, [])
 
   if (isLoaded && restaurants) {
   }
@@ -73,7 +75,7 @@ const Map = ({ location, data }) => {
               position={restaurant.coord}
               label={restaurant.name}
               onClick={() => {
-                setSelectedMarker(restaurant);
+                setSelectedMarker(restaurant)
               }}
               key={restaurant.id}
             />
@@ -97,7 +99,7 @@ const Map = ({ location, data }) => {
         )}
       </>
     )
-  );
-};
+  )
+}
 
-export default Map;
+export default Map
