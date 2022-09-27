@@ -7,9 +7,9 @@ import useGetRestaurant from '../hooks/useGetRestaurant'
 
 const EditRestaurantPage = () => {
 	const { currentUser } = useAuthContext()
-	const { id } = useParams()
+	const { id, collection } = useParams()
 
-	const { data, loading } = useGetRestaurant(id)
+	const { data, loading } = useGetRestaurant(collection, id)
 
 	const [toggleForm, setToggleForm] = useState(false)
 
@@ -22,7 +22,7 @@ const EditRestaurantPage = () => {
 			<button onClick={() => setToggleForm(!toggleForm)}>Show edit hak form</button>
 
 			{toggleForm && <AddRestaurantForm
-				col={'restaurants'}
+				col={collection}
 				exData={data}
 			/>}
 		</div>

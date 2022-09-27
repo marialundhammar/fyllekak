@@ -5,7 +5,7 @@ import { useState } from "react";
 //just for showing cazpian
 
 const HomePage = () => {
-  const restaurantQuery = useRestaurants();
+  const restaurantQuery = useRestaurants("restaurants")
 
   const [location, setLocation] = useState();
 
@@ -30,7 +30,7 @@ const HomePage = () => {
   return (
     <>
       <div className="container mx-auto flex justify-center text-lg">
-        HOMEPAGE
+        FYLLEKÄKSKARTAN
       </div>
       <button
         onClick={() => {

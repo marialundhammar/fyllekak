@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage'
 import LogoutPage from './pages/LogoutPage'
 import UserTipsPage from './pages/UserTipsPage'
 import EditRestaurantPage from './pages/EditRestaurantPage'
-import EditUsertipPage from './pages/EditUsertipPage'
 import RequireAuth from './components/RequireAuth'
 import Navigation from './pages/partials/Navigation'
 import './assets/App.css'
@@ -37,14 +36,9 @@ function App() {
 						<AdminPage />
 					</RequireAuth>
 				} />
-				<Route path="/edit/restaurant/:id" element={
+				<Route path="/edit/:collection/:id" element={
 					<RequireAuth>
 						<EditRestaurantPage />
-					</RequireAuth>
-				} />
-				<Route path="/edit/usertip/:id" element={
-					<RequireAuth>
-						<EditUsertipPage />
 					</RequireAuth>
 				} />
 			</Routes>

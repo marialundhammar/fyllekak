@@ -1,8 +1,8 @@
 import { useState, useMemo } from "react";
-import AddRestaurantForm from "../components/AddRestaurantForm";
+import AddRestaurantForm from "../components/AddRestaurantForm"
 import Table from "../components/Table";
-import { useAuthContext } from "../contexts/AuthContext";
-import useRestaurants from "../hooks/useRestaurants";
+import { useAuthContext } from "../contexts/AuthContext"
+import useRestaurants from "../hooks/useRestaurants"
 
 const AdminPage = () => {
 	const { currentUser } = useAuthContext()
@@ -12,13 +12,13 @@ const AdminPage = () => {
 		error: restaurantError,
 		isError: restaurantIsError,
 		isLoading: restaurantIsLoading,
-	} = useRestaurants('restaurants');
+	} = useRestaurants('restaurants')
 	const {
 		data: userTips,
 		error: userTipsError,
 		isError: userTipsIsError,
 		isLoading: userTipsIsLoading,
-	} = useRestaurants('usertips');
+	} = useRestaurants('usertips')
 
 	const [toggleForm, setToggleForm] = useState(false);
 
@@ -89,7 +89,7 @@ const AdminPage = () => {
 
 			{restaurantIsError && <p>Error! {restaurantError.message}</p>}
 
-			{restaurants && <Table collection={'restaurant'} columns={columns} data={restaurants} />}
+			{restaurants && <Table collection={'restaurants'} columns={columns} data={restaurants} />}
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
 
@@ -97,7 +97,7 @@ const AdminPage = () => {
 
 			{userTipsIsError && <p>Error! {userTipsError.message}</p>}
 
-			{userTips && <Table collection={'usertip'} columns={columns} data={userTips} />}
+			{userTips && <Table collection={'usertips'} columns={columns} data={userTips} />}
 		</div>
 	);
 };
