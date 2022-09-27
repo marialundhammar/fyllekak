@@ -17,7 +17,7 @@ const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
 	// const [userName, setUserName] = useState(null)
 	const [userEmail, setUserEmail] = useState(null)
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
 
 	const login = (email, password) => {
 		return signInWithEmailAndPassword(auth, email, password)
@@ -32,6 +32,7 @@ const AuthContextProvider = ({ children }) => {
 		setCurrentUser(auth.currentUser)
 		// setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
+		// setUserPhotoUrl(auth.currentUser.photoURL)
 		return true
 	}
 
@@ -43,7 +44,6 @@ const AuthContextProvider = ({ children }) => {
 			setUserEmail(user?.email)
 			setLoading(false)
 		})
-
 		return unsubscribe
 	}, [])
 
@@ -70,4 +70,3 @@ export {
 	AuthContextProvider as default,
 	useAuthContext,
 }
-
