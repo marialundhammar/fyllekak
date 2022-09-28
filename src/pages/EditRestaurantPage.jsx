@@ -26,6 +26,7 @@ const EditRestaurantPage = () => {
 				col={collection}
 				exData={data}
 			/>}
+
 			<DeleteRestaurantButton col={collection} id={id} />
 		</div>
 	)

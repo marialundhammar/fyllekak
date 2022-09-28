@@ -81,7 +81,9 @@ const AdminPage = () => {
 				Show add hak form
 			</button>
 
-			{toggleForm && <AddRestaurantForm col={"restaurants"} />}
+			{toggleForm && <AddRestaurantForm
+				col={"restaurants"}
+			/>}
 
 			<h1 className="py-8 px-4 text-3xl">Lista på Restauranger</h1>
 

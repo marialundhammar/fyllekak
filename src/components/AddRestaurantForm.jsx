@@ -1,46 +1,63 @@
-import { useState } from "react";
+import { useState } from "react"
 import { useForm } from "react-hook-form";
-import { addDoc, collection } from "firebase/firestore"
-import { db } from "../firebase";
+import { doc, addDoc, collection, updateDoc } from "firebase/firestore"
+import { db } from "../firebase"
 import { useAuthContext } from "../contexts/AuthContext"
 
 // Alex's lil mapping projekt
 // import { inputInfo } from "../utils/inputInfo"
 
-
 const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState('')
 
-	const { handleSubmit, register, reset } = useForm();
-
-	const { currentUser } = useAuthContext();
+	const { handleSubmit, register, reset } = useForm()
+	const { currentUser } = useAuthContext()
 
 	const onTest = async (data) => {
-		// Post to restaurants if admin, and usertips if user
-		col === 'usertips' && currentUser
-			? col = 'restaurants' : null
-
-		// Write input value to collection
-		await addDoc(collection(db, col), {
-			name: data.name,
-			street: data.street,
-			number: data.number,
-			city: data.city,
-			description: data.description,
-			vego: data.vego,
-			email: data.email,
-			phone: data.phone,
-			website: data.website,
-			facebook: data.facebook,
-			instagram: data.instagram,
-			uid: currentUser ? currentUser.uid : "",
-		})
-
-		// Reset form
-		reset();
-		!currentUser
-			? setMessage("Tack för tipset!")
-			: setMessage("Restaurang uppdaterad!")
+		if (exData) {
+			// Update restaurant to input value
+			await updateDoc(doc(db, 'restaurants', exData.id), {
+				name: data.name,
+				street: data.street,
+				number: data.number,
+				city: data.city,
+				description: data.description,
+				vego: data.vego,
+				email: data.email,
+				phone: data.phone,
+				website: data.website,
+				facebook: data.facebook,
+				instagram: data.instagram,
+				uid: currentUser ? currentUser.uid : ""
+			})
+			// Reset form
+			reset()
+			setMessage("Restaurang uppdaterad!")
+		} else {
+			// Post to restaurants if admin, and usertips if user
+			col === 'usertips' && currentUser
+				? col = 'restaurants' : null
+			// Write input value to collection
+			await addDoc(collection(db, col), {
+				name: data.name,
+				street: data.street,
+				number: data.number,
+				city: data.city,
+				description: data.description,
+				vego: data.vego,
+				email: data.email,
+				phone: data.phone,
+				website: data.website,
+				facebook: data.facebook,
+				instagram: data.instagram,
+				uid: currentUser ? currentUser.uid : ""
+			})
+			// Reset form
+			reset()
+			!currentUser
+				? setMessage("Tack för tipset!")
+				: setMessage("Restaurang tillagd!")
+		}
 	}
 
 	return (
