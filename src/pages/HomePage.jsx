@@ -36,15 +36,35 @@ const HomePage = () => {
  
   const handleSearch = async (search) => {
     const getSearch = await getCoords(search)
-    const searchRes = getSearch.results[0]?.geometry.location
-    const restaurantMatches = restaurantQuery.data[0].coords
+    // console.log("getSearch ==>", getSearch)
 
-    if ((searchRes.lat === restaurantMatches.lat) && (searchRes.lng === restaurantMatches.lng)) {
-      setMapCenter({
-        lat: searchRes.lat,
-        lng: searchRes.lng
-      })
+    const searchRes = getSearch.results[0]?.geometry.location
+    // console.log("searchRes ==>", searchRes)
+    
+    const restaurantData = restaurantQuery.data
+    // console.log("restaurantData ==>", restaurantData)
+
+    const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
+    // console.log("restaurantDataCoords ==>", restaurantDataCoords)
+
+    const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => {return restaurant !== undefined})
+    // console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+
+    for (const coords of restaurantDataCoordsFiltered) {
+      // console.log("coords ==>", coords)
+      // console.log("coords.lat ==>", coords?.lat)
+      // console.log("coords.lng ==>", coords?.lng)
+
+      if ((coords.lat === searchRes.lat) && (coords.lng === searchRes.lng)) {
+        // console.log("Great Success")
+
+        setMapCenter({
+          lat: searchRes.lat,
+          lng: searchRes.lng
+        })
+      }
     }
+    
   }
 
   return (
