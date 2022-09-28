@@ -1,13 +1,14 @@
-import React from "react";
+import React from "react"
 import {
   GoogleMap,
   useJsApiLoader,
   MarkerF,
-} from "@react-google-maps/api";
-import { useState } from "react";
-import { useEffect } from "react";
-import MapsAPI from "../services/MapsAPI";
-import RestaurantInfoCard from "./RestaurantInfoCard";
+} from "@react-google-maps/api"
+import { useState } from "react"
+import { useEffect } from "react"
+import MapsAPI from "../services/MapsAPI"
+import RestaurantInfoCard from "./RestaurantInfoCard"
+import useRestaurants from "../hooks/useRestaurants"
 
 const Map = ({ location, data, center }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
@@ -17,39 +18,12 @@ const Map = ({ location, data, center }) => {
   const containerStyle = {
     width: "80vw",
     height: "80vh",
-  };
+  }
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: `${googleAPI}`,
-  });
-
-  const getRestaurants = async () => {
-    const result = [];
-
-    for (const res of data) {
-      const address = `${res.street}+${res.number}+${res.city}`;
-      const coords = await MapsAPI.getCoords(
-        `${res.street}+${res.number}+${res.city}`
-      );
-
-      result.push({
-        address: address,
-        id: `${res.id}`,
-        name: `${res.name}`,
-        coord: coords.results[0].geometry.location,
-      });
-    }
-    setRestaurants(result);
-
-    return restaurants;
-  };
-
-  console.log(selectedMarker);
-
-  useEffect(() => {
-    getRestaurants();
-  }, []);
+  })
 
   if (isLoaded && restaurants) {
   }
@@ -68,10 +42,10 @@ const Map = ({ location, data, center }) => {
                 path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
                 scale: 5,
               }}
-              position={restaurant.coord}
+              position={restaurant.coords}
               label={restaurant.name}
               onClick={() => {
-                setSelectedMarker(restaurant);
+                setSelectedMarker(restaurant)
               }}
               key={restaurant.id}
             />
@@ -95,7 +69,7 @@ const Map = ({ location, data, center }) => {
         )}
       </>
     )
-  );
-};
+  )
+}
 
-export default Map;
+export default Map
