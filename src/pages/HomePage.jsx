@@ -36,19 +36,39 @@ const HomePage = () => {
  
   const handleSearch = async (search) => {
     const getSearch = await getCoords(search)
-    // console.log("getSearch ==>", getSearch)
+    console.log("getSearch ==>", getSearch)
 
     const searchRes = getSearch.results[0]?.geometry.location
-    // console.log("searchRes ==>", searchRes)
+    console.log("searchRes ==>", searchRes)
     
     const restaurantData = restaurantQuery.data
-    // console.log("restaurantData ==>", restaurantData)
+    console.log("restaurantData ==>", restaurantData)
+
+    const restaurantDataNames = restaurantData.map((restaurant) => (restaurant.name))
+    console.log("restaurantDataNames ==>", restaurantDataNames)
 
     const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
-    // console.log("restaurantDataCoords ==>", restaurantDataCoords)
+    console.log("restaurantDataCoords ==>", restaurantDataCoords)
 
     const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => {return restaurant !== undefined})
-    // console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+    console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+
+    for (const name of restaurantDataNames) {
+      
+      if (name == search) {
+        console.log("Success")
+        console.log("search ==>", search)
+        console.log("name ==>", name)
+
+        const nameOfRestaurant = restaurantData.filter((restaurant) => {return restaurant.name === search})
+        console.log("nameOfRestaurant ==>", nameOfRestaurant)
+
+        setMapCenter({
+          lat: nameOfRestaurant[0].coords.lat,
+          lng: nameOfRestaurant[0].coords.lng,
+        })
+      }
+    }
 
     for (const coords of restaurantDataCoordsFiltered) {
       // console.log("coords ==>", coords)
@@ -56,7 +76,7 @@ const HomePage = () => {
       // console.log("coords.lng ==>", coords?.lng)
 
       if ((coords.lat === searchRes.lat) && (coords.lng === searchRes.lng)) {
-        // console.log("Great Success")
+        console.log("Great Success")
 
         setMapCenter({
           lat: searchRes.lat,
@@ -64,6 +84,7 @@ const HomePage = () => {
         })
       }
     }
+
     
   }
 
