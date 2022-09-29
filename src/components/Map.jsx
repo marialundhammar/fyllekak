@@ -10,14 +10,10 @@ import MapsAPI from "../services/MapsAPI"
 import RestaurantInfoCard from "./RestaurantInfoCard"
 import useRestaurants from "../hooks/useRestaurants"
 
-const Map = ({ location, data }) => {
-  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
-  const [selectedMarker, setSelectedMarker] = useState(null)
-  const restaurants = useRestaurants("restaurants").data
-
-  console.log(restaurants)
-
-  const center = { lat: 55.59712105786678, lng: 12.997431424230891 }
+const Map = ({ location, data, center }) => {
+  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
+  const [restaurants, setRestaurants] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
   const containerStyle = {
     width: "80vw",
