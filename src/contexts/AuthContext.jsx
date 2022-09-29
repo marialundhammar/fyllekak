@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import {
 	signInWithEmailAndPassword,
 	signOut,
+	updateEmail,
+	updatePassword,
 	onAuthStateChanged
 } from 'firebase/auth'
 import { auth, storage } from '../firebase'
@@ -15,9 +17,9 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
-	// const [userName, setUserName] = useState(null)
 	const [userEmail, setUserEmail] = useState(null)
 	const [loading, setLoading] = useState(true)
+	const [userPhotoUrl, setUserPhotoUrl] = useState(null)
 
 	const login = (email, password) => {
 		return signInWithEmailAndPassword(auth, email, password)
@@ -32,15 +34,39 @@ const AuthContextProvider = ({ children }) => {
 		setCurrentUser(auth.currentUser)
 		// setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
-		// setUserPhotoUrl(auth.currentUser.photoURL)
+		setUserPhotoUrl(auth.currentUser.photoURL)
 		return true
+	}
+
+	const setPassword = (newPassword) => {
+		return updatePassword(currentUser, newPassword)
+	}
+
+	const setEmail = (email) => {
+		return updateEmail(currentUser, email)
+	}
+
+	const setProfilePicture = async (photo) => {
+		let pictureURL = auth.currentUser.photoURL
+
+		if (photo) {
+			const fileRef = ref(storage, `img/${auth.currentUser.email}/${photo.name}`)
+
+			const uploadResult = await uploadBytes(fileRef, photo)
+
+			photoURL = await getDownloadURL(uploadResult.ref)
+		}
+
+		return updateProfile(auth.currentUser, {
+			photoURL,
+		})
 	}
 
 	useEffect(() => {
 		// auth state changes
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setCurrentUser(user)
-			// setUserName(user?.displayName)
+			setUserPhotoUrl(user?.photoURL)
 			setUserEmail(user?.email)
 			setLoading(false)
 		})
@@ -52,6 +78,9 @@ const AuthContextProvider = ({ children }) => {
 		login,
 		logout,
 		reloadUser,
+		setPassword,
+		setEmail,
+		setProfilePicture,
 		userEmail
 	}
 
