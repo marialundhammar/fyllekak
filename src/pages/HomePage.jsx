@@ -52,15 +52,22 @@ const HomePage = () => {
 
     const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => {return restaurant !== undefined})
     console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+    
+    const re = new RegExp(search, "gi")
 
     for (const name of restaurantDataNames) {
       
-      if (name == search) {
+      if (name.match(re)) {
         console.log("Success")
         console.log("search ==>", search)
         console.log("name ==>", name)
 
-        const nameOfRestaurant = restaurantData.filter((restaurant) => {return restaurant.name === search})
+        console.log("re ==>", re)
+        
+        console.log("Great success")
+        console.log("name.match(re) ==>", name.match(re))
+
+        const nameOfRestaurant = restaurantData.filter((restaurant) => {return restaurant.name.match(re)})
         console.log("nameOfRestaurant ==>", nameOfRestaurant)
 
         setMapCenter({
