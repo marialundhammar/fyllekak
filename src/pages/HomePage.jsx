@@ -95,6 +95,21 @@ const HomePage = () => {
     
   }
 
+  const citySearch = (search) => {
+    console.log("search in citySearch ==>", search)
+
+    const re = new RegExp(search, "gi")
+
+    const restaurantData = restaurantQuery.data
+    console.log("restaurantData ==>", restaurantData)
+
+    const restaurantDataCity = restaurantData.map((restaurant) => (restaurant.city))
+    console.log("restaurantDataNames ==>", restaurantDataCity)
+
+    const restaurantCitys = restaurantData.filter((restaurant) => {return restaurant.city.match(re)})
+    console.log("restaurantCitys ==>", restaurantCitys)
+  }
+
   return (
     <>
       <div className="container mx-auto flex justify-center text-lg">
@@ -108,7 +123,10 @@ const HomePage = () => {
         User Location
       </button>
       <div className="container mx-auto flex justify-center text-lg">
-        <SearchBar handleSearch={handleSearch} />
+        <SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
+      </div>
+      <div className="container mx-auto flex justify-center text-lg">
+        <SearchBar handleSearch={citySearch} placeholder="Sök på ort" />
       </div>
       <div className="flex justify-center">
         <Map location={location} data={restaurantQuery.data} center={mapCenter} />

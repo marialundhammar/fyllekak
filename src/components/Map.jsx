@@ -12,8 +12,10 @@ import useRestaurants from "../hooks/useRestaurants"
 
 const Map = ({ location, data, center }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
-  const [restaurants, setRestaurants] = useState([]);
+  // const [restaurants, setRestaurants] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
+
+  const restaurants = useRestaurants('restaurants')
 
   const containerStyle = {
     width: "80vw",
@@ -36,7 +38,7 @@ const Map = ({ location, data, center }) => {
           center={center}
           zoom={15}
         >
-          {restaurants.map((restaurant) => (
+          {restaurants.data.map((restaurant) => (
             <MarkerF
               icon={{
                 path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
