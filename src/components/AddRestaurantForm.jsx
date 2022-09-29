@@ -16,9 +16,8 @@ const AddRestaurantForm = ({ col, exData }) => {
 	const { handleSubmit, register, reset } = useForm()
 	const { currentUser } = useAuthContext()
 
-	const updateDoc = async (fetchCoords, formData) => {
+	const updateToDoc = async (fetchCoords, formData) => {
 		if (fetchCoords.status === "OK") {
-
 			// Update restaurant to input value
 			await updateDoc(doc(db, 'restaurants', exData.id), {
 				name: formData.name,
@@ -38,8 +37,10 @@ const AddRestaurantForm = ({ col, exData }) => {
 			// Reset form
 			reset()
 			setMessage("Restaurang uppdaterad!")
-		} else {
-			console.log("sorry dude not a valid address")
+			return
+		}
+		else {
+			console.log("sorry mannen not a valid address")
 		}
 	}
 
@@ -78,7 +79,9 @@ const AddRestaurantForm = ({ col, exData }) => {
 			formData.street + "+" + formData.number + "+" + formData.city
 		)
 		if (exData) {
-			await updateDoc(fetchCoords, formData)
+			// console.log(typeof fetchCoords.status)
+			// console.log(formData)
+			await updateToDoc(fetchCoords, formData)
 		} else {
 			await addToDoc(fetchCoords, formData)
 		}
