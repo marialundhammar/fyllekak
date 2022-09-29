@@ -36,15 +36,63 @@ const HomePage = () => {
  
   const handleSearch = async (search) => {
     const getSearch = await getCoords(search)
-    const searchRes = getSearch.results[0]?.geometry.location
-    const restaurantMatches = restaurantQuery.data[0].coords
+    console.log("getSearch ==>", getSearch)
 
-    if ((searchRes.lat === restaurantMatches.lat) && (searchRes.lng === restaurantMatches.lng)) {
-      setMapCenter({
-        lat: searchRes.lat,
-        lng: searchRes.lng
-      })
+    const searchRes = getSearch.results[0]?.geometry.location
+    console.log("searchRes ==>", searchRes)
+    
+    const restaurantData = restaurantQuery.data
+    console.log("restaurantData ==>", restaurantData)
+
+    const restaurantDataNames = restaurantData.map((restaurant) => (restaurant.name))
+    console.log("restaurantDataNames ==>", restaurantDataNames)
+
+    const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
+    console.log("restaurantDataCoords ==>", restaurantDataCoords)
+
+    const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => {return restaurant !== undefined})
+    console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+    
+    const re = new RegExp(search, "gi")
+
+    for (const name of restaurantDataNames) {
+      
+      if (name.match(re)) {
+        console.log("Success")
+        console.log("search ==>", search)
+        console.log("name ==>", name)
+
+        console.log("re ==>", re)
+        
+        console.log("Great success")
+        console.log("name.match(re) ==>", name.match(re))
+
+        const nameOfRestaurant = restaurantData.filter((restaurant) => {return restaurant.name.match(re)})
+        console.log("nameOfRestaurant ==>", nameOfRestaurant)
+
+        setMapCenter({
+          lat: nameOfRestaurant[0].coords.lat,
+          lng: nameOfRestaurant[0].coords.lng,
+        })
+      }
     }
+
+    for (const coords of restaurantDataCoordsFiltered) {
+      // console.log("coords ==>", coords)
+      // console.log("coords.lat ==>", coords?.lat)
+      // console.log("coords.lng ==>", coords?.lng)
+
+      if ((coords.lat === searchRes.lat) && (coords.lng === searchRes.lng)) {
+        console.log("Great Success")
+
+        setMapCenter({
+          lat: searchRes.lat,
+          lng: searchRes.lng
+        })
+      }
+    }
+
+    
   }
 
   return (

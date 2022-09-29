@@ -15,10 +15,6 @@ const Map = ({ location, data, center }) => {
   const [restaurants, setRestaurants] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
 
-  // const center = { lat: 55.59712105786678, lng: 12.997431424230891 };
-
-  // console.log("center ==>", center)
-
   const containerStyle = {
     width: "80vw",
     height: "80vh",
