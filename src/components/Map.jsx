@@ -9,7 +9,7 @@ import { useState } from "react"
 import RestaurantInfoCard from "./RestaurantInfoCard"
 import useRestaurants from "../hooks/useRestaurants"
 
-const Map = ({ location, data, center, origin }) => {
+const Map = ({ location, data, center }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 	const restaurants = useRestaurants("restaurants")
 	const [selectedMarker, setSelectedMarker] = useState(null)
