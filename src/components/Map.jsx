@@ -11,8 +11,12 @@ import useRestaurants from "../hooks/useRestaurants"
 
 const Map = ({ location, data, center }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
-	const restaurants = useRestaurants("resturants")
+	const restaurants = useRestaurants("restaurants")
 	const [selectedMarker, setSelectedMarker] = useState(null)
+
+	const getDirection = () => {
+		console.log("this is restaurant coords:")
+	}
 
 	const containerStyle = {
 		width: "80vw",
@@ -24,8 +28,6 @@ const Map = ({ location, data, center }) => {
 		googleMapsApiKey: `${googleAPI}`,
 	})
 
-	if (isLoaded && restaurants) {
-	}
 	return (
 		isLoaded &&
 		restaurants && (
@@ -38,10 +40,8 @@ const Map = ({ location, data, center }) => {
 					{restaurants.data.map((restaurant) => (
 						<MarkerF
 							icon={{
-								path:
-									google.maps.SymbolPath
-										.BACKWARD_CLOSED_ARROW,
-								scale: 5,
+								scale: 9,
+								path: google.maps.SymbolPath.CIRCLE,
 							}}
 							position={restaurant.coords}
 							label={restaurant.name}
@@ -61,7 +61,6 @@ const Map = ({ location, data, center }) => {
 						label="User Location"
 					/>
 				</GoogleMap>
-
 				{selectedMarker && (
 					<RestaurantInfoCard
 						key={selectedMarker.id}
