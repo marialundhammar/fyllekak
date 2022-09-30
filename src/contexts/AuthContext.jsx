@@ -4,8 +4,10 @@ import {
 	signOut,
 	updateEmail,
 	updatePassword,
-	onAuthStateChanged
+	onAuthStateChanged,
+	updateProfile
 } from 'firebase/auth'
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { auth, storage } from '../firebase'
 
 
@@ -47,7 +49,9 @@ const AuthContextProvider = ({ children }) => {
 	}
 
 	const setProfilePicture = async (photo) => {
-		let pictureURL = auth.currentUser.photoURL
+		console.log(auth.currentUser.photoURL)
+		console.log(photo)
+		let photoURL = auth.currentUser.photoURL
 
 		if (photo) {
 			const fileRef = ref(storage, `img/${auth.currentUser.email}/${photo.name}`)
@@ -55,6 +59,8 @@ const AuthContextProvider = ({ children }) => {
 			const uploadResult = await uploadBytes(fileRef, photo)
 
 			photoURL = await getDownloadURL(uploadResult.ref)
+
+			console.log("DownloadURL:", photoURL)
 		}
 
 		return updateProfile(auth.currentUser, {
@@ -81,7 +87,8 @@ const AuthContextProvider = ({ children }) => {
 		setPassword,
 		setEmail,
 		setProfilePicture,
-		userEmail
+		userEmail,
+		userPhotoUrl
 	}
 
 	return (
