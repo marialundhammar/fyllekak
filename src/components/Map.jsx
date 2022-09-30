@@ -36,7 +36,7 @@ const Map = ({ location, data, center }) => {
 					center={center}
 					zoom={15}
 				>
-					{restaurants.map((restaurant) => (
+					{restaurants.data.map((restaurant) => (
 						<MarkerF
 							icon={{
 								path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
