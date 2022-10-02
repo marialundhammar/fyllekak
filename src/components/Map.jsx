@@ -41,8 +41,8 @@ const Map = ({ location, data, center }) => {
 					{restaurants.data.map((restaurant) => (
 						<MarkerF
 							icon={{
-								scale: 9,
-								path: google.maps.SymbolPath.CIRCLE,
+								scale: 5,
+								path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
 							}}
 							position={restaurant.coords}
 							label={restaurant.name}
@@ -55,8 +55,8 @@ const Map = ({ location, data, center }) => {
 
 					<MarkerF
 						icon={{
-							path: google.maps.SymbolPath.CIRCLE,
-							scale: 7,
+							path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+							scale: 5,
 						}}
 						position={location}
 						label="User Location"
