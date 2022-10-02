@@ -5,7 +5,6 @@ import {
 	MarkerF,
 } from "@react-google-maps/api"
 import { useState } from "react"
-import { useEffect } from "react"
 import MapsAPI from "../services/MapsAPI"
 import RestaurantInfoCard from "./RestaurantInfoCard"
 import useRestaurants from "../hooks/useRestaurants"
@@ -25,8 +24,8 @@ const Map = ({ location, data, center }) => {
 		googleMapsApiKey: `${googleAPI}`,
 	})
 
-	if (isLoaded && restaurants) {
-	}
+	// if (isLoaded && restaurants) {
+	// }
 	return (
 		isLoaded &&
 		restaurants && (
@@ -36,10 +35,12 @@ const Map = ({ location, data, center }) => {
 					center={center}
 					zoom={15}
 				>
-					{restaurants.map((restaurant) => (
+					{restaurants.data.map((restaurant) => (
 						<MarkerF
 							icon={{
-								path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW,
+								path:
+									google.maps.SymbolPath
+										.BACKWARD_CLOSED_ARROW,
 								scale: 5,
 							}}
 							position={restaurant.coords}

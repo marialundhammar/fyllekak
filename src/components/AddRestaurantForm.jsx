@@ -6,11 +6,7 @@ import { useAuthContext } from "../contexts/AuthContext"
 import MapsAPI from "../services/MapsAPI"
 import useGetCoords from "../hooks/useGetCoords"
 
-// Alex's lil mapping projekt
-// import { inputInfo } from "../utils/inputInfo"
-
 const AddRestaurantForm = ({ col, exData }) => {
-
 	const [message, setMessage] = useState("")
 
 	const { handleSubmit, register, reset } = useForm()
@@ -26,6 +22,17 @@ const AddRestaurantForm = ({ col, exData }) => {
 				city: formData.city,
 				description: formData.description,
 				vego: formData.vego,
+
+				type: formData.type,
+
+				mon: formData.closing_time[0],
+				tue: formData.closing_time[1],
+				wed: formData.closing_time[2],
+				thu: formData.closing_time[3],
+				fri: formData.closing_time[4],
+				sat: formData.closing_time[5],
+				sun: formData.closing_time[6],
+
 				email: formData.email,
 				phone: formData.phone,
 				website: formData.website,
@@ -58,6 +65,17 @@ const AddRestaurantForm = ({ col, exData }) => {
 				city: formData.city,
 				description: formData.description,
 				vego: formData.vego,
+
+				type: formData.type,
+
+				mon: formData.closing_time[0],
+				tue: formData.closing_time[1],
+				wed: formData.closing_time[2],
+				thu: formData.closing_time[3],
+				fri: formData.closing_time[4],
+				sat: formData.closing_time[5],
+				sun: formData.closing_time[6],
+
 				email: formData.email,
 				phone: formData.phone,
 				website: formData.website,
@@ -79,67 +97,127 @@ const AddRestaurantForm = ({ col, exData }) => {
 			formData.street + "+" + formData.number + "+" + formData.city
 		)
 		if (exData) {
-			// console.log(typeof fetchCoords.status)
-			// console.log(formData)
 			await updateToDoc(fetchCoords, formData)
 		} else {
 			await addToDoc(fetchCoords, formData)
 		}
-
 	}
 
 	return (
 		<>
 			<form onSubmit={handleSubmit(onSubmit)} noValidate>
-				{/* WORK IN PROGRESS!! Alex's lil' mapping project*/}
-				{/* 
-				{inputInfo.map(field => (
-					<input
-						key={inputInfo.indexOf(field)}
-						type={field.type}
-						placeholder={field.placeholder}
-						defaultValue={exData ? exData.{field.name} : ''}
-						{...register(`${field.name}`)}
-					/>
-				))} */}
-
-				{/* Inputs in use */}
 				<input
 					type="text"
 					placeholder="Namn"
 					defaultValue={exData ? exData.name : ""}
-					{...register("name")}
+					{...register("name", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Gatuadress"
 					defaultValue={exData ? exData.street : ""}
-					{...register("street")}
+					{...register("street", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Gatunummer"
 					defaultValue={exData ? exData.number : ""}
-					{...register("number")}
+					{...register("number", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Ort"
 					defaultValue={exData ? exData.city : ""}
-					{...register("city")}
+					{...register("city", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Beskrivning"
 					defaultValue={exData ? exData.description : ""}
-					{...register("description")}
+					{...register("description", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Vegetariskt"
 					defaultValue={exData ? exData.vego : ""}
-					{...register("vego")}
+					{...register("vego", { required: true })}
 				/>
+
+				<div>
+					<label htmlFor="snabbmat">
+						<input
+							{...register("type", { required: true })}
+							type="radio"
+							value="snabbmat"
+							id="snabbmat"
+						/>
+						Snabbmat
+					</label>
+					<label htmlFor="grill">
+						<input
+							{...register("type", { required: true })}
+							type="radio"
+							value="grill"
+							id="grill"
+						/>
+						Grill
+					</label>
+					<label htmlFor="foodtruck">
+						<input
+							{...register("type", { required: true })}
+							type="radio"
+							value="foodtruck"
+							id="foodtruck"
+						/>
+						Foodtruck
+					</label>
+				</div>
+
+				<div>
+					<label>Måndag
+						<input
+							type="time"
+							{...register("closing_time[0]")}
+						/>
+					</label>
+					<label>Tisdag
+						<input
+							type="time"
+							{...register("closing_time[1]")}
+						/>
+					</label>
+					<label>Onsdag
+						<input
+							type="time"
+							{...register("closing_time[2]")}
+						/>
+					</label>
+					<label>Torsdag
+						<input
+							type="time"
+							{...register("closing_time[3]")}
+						/>
+					</label>
+					<label>Fredag
+						<input
+							type="time"
+							{...register("closing_time[4]")}
+						/>
+					</label>
+					<label>Lördag
+						<input
+							type="time"
+							{...register("closing_time[5]")}
+						/>
+					</label>
+					<label>Söndag
+						<input
+							type="time"
+							{...register("closing_time[6]")}
+						/>
+					</label>
+				</div>
+
 				<input
 					type="email"
 					placeholder="E-Post"
