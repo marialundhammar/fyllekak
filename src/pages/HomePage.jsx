@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
-import Map from "../components/Map";
-import useRestaurants from "../hooks/useRestaurants";
-import { useState } from "react";
-import SearchBar from "../components/SearchBar";
-import { getCoords } from "../services/MapsAPI";
-//just for showing cazpian
+import React, { useEffect } from "react"
+import Map from "../components/Map"
+import useRestaurants from "../hooks/useRestaurants"
+import { useState } from "react"
+import SearchBar from "../components/SearchBar"
+import { getCoords } from "../services/MapsAPI"
 
 const HomePage = () => {
   const restaurantQuery = useRestaurants("restaurants")
