@@ -6,134 +6,111 @@ import SearchBar from "../components/SearchBar"
 import { getCoords } from "../services/MapsAPI"
 
 const HomePage = () => {
-	const restaurantQuery = useRestaurants("restaurants")
+  const restaurantQuery = useRestaurants("restaurants")
 
-	const [location, setLocation] = useState()
-	const [mapCenter, setMapCenter] = useState({
-		lat: 55.59712105786678,
-		lng: 12.997431424230891,
-	})
+  const [location, setLocation] = useState();
+  const [mapCenter, setMapCenter] = useState({ lat: 55.59712105786678, lng: 12.997431424230891 })
 
-	const getUserLocation = () => {
-		if (navigator.geolocation) {
-			console.log("yay")
-			navigator.geolocation.getCurrentPosition((position) => {
-				const userLocation = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				}
+  const getUserLocation = () => {
+    if (navigator.geolocation) {
+      console.log("yay");
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userLocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
 
-				console.log("userLocation ==>", userLocation)
+        console.log("userLocation ==>", userLocation);
 
-				setLocation(userLocation)
-			})
-		} else {
-			console.log("nay")
-		}
-	}
+        setLocation(userLocation);
+      });
+    } else {
+      console.log("nay");
+    }
+  };
 
-	const handleSearch = async (search) => {
-		const getSearch = await getCoords(search)
-		console.log("getSearch ==>", getSearch)
+  if (restaurantQuery.isLoading) {
+    return <div>"loading..."</div>;
+  }
 
-		const searchRes = getSearch.results[0]?.geometry.location
-		console.log("searchRes ==>", searchRes)
+  const handleSearch = async (search) => {
+    const getSearch = await getCoords(search)
+    console.log("getSearch ==>", getSearch)
 
-		const restaurantData = restaurantQuery.data
-		console.log("restaurantData ==>", restaurantData)
+    const searchRes = getSearch.results[0]?.geometry.location
+    console.log("searchRes ==>", searchRes)
 
-		const restaurantDataNames = restaurantData.map(
-			(restaurant) => restaurant.name
-		)
-		console.log("restaurantDataNames ==>", restaurantDataNames)
+    const restaurantData = restaurantQuery.data
+    console.log("restaurantData ==>", restaurantData)
 
-		const restaurantDataCoords = restaurantData.map(
-			(restaurant) => restaurant.coords
-		)
-		console.log("restaurantDataCoords ==>", restaurantDataCoords)
+    const restaurantDataNames = restaurantData.map((restaurant) => (restaurant.name))
+    console.log("restaurantDataNames ==>", restaurantDataNames)
 
-		const restaurantDataCoordsFiltered = restaurantDataCoords.filter(
-			(restaurant) => {
-				return restaurant !== undefined
-			}
-		)
-		console.log(
-			"restaurantDataCoordsFiltered ==>",
-			restaurantDataCoordsFiltered
-		)
+    const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
+    console.log("restaurantDataCoords ==>", restaurantDataCoords)
 
-		const re = new RegExp(search, "gi")
+    const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => { return restaurant !== undefined })
+    console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
 
-		for (const name of restaurantDataNames) {
-			if (name.match(re)) {
-				console.log("Success")
-				console.log("search ==>", search)
-				console.log("name ==>", name)
+    const re = new RegExp(search, "gi")
+    console.log("re ==>", re)
 
-				console.log("re ==>", re)
+    for (const name of restaurantDataNames) {
+      console.log("name inside for loop ==>", name)
+      console.log("name.match(re) inside for loop ==>", name.match(re))
 
-				console.log("Great success")
-				console.log("name.match(re) ==>", name.match(re))
+      console.log("searchRes before if ==>", searchRes)
+      
+      if (name.match(re)) {
+        console.log("Success")
+        console.log("search ==>", search)
+        console.log("name ==>", name)
 
-				const nameOfRestaurant = restaurantData.filter(
-					(restaurant) => {
-						return restaurant.name.match(re)
-					}
-				)
-				console.log("nameOfRestaurant ==>", nameOfRestaurant)
+        console.log("re ==>", re)
 
-				setMapCenter({
-					lat: nameOfRestaurant[0].coords.lat,
-					lng: nameOfRestaurant[0].coords.lng,
-				})
-			}
-		}
+        console.log("Great success")
+        console.log("name.match(re) ==>", name.match(re))
 
-		for (const coords of restaurantDataCoordsFiltered) {
-			// console.log("coords ==>", coords)
-			// console.log("coords.lat ==>", coords?.lat)
-			// console.log("coords.lng ==>", coords?.lng)
+        const nameOfRestaurant = restaurantData.filter((restaurant) => { return restaurant.name.match(re) })
+        console.log("nameOfRestaurant ==>", nameOfRestaurant)
 
-			if (
-				coords.lat === searchRes.lat &&
-				coords.lng === searchRes.lng
-			) {
-				console.log("Great Success")
+        setMapCenter({
+          lat: nameOfRestaurant[0].coords.lat,
+          lng: nameOfRestaurant[0].coords.lng,
+        })
 
-				setMapCenter({
-					lat: searchRes.lat,
-					lng: searchRes.lng,
-				})
-			}
-		}
-	}
+        return
+      } else if (searchRes) {
 
-	useEffect(() => {
-		getUserLocation()
-	}, [])
+        setMapCenter({
+          lat: searchRes.lat,
+          lng: searchRes.lng
+        })
+      }
+    }
 
-	if (restaurantQuery.isLoading) {
-		return <div>"loading..."</div>
-	}
+  }
 
-	return (
-		<>
-			<div className="container mx-auto flex justify-center text-lg">
-				FYLLEKÄKSKARTAN
-			</div>
+  return (
+    <>
+      <div className="container mx-auto flex justify-center text-lg">
+        FYLLEKÄKSKARTAN
+      </div>
+      <button
+        onClick={() => {
+          getUserLocation();
+        }}
+      >
+        User Location
+      </button>
+      <div className="container mx-auto flex justify-center text-lg">
+        <SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
+      </div>
+      <div className="flex justify-center">
+        <Map location={location} data={restaurantQuery.data} center={mapCenter} />
+      </div>
+    </>
+  );
+};
 
-			<div className="container mx-auto flex justify-center text-lg">
-				<SearchBar handleSearch={handleSearch} />
-			</div>
-			<div className="flex justify-center">
-				<Map
-					location={location}
-					data={restaurantQuery.data}
-					center={mapCenter}
-				/>
-			</div>
-		</>
-	)
-}
-
-export default HomePage
+export default HomePage;
