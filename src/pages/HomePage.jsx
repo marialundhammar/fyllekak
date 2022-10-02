@@ -33,14 +33,14 @@ const HomePage = () => {
   if (restaurantQuery.isLoading) {
     return <div>"loading..."</div>;
   }
- 
+
   const handleSearch = async (search) => {
     const getSearch = await getCoords(search)
     console.log("getSearch ==>", getSearch)
 
     const searchRes = getSearch.results[0]?.geometry.location
     console.log("searchRes ==>", searchRes)
-    
+
     const restaurantData = restaurantQuery.data
     console.log("restaurantData ==>", restaurantData)
 
@@ -50,12 +50,17 @@ const HomePage = () => {
     const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
     console.log("restaurantDataCoords ==>", restaurantDataCoords)
 
-    const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => {return restaurant !== undefined})
+    const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => { return restaurant !== undefined })
     console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
-    
+
     const re = new RegExp(search, "gi")
+    console.log("re ==>", re)
 
     for (const name of restaurantDataNames) {
+      console.log("name inside for loop ==>", name)
+      console.log("name.match(re) inside for loop ==>", name.match(re))
+
+      console.log("searchRes before if ==>", searchRes)
       
       if (name.match(re)) {
         console.log("Success")
@@ -63,27 +68,20 @@ const HomePage = () => {
         console.log("name ==>", name)
 
         console.log("re ==>", re)
-        
+
         console.log("Great success")
         console.log("name.match(re) ==>", name.match(re))
 
-        const nameOfRestaurant = restaurantData.filter((restaurant) => {return restaurant.name.match(re)})
+        const nameOfRestaurant = restaurantData.filter((restaurant) => { return restaurant.name.match(re) })
         console.log("nameOfRestaurant ==>", nameOfRestaurant)
 
         setMapCenter({
           lat: nameOfRestaurant[0].coords.lat,
           lng: nameOfRestaurant[0].coords.lng,
         })
-      }
-    }
 
-    for (const coords of restaurantDataCoordsFiltered) {
-      // console.log("coords ==>", coords)
-      // console.log("coords.lat ==>", coords?.lat)
-      // console.log("coords.lng ==>", coords?.lng)
-
-      if ((coords.lat === searchRes.lat) && (coords.lng === searchRes.lng)) {
-        console.log("Great Success")
+        return
+      } else if (searchRes) {
 
         setMapCenter({
           lat: searchRes.lat,
@@ -92,22 +90,6 @@ const HomePage = () => {
       }
     }
 
-    
-  }
-
-  const citySearch = (search) => {
-    console.log("search in citySearch ==>", search)
-
-    const re = new RegExp(search, "gi")
-
-    const restaurantData = restaurantQuery.data
-    console.log("restaurantData ==>", restaurantData)
-
-    const restaurantDataCity = restaurantData.map((restaurant) => (restaurant.city))
-    console.log("restaurantDataNames ==>", restaurantDataCity)
-
-    const restaurantCitys = restaurantData.filter((restaurant) => {return restaurant.city.match(re)})
-    console.log("restaurantCitys ==>", restaurantCitys)
   }
 
   return (
@@ -124,9 +106,6 @@ const HomePage = () => {
       </button>
       <div className="container mx-auto flex justify-center text-lg">
         <SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
-      </div>
-      <div className="container mx-auto flex justify-center text-lg">
-        <SearchBar handleSearch={citySearch} placeholder="Sök på ort" />
       </div>
       <div className="flex justify-center">
         <Map location={location} data={restaurantQuery.data} center={mapCenter} />
