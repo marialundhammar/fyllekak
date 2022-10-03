@@ -11,24 +11,25 @@ import { useFirestoreQueryData } from '@react-query-firebase/firestore'
 const RestaurantList = () => {
 	const [infoCard, setInfoCard] = useState()
 	const [vego, setVego] = useState(false)
-	const [pricerange, setPricerange] = useState('2')
-
-	// const restaurant = useRestaurants('restaurants')
+	const [price, setPrice] = useState([1, 2, 3])
 
 	const { currentUser } = useAuthContext()
 
-	const queryRef = query(
-		collection(db, 'restaurants'),
-		// where('vego', '==', vego),
-		where('price', '==', pricerange),
-		// orderBy('name')
+	const queryRef = query(collection(db, 'restaurants'),
+		vego
+			? where('vego', '==', vego)
+			: where('vego', 'in', [true, false]),
+		price
+			? where('price', '==', price)
+			: where('price', 'in', [1, 2, 3]),
+
 	)
 
-	const { data: restaurant, isLoading, error } = useFirestoreQueryData(['restaurants', { vego }], queryRef,
-		{
-			// 	idField: 'id',
-			subscribe: true,
-		}
+	const { data: restaurant, isLoading, error } = useFirestoreQueryData(['restaurants', { vego, price }], queryRef,
+		// {
+		// 	// 	idField: 'id',
+		// 	subscribe: true,
+		// }
 	)
 
 	const toggleCard = (res) => {
@@ -43,14 +44,9 @@ const RestaurantList = () => {
 				<button onClick={() => setVego(vego ? false : true)}> Vegetariskt </button>
 			</div>
 			<div>
-				<button onClick={() => {
-					console.log(pricerange)
-					setPricerange('1')
-					console.log(pricerange)
-				}}> Billigt </button>
-
-				<button onClick={() => setPricerange('2')}> Mellan </button>
-				<button onClick={() => setPricerange('3')}> Dyrt </button>
+				<button onClick={() => setPrice(1)}> Billigt </button>
+				<button onClick={() => setPrice(2)}> Mellan </button>
+				<button onClick={() => setPrice(3)}> Dyrt </button>
 			</div>
 
 			{isLoading && <p>Loading...</p>}

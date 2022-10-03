@@ -90,6 +90,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 		)
 
 		// Gör ett objekt av closing time
+		// const price = [0, formData.price]
 
 		const closing_time = {
 			mon: formData.mon,
@@ -154,7 +155,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 					<input
 						{...register("price", { required: true, max: 3, min: 1, message: "Välj prisklass" })}
 						type="number"
-						defaultValue={exData ? exData.price : ""}
+						defaultValue={exData ? exData.price[1] : ""}
 					/>
 				</label>
 

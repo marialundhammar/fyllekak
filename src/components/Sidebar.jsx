@@ -1,10 +1,11 @@
 import React from 'react'
 import RestaurantList from './RestaurantList'
+import SearchBar from './SearchBar'
 
-const Sidebar = () => {
+const Sidebar = ({ handleSearch }) => {
 	return (
 		<>
-
+			<SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
 			<RestaurantList />
 		</>
 	)
