@@ -63,8 +63,17 @@ const HomePage = () => {
 		)
 
 		const re = new RegExp(search, "gi")
+		console.log("re ==>", re)
 
 		for (const name of restaurantDataNames) {
+			console.log("name inside for loop ==>", name)
+			console.log(
+				"name.match(re) inside for loop ==>",
+				name.match(re)
+			)
+
+			console.log("searchRes before if ==>", searchRes)
+
 			if (name.match(re)) {
 				console.log("Success")
 				console.log("search ==>", search)
@@ -86,20 +95,9 @@ const HomePage = () => {
 					lat: nameOfRestaurant[0].coords.lat,
 					lng: nameOfRestaurant[0].coords.lng,
 				})
-			}
-		}
 
-		for (const coords of restaurantDataCoordsFiltered) {
-			// console.log("coords ==>", coords)
-			// console.log("coords.lat ==>", coords?.lat)
-			// console.log("coords.lng ==>", coords?.lng)
-
-			if (
-				coords.lat === searchRes.lat &&
-				coords.lng === searchRes.lng
-			) {
-				console.log("Great Success")
-
+				return
+			} else if (searchRes) {
 				setMapCenter({
 					lat: searchRes.lat,
 					lng: searchRes.lng,
