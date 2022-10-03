@@ -6,13 +6,14 @@ const Navigation = () => {
 	const { currentUser } = useAuthContext()
 
 	return (
-		<nav className="font-sans flex flex-col text-center sm:flex-row sm:text-left sm:justify-between py-4 px-6 bg-yellow-200 sm:items-baseline w-full">
-			<div className="mb-2 sm:mb-0">
+		<nav className="bg-nav text-contrast-color flex flex-col text-center sm:flex-row sm:text-left sm:justify-between py-4 px-6 bg-yellow-200 sm:items-baseline w-full">
+			<div className="mb-2 sm:mb-0 ">
 				<a
 					href="/"
 					className="text-2xl no-underline text-grey-darkest hover:text-blue-dark"
 				>
-					Logo
+					{" "}
+					🥴 FYLLEKÄK
 				</a>
 			</div>
 			<div>

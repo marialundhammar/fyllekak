@@ -15,9 +15,11 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 		<>
 			{lat && lng && <PopUp lat={lat} lng={lng} />}
 
-			<div className="px-4 w-400 ">
+			<div className="p-4 w-400 bg-darkish-blue text-slate-400">
 				<div className="flex flex-row">
-					<h1 className="text-3xl">{restaurant.name}</h1>
+					<h1 className="text-3xl text-contrast-color">
+						{restaurant.name}
+					</h1>
 					{restaurant.vego && (
 						<p className="m-3">VEGO FRIENDLY!</p>
 					)}
@@ -31,7 +33,7 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 					<div
 						type="button"
 						data-modal-toggle="new-window-modal"
-						className="shadow-lg rounded-md bg-emerald-100 flex justify-center w-40 h-8 my-2 p-1"
+						className="shadow-lg rounded-md bg-emerald-100 flex justify-center w-40 h-8 my-2 p-1 text-stone-900"
 						onClick={() => {
 							getDirection()
 						}}
@@ -59,8 +61,7 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 				<div className="my-2 ">
 					{restaurant.description && (
 						<div>
-							<p>About</p>
-							<div className="border rounded-md h-20 bg-slate-100">
+							<div className="border rounded-md h-20 bg-slate-100 text-stone-900">
 								<p className="italic">
 									{restaurant.description}
 								</p>
@@ -70,18 +71,18 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 				</div>
 				<div className="flex flex-row">
 					{restaurant.facebook && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300 ">
+						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900 ">
 							<a href={restaurant.facebook}>Facebook</a>
 						</div>
 					)}
 					{restaurant.webiste && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300">
+						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
 							<a href={restaurant.webiste}>Website</a>
 						</div>
 					)}
 
 					{restaurant.instagram && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300">
+						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
 							<a href={restaurant.instagram}>
 								Instagram
 							</a>
@@ -89,7 +90,7 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 					)}
 
 					{restaurant.email && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300">
+						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
 							<a href={restaurant.email}>Email</a>
 						</div>
 					)}
