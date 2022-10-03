@@ -124,7 +124,7 @@ const HomePage = () => {
 				<Map
 					location={location}
 					data={restaurantQuery.data}
-					center={location}
+					center={mapCenter}
 				/>
 			</div>
 		</>
