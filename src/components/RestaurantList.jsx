@@ -47,6 +47,7 @@ const RestaurantList = () => {
 				<button className="text-contrast-color" onClick={() => setPrice(1)}> Billigt </button>
 				<button className="text-contrast-color" onClick={() => setPrice(2)}> Mellan </button>
 				<button className="text-contrast-color" onClick={() => setPrice(3)}> Dyrt </button>
+				<button className="text-contrast-color" onClick={() => setPrice([1, 2, 3])}> Alla </button>
 			</div>
 
 			{isLoading && <p>Loading...</p>}
