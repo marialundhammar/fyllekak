@@ -118,18 +118,15 @@ const HomePage = () => {
 
 	return (
 		<>
-			<div className="container mx-auto flex justify-center text-lg">
-				FYLLEKÄKSKARTAN
-			</div>
+			<div className="ui-sans-serif">
+				<div className="container mx-auto p-2 flex justify-center text-lg">
+					<SearchBar handleSearch={handleSearch} />
+				</div>
 
-			<div className="container mx-auto flex justify-center text-lg">
-				<SearchBar handleSearch={handleSearch} />
-			</div>
-			<div className="flex justify-center">
 				<Map
 					location={location}
 					data={restaurantQuery.data}
-					center={mapCenter}
+					center={location}
 				/>
 			</div>
 		</>

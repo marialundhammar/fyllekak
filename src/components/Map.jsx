@@ -5,23 +5,22 @@ import {
 	MarkerF,
 } from "@react-google-maps/api"
 import { useState } from "react"
-
 import RestaurantInfoCard from "./RestaurantInfoCard"
 import useRestaurants from "../hooks/useRestaurants"
+import googleMapsStyle from "../googleMapsStyle"
 
 const Map = ({ location, data, center }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 	const restaurants = useRestaurants("restaurants")
 	const [selectedMarker, setSelectedMarker] = useState(null)
-
-	const getDirection = () => {
-		console.log("this is restaurant coords:")
-	}
+	const marker = "../assets/marker.svg"
 
 	const containerStyle = {
-		width: "80vw",
-		height: "80vh",
+		width: "100vw",
+		height: "100vh",
 	}
+
+	const mapStyle = googleMapsStyle
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
@@ -32,41 +31,44 @@ const Map = ({ location, data, center }) => {
 		isLoaded &&
 		restaurants && (
 			<>
-				<GoogleMap
-					mapContainerStyle={containerStyle}
-					center={center}
-					zoom={15}
-				>
-					{restaurants.data.map((restaurant) => (
+				<div className="flex flex-col lg:flex-row">
+					<GoogleMap
+						mapContainerStyle={containerStyle}
+						center={center}
+						zoom={15}
+						options={{ styles: mapStyle }}
+					>
+						{restaurants.data.map((restaurant) => (
+							<MarkerF
+								position={restaurant.coords}
+								label={restaurant.name}
+								onClick={() => {
+									setSelectedMarker(restaurant)
+								}}
+								key={restaurant.id}
+							/>
+						))}
+
 						<MarkerF
 							icon={{
-								scale: 9,
 								path: google.maps.SymbolPath.CIRCLE,
+								scale: 7,
+								fillColor: "blue",
 							}}
-							position={restaurant.coords}
-							label={restaurant.name}
-							onClick={() => {
-								setSelectedMarker(restaurant)
-							}}
-							key={restaurant.id}
+							position={location}
+							label="User Location"
 						/>
-					))}
+					</GoogleMap>
 
-					<MarkerF
-						icon={{
-							path: google.maps.SymbolPath.CIRCLE,
-							scale: 7,
-						}}
-						position={location}
-						label="User Location"
-					/>
-				</GoogleMap>
-				{selectedMarker && (
-					<RestaurantInfoCard
-						key={selectedMarker.id}
-						restaurant={selectedMarker}
-					/>
-				)}
+					<div>
+						{selectedMarker && (
+							<RestaurantInfoCard
+								key={selectedMarker.id}
+								restaurant={selectedMarker}
+							/>
+						)}
+					</div>
+				</div>
 			</>
 		)
 	)
