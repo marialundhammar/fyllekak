@@ -4,34 +4,33 @@ import useRestaurants from "../hooks/useRestaurants"
 import { useState } from "react"
 import SearchBar from "../components/SearchBar"
 import { getCoords } from "../services/MapsAPI"
-import Sidebar from "../components/Sidebar"
+import SideBar from "../components/SideBar"
 
 const HomePage = () => {
 	const restaurantQuery = useRestaurants("restaurants")
 
-	const [location, setLocation] = useState();
-	const [mapCenter, setMapCenter] = useState({ lat: 55.59712105786678, lng: 12.997431424230891 })
+	const [location, setLocation] = useState()
+	const [mapCenter, setMapCenter] = useState({
+		lat: 55.59712105786678,
+		lng: 12.997431424230891,
+	})
 
 	const getUserLocation = () => {
 		if (navigator.geolocation) {
-			console.log("yay");
+			console.log("yay")
 			navigator.geolocation.getCurrentPosition((position) => {
 				const userLocation = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
-				};
+				}
 
-				console.log("userLocation ==>", userLocation);
+				console.log("userLocation ==>", userLocation)
 
-				setLocation(userLocation);
-			});
+				setLocation(userLocation)
+			})
 		} else {
-			console.log("nay");
+			console.log("nay")
 		}
-	};
-
-	if (restaurantQuery.isLoading) {
-		return <div>"loading..."</div>;
 	}
 
 	const handleSearch = async (search) => {
@@ -44,21 +43,35 @@ const HomePage = () => {
 		const restaurantData = restaurantQuery.data
 		console.log("restaurantData ==>", restaurantData)
 
-		const restaurantDataNames = restaurantData.map((restaurant) => (restaurant.name))
+		const restaurantDataNames = restaurantData.map(
+			(restaurant) => restaurant.name
+		)
 		console.log("restaurantDataNames ==>", restaurantDataNames)
 
-		const restaurantDataCoords = restaurantData.map((restaurant) => (restaurant.coords))
+		const restaurantDataCoords = restaurantData.map(
+			(restaurant) => restaurant.coords
+		)
 		console.log("restaurantDataCoords ==>", restaurantDataCoords)
 
-		const restaurantDataCoordsFiltered = restaurantDataCoords.filter((restaurant) => { return restaurant !== undefined })
-		console.log("restaurantDataCoordsFiltered ==>", restaurantDataCoordsFiltered)
+		const restaurantDataCoordsFiltered = restaurantDataCoords.filter(
+			(restaurant) => {
+				return restaurant !== undefined
+			}
+		)
+		console.log(
+			"restaurantDataCoordsFiltered ==>",
+			restaurantDataCoordsFiltered
+		)
 
 		const re = new RegExp(search, "gi")
 		console.log("re ==>", re)
 
 		for (const name of restaurantDataNames) {
 			console.log("name inside for loop ==>", name)
-			console.log("name.match(re) inside for loop ==>", name.match(re))
+			console.log(
+				"name.match(re) inside for loop ==>",
+				name.match(re)
+			)
 
 			console.log("searchRes before if ==>", searchRes)
 
@@ -72,7 +85,11 @@ const HomePage = () => {
 				console.log("Great success")
 				console.log("name.match(re) ==>", name.match(re))
 
-				const nameOfRestaurant = restaurantData.filter((restaurant) => { return restaurant.name.match(re) })
+				const nameOfRestaurant = restaurantData.filter(
+					(restaurant) => {
+						return restaurant.name.match(re)
+					}
+				)
 				console.log("nameOfRestaurant ==>", nameOfRestaurant)
 
 				setMapCenter({
@@ -82,37 +99,37 @@ const HomePage = () => {
 
 				return
 			} else if (searchRes) {
-
 				setMapCenter({
 					lat: searchRes.lat,
-					lng: searchRes.lng
+					lng: searchRes.lng,
 				})
 			}
 		}
+	}
 
+	useEffect(() => {
+		getUserLocation()
+	}, [])
+
+	if (restaurantQuery.isLoading) {
+		return <div>"loading..."</div>
 	}
 
 	return (
 		<>
-			<div className="container mx-auto flex justify-center text-lg">
-				FYLLEKÄKSKARTAN
-			</div>
-			<button
-				onClick={() => {
-					getUserLocation();
-				}}
-			>
-				User Location
-			</button>
-			<div className="container mx-auto flex justify-center text-lg">
-				<Sidebar handleSearch={handleSearch} />
-				{/* <SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" /> */}
-			</div>
-			<div className="flex justify-center">
-				<Map location={location} data={restaurantQuery.data} center={mapCenter} />
+			<div className="ui-sans-serif bg-darkish-blue">
+				<div className="container mx-auto p-2 flex justify-center text-lg">
+					<SideBar handleSearch={handleSearch} />
+				</div>
+
+				<Map
+					location={location}
+					data={restaurantQuery.data}
+					center={mapCenter}
+				/>
 			</div>
 		</>
-	);
-};
+	)
+}
 
-export default HomePage;
+export default HomePage

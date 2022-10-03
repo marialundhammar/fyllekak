@@ -1,25 +1,21 @@
-import { Routes, Route } from 'react-router-dom'
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { Routes, Route } from "react-router-dom"
+import { ReactQueryDevtools } from "react-query/devtools"
 
-import HomePage from './pages/HomePage'
-import NotFound from './pages/NotFound'
-import RestaurantPage from './pages/RestaurantPage'
-import AdminPage from './pages/AdminPage'
-import LoginPage from './pages/LoginPage'
-import LogoutPage from './pages/LogoutPage'
-import UserTipsPage from './pages/UserTipsPage'
-import EditRestaurantPage from './pages/EditRestaurantPage'
-import Navigation from './pages/partials/Navigation'
-import UpdatdeProfilePage from './pages/UpdateProfilePage'
-import RequireAuth from './components/RequireAuth'
+import HomePage from "./pages/HomePage"
+import NotFound from "./pages/NotFound"
+import RestaurantPage from "./pages/RestaurantPage"
+import AdminPage from "./pages/AdminPage"
+import LoginPage from "./pages/LoginPage"
+import LogoutPage from "./pages/LogoutPage"
+import UserTipsPage from "./pages/UserTipsPage"
+import EditRestaurantPage from "./pages/EditRestaurantPage"
+import Navigation from "./pages/partials/Navigation"
+import UpdatdeProfilePage from "./pages/UpdateProfilePage"
+import RequireAuth from "./components/RequireAuth"
 
-import './assets/App.css'
-
+import "./assets/App.css"
 
 function App() {
-
-
-
 	return (
 		<div className="App">
 			<Navigation />
@@ -28,30 +24,40 @@ function App() {
 				<Route path="*" element={<NotFound />} />
 				<Route path="/" element={<HomePage />} />
 
-				<Route path="/restaurant" element={<RestaurantPage />} />
+				<Route
+					path="/restaurant"
+					element={<RestaurantPage />}
+				/>
 				<Route path="/usertips" element={<UserTipsPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/logout" element={<LogoutPage />} />
 
 				{/* Protected routes */}
-				<Route path="/admin" element={
-					<RequireAuth>
-						<AdminPage />
-					</RequireAuth>
-				} />
-				<Route path="/edit/:collection/:id" element={
-					<RequireAuth>
-						<EditRestaurantPage />
-					</RequireAuth>
-				} />
-				<Route path="/update-profile" element={
-					<RequireAuth>
-						<UpdatdeProfilePage />
-					</RequireAuth>
-				} />
+				<Route
+					path="/admin"
+					element={
+						<RequireAuth>
+							<AdminPage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/edit/:collection/:id"
+					element={
+						<RequireAuth>
+							<EditRestaurantPage />
+						</RequireAuth>
+					}
+				/>
+				<Route
+					path="/update-profile"
+					element={
+						<RequireAuth>
+							<UpdatdeProfilePage />
+						</RequireAuth>
+					}
+				/>
 			</Routes>
-
-			<ReactQueryDevtools />
 		</div>
 	)
 }

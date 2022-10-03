@@ -2,13 +2,13 @@ import React from 'react'
 import RestaurantList from './RestaurantList'
 import SearchBar from './SearchBar'
 
-const Sidebar = ({ handleSearch }) => {
+const SideBar = ({ handleSearch }) => {
 	return (
 		<>
-			<SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
+			<SearchBar handleSearch={handleSearch} />
 			<RestaurantList />
 		</>
 	)
 }
 
-export default Sidebar
+export default SideBar
