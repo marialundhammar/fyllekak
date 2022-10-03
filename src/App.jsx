@@ -1,5 +1,6 @@
-import { Routes, Route, useRoutes } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
+
 import HomePage from './pages/HomePage'
 import NotFound from './pages/NotFound'
 import RestaurantPage from './pages/RestaurantPage'
@@ -8,9 +9,10 @@ import LoginPage from './pages/LoginPage'
 import LogoutPage from './pages/LogoutPage'
 import UserTipsPage from './pages/UserTipsPage'
 import EditRestaurantPage from './pages/EditRestaurantPage'
-import EditUsertipPage from './pages/EditUsertipPage'
-import RequireAuth from './components/RequireAuth'
 import Navigation from './pages/partials/Navigation'
+import UpdatdeProfilePage from './pages/UpdateProfilePage'
+import RequireAuth from './components/RequireAuth'
+
 import './assets/App.css'
 
 
@@ -37,14 +39,14 @@ function App() {
 						<AdminPage />
 					</RequireAuth>
 				} />
-				<Route path="/edit/restaurant/:id" element={
+				<Route path="/edit/:collection/:id" element={
 					<RequireAuth>
 						<EditRestaurantPage />
 					</RequireAuth>
 				} />
-				<Route path="/edit/usertip/:id" element={
+				<Route path="/update-profile" element={
 					<RequireAuth>
-						<EditUsertipPage />
+						<UpdatdeProfilePage />
 					</RequireAuth>
 				} />
 			</Routes>

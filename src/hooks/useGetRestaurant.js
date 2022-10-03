@@ -1,7 +1,8 @@
+import { collection } from "firebase/firestore"
 import useStreamRestaurant from "./useStreamRestaurant"
 
-const useGetRestaurant = (id) => {
-    return useStreamRestaurant('restaurants', id)
+const useGetRestaurant = (collection, id) => {
+    return useStreamRestaurant(collection, id)
 }
 
 export default useGetRestaurant

@@ -2,8 +2,12 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import {
 	signInWithEmailAndPassword,
 	signOut,
-	onAuthStateChanged
+	updateEmail,
+	updatePassword,
+	onAuthStateChanged,
+	updateProfile
 } from 'firebase/auth'
+import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
 import { auth, storage } from '../firebase'
 
 
@@ -15,9 +19,9 @@ const useAuthContext = () => {
 
 const AuthContextProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null)
-	// const [userName, setUserName] = useState(null)
 	const [userEmail, setUserEmail] = useState(null)
-	const [loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(true)
+	const [userPhotoUrl, setUserPhotoUrl] = useState(null)
 
 	const login = (email, password) => {
 		return signInWithEmailAndPassword(auth, email, password)
@@ -32,18 +36,46 @@ const AuthContextProvider = ({ children }) => {
 		setCurrentUser(auth.currentUser)
 		// setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
+		setUserPhotoUrl(auth.currentUser.photoURL)
 		return true
+	}
+
+	const setPassword = (newPassword) => {
+		return updatePassword(currentUser, newPassword)
+	}
+
+	const setEmail = (email) => {
+		return updateEmail(currentUser, email)
+	}
+
+	const setProfilePicture = async (photo) => {
+		console.log(auth.currentUser.photoURL)
+		console.log(photo)
+		let photoURL = auth.currentUser.photoURL
+
+		if (photo) {
+			const fileRef = ref(storage, `img/${auth.currentUser.email}/${photo.name}`)
+
+			const uploadResult = await uploadBytes(fileRef, photo)
+
+			photoURL = await getDownloadURL(uploadResult.ref)
+
+			console.log("DownloadURL:", photoURL)
+		}
+
+		return updateProfile(auth.currentUser, {
+			photoURL,
+		})
 	}
 
 	useEffect(() => {
 		// auth state changes
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			setCurrentUser(user)
-			// setUserName(user?.displayName)
+			setUserPhotoUrl(user?.photoURL)
 			setUserEmail(user?.email)
 			setLoading(false)
 		})
-
 		return unsubscribe
 	}, [])
 
@@ -52,7 +84,11 @@ const AuthContextProvider = ({ children }) => {
 		login,
 		logout,
 		reloadUser,
-		userEmail
+		setPassword,
+		setEmail,
+		setProfilePicture,
+		userEmail,
+		userPhotoUrl
 	}
 
 	return (
@@ -70,4 +106,3 @@ export {
 	AuthContextProvider as default,
 	useAuthContext,
 }
-
