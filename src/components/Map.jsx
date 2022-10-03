@@ -22,6 +22,7 @@ const Map = ({ location, data, center }) => {
 		height: "80vh",
 	}
 
+
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: `${googleAPI}`,
