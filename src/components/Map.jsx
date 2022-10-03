@@ -3,69 +3,97 @@ import {
 	GoogleMap,
 	useJsApiLoader,
 	MarkerF,
+	InfoWindow,
 } from "@react-google-maps/api"
 import { useState } from "react"
 import RestaurantInfoCard from "./RestaurantInfoCard"
 import useRestaurants from "../hooks/useRestaurants"
+import googleMapsStyle from "../googleMapsStyle"
 
 const Map = ({ location, data, center }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 	const restaurants = useRestaurants("restaurants")
 	const [selectedMarker, setSelectedMarker] = useState(null)
-
-	const getDirection = () => {
-		console.log("this is restaurant coords:")
-	}
-
+	const [showLabel, setShowLabel] = useState(null)
 	const containerStyle = {
-		width: "80vw",
-		height: "80vh",
+		width: "100vw",
+		height: "100vh",
 	}
+
+	const mapStyle = googleMapsStyle
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: `${googleAPI}`,
 	})
 
+	const gMaps = isLoaded ? window.google.maps : {}
+
+	const iconRestaurant = isLoaded
+		? {
+				path:
+					"M12,2a8.009,8.009,0,0,0-8,8c0,3.255,2.363,5.958,4.866,8.819,0.792,0.906,1.612,1.843,2.342,2.791a1,1,0,0,0,1.584,0c0.73-.948,1.55-1.885,2.342-2.791C17.637,15.958,20,13.255,20,10A8.009,8.009,0,0,0,12,2Zm0,11a3,3,0,1,1,3-3A3,3,0,0,1,12,13Z",
+				fillColor: "#42f5c5",
+				fillOpacity: 1,
+				strokeOpacity: 0,
+				anchor: new gMaps.Point(12, 22),
+				scale: 1.5,
+				labelOrigin: new gMaps.Point(10, -8),
+		  }
+		: {}
+
+	const iconUser = {
+		path: "M-20,0a20,20 0 1,0 40,0a20,20 0 1,0 -40,0",
+		fillColor: "#42b9f5",
+		fillOpacity: 0.6,
+		strokeWeight: 0,
+		scale: 1.1,
+	}
+
 	return (
 		isLoaded &&
 		restaurants && (
 			<>
-				<GoogleMap
-					mapContainerStyle={containerStyle}
-					center={center}
-					zoom={15}
-				>
-					{restaurants.data.map((restaurant) => (
+				<div className="flex flex-col lg:flex-row">
+					<GoogleMap
+						mapContainerStyle={containerStyle}
+						center={center}
+						zoom={15}
+						options={{ styles: mapStyle }}
+					>
+						{restaurants.data.map((restaurant) => (
+							<MarkerF
+								position={restaurant.coords}
+								onMouseOver={(e) =>
+									setShowLabel(true)
+								}
+								label={{
+									text: restaurant.name,
+									className: "labelStyle",
+								}}
+								onClick={() => {
+									setSelectedMarker(restaurant)
+								}}
+								key={restaurant.id}
+								icon={iconRestaurant}
+							/>
+						))}
 						<MarkerF
-							icon={{
-								scale: 9,
-								path: google.maps.SymbolPath.CIRCLE,
-							}}
-							position={restaurant.coords}
-							label={restaurant.name}
-							onClick={() => {
-								setSelectedMarker(restaurant)
-							}}
-							key={restaurant.id}
+							icon={iconUser}
+							position={location}
+							animation={1}
 						/>
-					))}
+					</GoogleMap>
 
-					<MarkerF
-						icon={{
-							path: google.maps.SymbolPath.CIRCLE,
-							scale: 7,
-						}}
-						position={location}
-						label="User Location"
-					/>
-				</GoogleMap>
-				{selectedMarker && (
-					<RestaurantInfoCard
-						key={selectedMarker.id}
-						restaurant={selectedMarker}
-					/>
-				)}
+					<div>
+						{selectedMarker && (
+							<RestaurantInfoCard
+								key={selectedMarker.id}
+								restaurant={selectedMarker}
+							/>
+						)}
+					</div>
+				</div>
 			</>
 		)
 	)
