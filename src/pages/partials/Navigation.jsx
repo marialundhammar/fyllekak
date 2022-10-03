@@ -48,12 +48,12 @@ const Navigation = () => {
 					</>
 				) : (
 					<>
-						<NavLink
+						{/* <NavLink
 							to="/restaurant"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
 						>
 							Restaurant list
-						</NavLink>
+						</NavLink> */}
 						<NavLink
 							to="/usertips"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"

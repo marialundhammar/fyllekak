@@ -38,15 +38,15 @@ const RestaurantList = () => {
 	}
 
 	return (
-		<div className="flex">
+		<div className="flex flex-col">
 
 			<div>
-				<button onClick={() => setVego(vego ? false : true)}> Vegetariskt </button>
+				<button className="text-contrast-color" onClick={() => setVego(vego ? false : true)}> Vegetariskt </button>
 			</div>
 			<div>
-				<button onClick={() => setPrice(1)}> Billigt </button>
-				<button onClick={() => setPrice(2)}> Mellan </button>
-				<button onClick={() => setPrice(3)}> Dyrt </button>
+				<button className="text-contrast-color" onClick={() => setPrice(1)}> Billigt </button>
+				<button className="text-contrast-color" onClick={() => setPrice(2)}> Mellan </button>
+				<button className="text-contrast-color" onClick={() => setPrice(3)}> Dyrt </button>
 			</div>
 
 			{isLoading && <p>Loading...</p>}

@@ -4,10 +4,10 @@ import SearchBar from './SearchBar'
 
 const SideBar = ({ handleSearch }) => {
 	return (
-		<>
+		<div className="flex flex-col">
 			<SearchBar handleSearch={handleSearch} />
 			<RestaurantList />
-		</>
+		</div>
 	)
 }
 

@@ -117,7 +117,7 @@ const HomePage = () => {
 
 	return (
 		<>
-			<div className="ui-sans-serif bg-darkish-blue">
+			<div className="ui-sans-serif bg-darkish-blue flex flex-row">
 				<div className="container mx-auto p-2 flex justify-center text-lg">
 					<SideBar handleSearch={handleSearch} />
 				</div>

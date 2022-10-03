@@ -24,7 +24,7 @@ const SearchBar = ({ handleSearch, placeholder }) => {
 				}}
 				value={search}
 			/>
-			<button>Sök</button>
+			<button className="text-contrast-color">Sök</button>
 		</form>
 	)
 }
