@@ -104,7 +104,7 @@ const HomePage = () => {
         User Location
       </button>
       <div className="container mx-auto flex justify-center text-lg">
-        <SearchBar handleSearch={handleSearch} placeholder="Skriv in en adress eller namn på restaurang" />
+        <SearchBar handleSearch={handleSearch} />
       </div>
       <div className="flex justify-center">
         <Map location={location} data={restaurantQuery.data} center={mapCenter} />
