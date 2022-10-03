@@ -6,17 +6,17 @@ import { useAuthContext } from "../contexts/AuthContext"
 import MapsAPI from "../services/MapsAPI"
 import useGetCoords from "../hooks/useGetCoords"
 
-// Alex's lil mapping projekt
-// import { inputInfo } from "../utils/inputInfo"
-
 const AddRestaurantForm = ({ col, exData }) => {
-
 	const [message, setMessage] = useState("")
 
-	const { handleSubmit, register, reset } = useForm()
+	const { handleSubmit, register, reset } = useForm({
+		defaultValues: {
+			checkbox: false,
+		}
+	})
 	const { currentUser } = useAuthContext()
 
-	const updateToDoc = async (fetchCoords, formData) => {
+	const updateToDoc = async (fetchCoords, formData, closing_time) => {
 		if (fetchCoords.status === "OK") {
 			// Update restaurant to input value
 			await updateDoc(doc(db, 'restaurants', exData.id), {
@@ -26,6 +26,11 @@ const AddRestaurantForm = ({ col, exData }) => {
 				city: formData.city,
 				description: formData.description,
 				vego: formData.vego,
+
+				price: formData.price,
+
+				closing_time: closing_time,
+
 				email: formData.email,
 				phone: formData.phone,
 				website: formData.website,
@@ -44,7 +49,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 		}
 	}
 
-	const addToDoc = async (fetchCoords, formData) => {
+	const addToDoc = async (fetchCoords, formData, closing_time) => {
 		// Post to restaurants if admin, and u	sertips if user
 		col === 'usertips' && currentUser
 			? col = 'restaurants' : null
@@ -58,6 +63,11 @@ const AddRestaurantForm = ({ col, exData }) => {
 				city: formData.city,
 				description: formData.description,
 				vego: formData.vego,
+
+				price: formData.price,
+
+				closing_time: closing_time,
+
 				email: formData.email,
 				phone: formData.phone,
 				website: formData.website,
@@ -78,68 +88,129 @@ const AddRestaurantForm = ({ col, exData }) => {
 		const fetchCoords = await useGetCoords(
 			formData.street + "+" + formData.number + "+" + formData.city
 		)
-		if (exData) {
-			// console.log(typeof fetchCoords.status)
-			// console.log(formData)
-			await updateToDoc(fetchCoords, formData)
-		} else {
-			await addToDoc(fetchCoords, formData)
+
+		// Gör ett objekt av closing time
+
+		const closing_time = {
+			mon: formData.mon,
+			tue: formData.tue,
+			wed: formData.wed,
+			thu: formData.thu,
+			fri: formData.fri,
+			sat: formData.sat,
+			sun: formData.sun
 		}
 
+		if (exData) {
+			await updateToDoc(fetchCoords, formData, closing_time)
+		} else {
+			await addToDoc(fetchCoords, formData, closing_time)
+		}
 	}
 
 	return (
 		<>
 			<form onSubmit={handleSubmit(onSubmit)} noValidate>
-				{/* WORK IN PROGRESS!! Alex's lil' mapping project*/}
-				{/* 
-				{inputInfo.map(field => (
-					<input
-						key={inputInfo.indexOf(field)}
-						type={field.type}
-						placeholder={field.placeholder}
-						defaultValue={exData ? exData.{field.name} : ''}
-						{...register(`${field.name}`)}
-					/>
-				))} */}
-
-				{/* Inputs in use */}
 				<input
 					type="text"
 					placeholder="Namn"
 					defaultValue={exData ? exData.name : ""}
-					{...register("name")}
+					{...register("name", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Gatuadress"
 					defaultValue={exData ? exData.street : ""}
-					{...register("street")}
+					{...register("street", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Gatunummer"
 					defaultValue={exData ? exData.number : ""}
-					{...register("number")}
+					{...register("number", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Ort"
 					defaultValue={exData ? exData.city : ""}
-					{...register("city")}
+					{...register("city", { required: true })}
 				/>
 				<input
 					type="text"
 					placeholder="Beskrivning"
 					defaultValue={exData ? exData.description : ""}
-					{...register("description")}
+					{...register("description", { required: true })}
 				/>
-				<input
-					type="text"
-					placeholder="Vegetariskt"
-					defaultValue={exData ? exData.vego : ""}
-					{...register("vego")}
-				/>
+
+				<label>
+					<input
+						type="checkbox"
+						{...register("vego")}
+					// checked={exData.vego ? true : false}
+					/>Vegetariskt
+				</label>
+
+				<label>Prisklass (1 = Billigt, 3 = Dyrt)
+					<input
+						{...register("price", { required: true, max: 3, min: 1, message: "Välj prisklass" })}
+						type="number"
+						defaultValue={exData ? exData.price : ""}
+					/>
+				</label>
+
+				<div className="closing_time">
+					<h3>Stänger:</h3>
+					<label>Måndag
+						<input
+							type="time"
+							{...register("mon")}
+							defaultValue={exData ? exData.closing_time.mon : ""}
+						/>
+					</label>
+					<label>Tisdag
+						<input
+							type="time"
+							{...register("tue")}
+							defaultValue={exData ? exData.closing_time.tue : ""}
+						/>
+					</label>
+					<label>Onsdag
+						<input
+							type="time"
+							{...register("wed")}
+							defaultValue={exData ? exData.closing_time.wed : ""}
+						/>
+					</label>
+					<label>Torsdag
+						<input
+							type="time"
+							{...register("thu")}
+							defaultValue={exData ? exData.closing_time.thu : ""}
+						/>
+					</label>
+					<label>Fredag
+						<input
+							type="time"
+							{...register("fri")}
+							defaultValue={exData ? exData.closing_time.fri : ""}
+						/>
+					</label>
+					<label>Lördag
+						<input
+							type="time"
+							{...register("sat")}
+							defaultValue={exData ? exData.closing_time.sat : ""}
+						/>
+					</label>
+					<label>Söndag
+						<input
+							type="time"
+							{...register("sun")}
+							defaultValue={exData ? exData.closing_time.sun : ""}
+						/>
+					</label>
+				</div>
+
 				<input
 					type="email"
 					placeholder="E-Post"

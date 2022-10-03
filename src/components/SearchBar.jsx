@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const SearchBar = ({ handleSearch }) => {
+const SearchBar = ({ handleSearch, placeholder }) => {
 	const [search, setSearch] = useState("")
 
 	const handleSubmit = (e) => {
@@ -18,13 +18,13 @@ const SearchBar = ({ handleSearch }) => {
 		<form onSubmit={handleSubmit}>
 			<input
 				type="text"
-				placeholder="Skriv in en adress eller namn"
+				placeholder={placeholder}
 				onChange={(e) => {
 					setSearch(e.target.value)
 				}}
 				value={search}
 			/>
-			<button className="">Sök</button>
+			<button>Sök</button>
 		</form>
 	)
 }
