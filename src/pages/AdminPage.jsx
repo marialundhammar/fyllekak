@@ -19,6 +19,9 @@ const AdminPage = () => {
 		isError: userTipsIsError,
 		isLoading: userTipsIsLoading,
 	} = useRestaurants('usertips')
+	const admins = useRestaurants('admin')
+
+	console.log("admins ==>", admins)
 
 	const [toggleForm, setToggleForm] = useState(false);
 
