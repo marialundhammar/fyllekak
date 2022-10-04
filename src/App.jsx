@@ -58,6 +58,9 @@ function App() {
 					}
 				/>
 			</Routes>
+
+			<ReactQueryDevtools position='bottom-right' />
+
 		</div>
 	)
 }

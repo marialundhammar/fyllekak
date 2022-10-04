@@ -89,9 +89,6 @@ const AddRestaurantForm = ({ col, exData }) => {
 			formData.street + "+" + formData.number + "+" + formData.city
 		)
 
-		// Gör ett objekt av closing time
-		// const price = [0, formData.price]
-
 		const closing_time = {
 			mon: formData.mon,
 			tue: formData.tue,
