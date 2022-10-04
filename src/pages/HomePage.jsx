@@ -3,7 +3,7 @@ import Map from "../components/Map"
 import useRestaurants from "../hooks/useRestaurants"
 import { useState } from "react"
 import { getCoords } from "../services/MapsAPI"
-import SideBar from "../components/SideBar"
+import Sidebar from "../components/Sidebar"
 
 const HomePage = () => {
 	const restaurantQuery = useRestaurants("restaurants")
@@ -41,6 +41,7 @@ const HomePage = () => {
 	return (
 		<>
 			<div className="ui-sans-serif bg-darkish-blue flex flex-row">
+				<Sidebar />
 				<Map
 					location={location}
 					data={restaurantQuery.data}
