@@ -1,32 +1,60 @@
+import React from "react"
+
 import { useState } from "react"
+import usePlacesAutocomplete, {
+	getGeocode,
+	getLatLng,
+} from "use-places-autocomplete"
+import {
+	Combobox,
+	ComboboxInput,
+	ComboboxPopover,
+	ComboboxList,
+	ComboboxOption,
+	ComboboxOptionText,
+} from "@reach/combobox"
+import "@reach/combobox/styles.css"
 
-const SearchBar = ({ handleSearch, placeholder }) => {
-	const [search, setSearch] = useState("")
+const SearchBarTest = ({ setMapCenter }) => {
+	const {
+		ready,
+		value,
+		suggestions: { status, data },
+		setValue,
+		clearSuggestions,
+	} = usePlacesAutocomplete()
 
-	const handleSubmit = (e) => {
-		e.preventDefault()
+	const handleSelect = async (address) => {
+		setValue(address, false)
+		clearSuggestions()
 
-		if (!search.length) return
-
-		// console.log("Search button clicked")
-		// console.log("Search in handleSubmit ==>", search)
-
-		handleSearch(search)
+		const result = await getGeocode({ address })
+		const latLng = await getLatLng(result[0])
+		setMapCenter(latLng)
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<input
-				type="text"
-				placeholder={placeholder}
+		<Combobox onSelect={handleSelect}>
+			<ComboboxInput
+				value={value}
 				onChange={(e) => {
-					setSearch(e.target.value)
+					setValue(e.target.value)
 				}}
-				value={search}
-			/>
-			<button className="text-contrast-color">Sök</button>
-		</form>
+				disabled={!ready}
+			></ComboboxInput>
+			<ComboboxPopover>
+				<ComboboxList>
+					{status === "OK" &&
+						data.map(({ place_id, description }) => (
+							<ComboboxOption
+								key={place_id}
+								value={description}
+							/>
+						))}
+				</ComboboxList>
+			</ComboboxPopover>
+		</Combobox>
 	)
 }
 
-export default SearchBar
+export default SearchBarTest
