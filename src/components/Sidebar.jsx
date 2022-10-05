@@ -1,14 +1,11 @@
-import React from 'react'
-import RestaurantList from './RestaurantList'
-import SearchBar from './SearchBar'
+import React from "react"
+import RestaurantList from "./RestaurantList"
 
-const SideBar = ({ handleSearch }) => {
+const SideBar = () => {
 	return (
 		<div className="flex flex-col">
-			<SearchBar handleSearch={handleSearch} />
 			<RestaurantList />
 		</div>
 	)
 }
-
 export default SideBar
