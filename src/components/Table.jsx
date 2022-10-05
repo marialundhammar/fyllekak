@@ -41,6 +41,7 @@ const Table = ({ collection, columns, data }) => {
 								</span>
 							</th>
 						))}
+						<th className="text-center border border-yellow-600 w-[10%] bg-yellow-400">Ta bort</th>
 					</tr>
 				))}
 			</thead>
@@ -59,6 +60,7 @@ const Table = ({ collection, columns, data }) => {
 									{cell.render("Cell")}
 								</td>
 							))}
+							<td className="text-center border border-yellow-600 w-[10%] px-2">❌</td>
 						</tr>
 					);
 				})}
