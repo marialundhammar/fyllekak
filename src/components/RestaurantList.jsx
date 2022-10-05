@@ -10,26 +10,34 @@ import { useFirestoreQueryData } from "@react-query-firebase/firestore"
 const RestaurantList = () => {
 	const [infoCard, setInfoCard] = useState()
 	const [vego, setVego] = useState(false)
-	const [price, setPrice] = useState([1, 2, 3])
+	const [price, setPrice] = useState(false)
+	const [all, setAll] = useState(true)
 
-	const { currentUser } = useAuthContext()
+	let queryRef
 
-	const queryRef = query(
-		collection(db, "restaurants"),
-		/* 	vego
-			? where('vego', '==', vego)
-			: where('vego', 'in', [true, false]), */
-		price
-			? where("price", "==", price)
-			: where("price", "in", [1, 2, 3])
-	)
+	if (vego) {
+		queryRef = query(
+			collection(db, "restaurants"),
+			where("vego" === vego)
+		)
+	}
+	if (price) {
+		queryRef = query(
+			collection(db, "restaurants"),
+			where("price" === price)
+		)
+	}
+
+	if (all) {
+		queryRef = query(collection(db, "restaurants"))
+	}
 
 	const {
 		data: restaurant,
 		isLoading,
 		error,
 	} = useFirestoreQueryData(
-		["restaurants", { vego, price }],
+		["restaurants"],
 		queryRef
 		// {
 		// 	// 	idField: 'id',
@@ -46,8 +54,8 @@ const RestaurantList = () => {
 		<div className="flex flex-col">
 			<div>
 				<button
-					className="text-contrast-color"
-					onClick={() => setVego(vego ? false : true)}
+					className="text-contrast-color w-40 border"
+					onClick={() => setVego(true)}
 				>
 					{" "}
 					Vegetariskt{" "}
@@ -55,29 +63,16 @@ const RestaurantList = () => {
 			</div>
 			<div>
 				<button
-					className="text-contrast-color"
-					onClick={() => setPrice(1)}
+					className="text-contrast-color w-40 border"
+					onClick={() => setPrice(true)}
 				>
 					{" "}
 					Billigt{" "}
 				</button>
+
 				<button
-					className="text-contrast-color"
-					onClick={() => setPrice(2)}
-				>
-					{" "}
-					Mellan{" "}
-				</button>
-				<button
-					className="text-contrast-color"
-					onClick={() => setPrice(3)}
-				>
-					{" "}
-					Dyrt{" "}
-				</button>
-				<button
-					className="text-contrast-color"
-					onClick={() => setPrice([1, 2, 3])}
+					className="text-contrast-color w-40 border"
+					onClick={() => setAll(true)}
 				>
 					{" "}
 					Alla{" "}
