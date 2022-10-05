@@ -15,17 +15,18 @@ const EditRestaurantPage = () => {
 	const [toggleForm, setToggleForm] = useState(false)
 
 	return (
-		<div>
+		<div className="container min-h-full max-w-full	 bg-darkish-blue text-contrast-color p-5">
 			<h1>Edit Restarurant Page</h1>
 
 			<p>Inloggad användare: {currentUser.email}</p>
 
-			<button onClick={() => setToggleForm(!toggleForm)}>Show edit hak form</button>
+			{/* <button onClick={() => setToggleForm(!toggleForm)}>Show edit hak form</button> */}
 
-			{toggleForm && <AddRestaurantForm
-				col={collection}
+			{/* {toggleForm && */}
+			<AddRestaurantForm
+				col={'restaurants'}
 				exData={data}
-			/>}
+			/>
 
 			<DeleteRestaurantButton col={collection} id={id} />
 		</div>
