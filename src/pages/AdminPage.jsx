@@ -72,7 +72,7 @@ const AdminPage = () => {
 	}, []);
 
 	return (
-		<div className="container min-h-full max-w-full	 bg-darkish-blue text-contrast-color p-5">
+		<div className="container min-h-screen max-w-full	 bg-darkish-blue text-contrast-color p-5">
 			<div className="flex flex-col sm:flex-row justify-between py-3 ">
 				<h1 className="font-medium text-3xl p-3">Admins krypin</h1>
 
