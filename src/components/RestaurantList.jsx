@@ -9,7 +9,6 @@ import { useFirestoreQueryData } from "@react-query-firebase/firestore"
 
 const RestaurantList = () => {
 	const [infoCard, setInfoCard] = useState()
-
 	const [vego, setVego] = useState(false)
 	const [price, setPrice] = useState(false)
 	const [showAll, setShowAll] = useState(true)
@@ -23,23 +22,20 @@ const RestaurantList = () => {
 		"text-contrast-color w-40 border"
 	)
 
-	let queryRef
+	const collRef = collection(db, "restaurants")
+
+	let queryRef = collRef
 
 	if (vego) {
-		queryRef = query(
-			collection(db, "restaurants"),
-			where("vego" === vego)
-		)
+		queryRef = query(collRef, where("vego", "==", vego))
 	}
+
 	if (price) {
-		queryRef = query(
-			collection(db, "restaurants"),
-			where("price" === price)
-		)
+		queryRef = query(collRef, where("price", "==", price))
 	}
 
 	if (showAll) {
-		queryRef = query(collection(db, "restaurants"))
+		queryRef = collRef
 	}
 
 	const {
@@ -47,12 +43,8 @@ const RestaurantList = () => {
 		isLoading,
 		error,
 	} = useFirestoreQueryData(
-		["restaurants"],
+		["restaurants", { vego, price }],
 		queryRef
-		// {
-		// 	// 	idField: 'id',
-		// 	subscribe: true,
-		// }
 	)
 
 	const toggleCard = (res) => {
@@ -64,27 +56,52 @@ const RestaurantList = () => {
 		<div className="flex flex-col">
 			<div>
 				<button
-					className="text-contrast-color w-40 border"
-					onClick={() => setVego(true)}
+					className={
+						vego
+							? "text-contrast-color w-40 border bg-gray-500 "
+							: "text-contrast-color w-40 border "
+					}
+					onClick={() => {
+						setVego(!vego)
+						setShowAll(false)
+						setToggleClassNameVego(
+							vego
+								? "text-contrast-color w-40 border bg-gray-500"
+								: "text-contrast-color w-40 border "
+						)
+					}}
 				>
 					{" "}
 					Vegetariskt{" "}
 				</button>
-			</div>
-			<div>
 				<button
-					className="text-contrast-color w-40 border"
-					onClick={
-						(() => setPrice(true), setShowAll(false))
+					className={
+						price
+							? "text-contrast-color w-40 border bg-gray-500 "
+							: "text-contrast-color w-40 border "
 					}
+					onClick={() => {
+						setPrice(!price)
+						setShowAll(false)
+						setToggleClassNamePrice()
+					}}
 				>
 					{" "}
 					Billigt{" "}
 				</button>
-
+			</div>
+			<div>
 				<button
-					className="text-contrast-color w-40 border"
-					onClick={() => setShowAll(true)}
+					className={
+						showAll
+							? "text-contrast-color w-40 border bg-gray-500"
+							: "text-contrast-color w-40 border "
+					}
+					onClick={() => {
+						setShowAll(true)
+						setVego(false)
+						setPrice(false)
+					}}
 				>
 					{" "}
 					Alla{" "}
