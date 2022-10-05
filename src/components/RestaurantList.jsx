@@ -9,9 +9,19 @@ import { useFirestoreQueryData } from "@react-query-firebase/firestore"
 
 const RestaurantList = () => {
 	const [infoCard, setInfoCard] = useState()
+
 	const [vego, setVego] = useState(false)
 	const [price, setPrice] = useState(false)
-	const [all, setAll] = useState(true)
+	const [showAll, setShowAll] = useState(true)
+	const [toggleClassNameAll, setToggleClassNameAll] = useState(
+		"text-contrast-color w-40 border"
+	)
+	const [toggleClassNamePrice, setToggleClassNamePrice] = useState(
+		"text-contrast-color w-40 border"
+	)
+	const [toggleClassNameVego, setToggleClassNameVego] = useState(
+		"text-contrast-color w-40 border"
+	)
 
 	let queryRef
 
@@ -28,7 +38,7 @@ const RestaurantList = () => {
 		)
 	}
 
-	if (all) {
+	if (showAll) {
 		queryRef = query(collection(db, "restaurants"))
 	}
 
@@ -64,7 +74,9 @@ const RestaurantList = () => {
 			<div>
 				<button
 					className="text-contrast-color w-40 border"
-					onClick={() => setPrice(true)}
+					onClick={
+						(() => setPrice(true), setShowAll(false))
+					}
 				>
 					{" "}
 					Billigt{" "}
@@ -72,7 +84,7 @@ const RestaurantList = () => {
 
 				<button
 					className="text-contrast-color w-40 border"
-					onClick={() => setAll(true)}
+					onClick={() => setShowAll(true)}
 				>
 					{" "}
 					Alla{" "}
