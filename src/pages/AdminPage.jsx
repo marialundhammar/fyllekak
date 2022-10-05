@@ -19,9 +19,12 @@ const AdminPage = () => {
 		isError: userTipsIsError,
 		isLoading: userTipsIsLoading,
 	} = useRestaurants('usertips')
-	const admins = useRestaurants('admin')
-
-	console.log("admins ==>", admins)
+	const {
+		data: admins,
+		error: adminsError,
+		isError: adminsIsError,
+		isLoading: adminsIsLoading
+	} = useRestaurants('admin')
 
 	const [toggleForm, setToggleForm] = useState(false);
 
@@ -74,6 +77,23 @@ const AdminPage = () => {
 		];
 	}, []);
 
+	const adminColumn = useMemo(() => {
+		return [
+			{
+				Header: 'Identifier',
+				accessor: 'identifier'
+			},
+			{
+				Header: 'Img',
+				accessor: 'img-path'
+			},
+			{
+				Header: 'Uid',
+				accessor: 'uid'
+			}
+		]
+	}, [])
+
 	return (
 		<div>
 			<h1>Admin Page</h1>
@@ -103,6 +123,14 @@ const AdminPage = () => {
 			{userTipsIsError && <p>Error! {userTipsError.message}</p>}
 
 			{userTips && <Table collection={'usertips'} columns={columns} data={userTips} />}
+
+			<h1 className="py-8 px-4 text-3xl">Lista över admins</h1>
+
+			{adminsIsLoading && <p>Loading...</p>}
+
+			{adminsIsError && <p>Error! {adminsError.message}</p>}
+
+			{admins && <Table collection={'admin'} columns={adminColumn} data={admins} />}
 		</div>
 	);
 };
