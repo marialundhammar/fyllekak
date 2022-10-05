@@ -1,10 +1,10 @@
 import React from "react"
 import RestaurantList from "./RestaurantList"
 
-const SideBar = () => {
+const SideBar = ({ restaurants }) => {
 	return (
 		<div className="flex flex-col">
-			<RestaurantList />
+			<RestaurantList restaurants={restaurants} />
 		</div>
 	)
 }

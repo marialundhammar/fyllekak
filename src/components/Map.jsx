@@ -10,10 +10,11 @@ import useRestaurants from "../hooks/useRestaurants"
 import googleMapsStyle from "../googleMapsStyle"
 import SearchBar from "../components/SearchBar"
 
-const Map = ({ location, data }) => {
+const Map = ({ location, restaurants }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
-	const restaurants = useRestaurants("restaurants")
 	const [selectedMarker, setSelectedMarker] = useState(null)
+
+	console.log(restaurants)
 
 	const containerStyle = {
 		width: "100vw",
@@ -68,7 +69,7 @@ const Map = ({ location, data }) => {
 						zoom={15}
 						options={{ styles: mapStyle }}
 					>
-						{restaurants.data.map((restaurant) => (
+						{restaurants.map((restaurant) => (
 							<MarkerF
 								position={restaurant.coords}
 								label={{
