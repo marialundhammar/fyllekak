@@ -1,26 +1,27 @@
-import React, { useEffect } from "react"
-import Map from "../components/Map"
+import { useEffect, useState } from "react"
 import useRestaurants from "../hooks/useRestaurants"
 
-import { useState } from "react"
+import Map from "../components/Map"
+import RestaurantList from "../components/RestaurantList"
+
 import { getCoords } from "../services/MapsAPI"
 import Sidebar from "../components/Sidebar"
 
 const HomePage = () => {
-	const [vego, setVego] = useState(false)
-	const [price, setPrice] = useState(false)
-	const [showAll, setShowAll] = useState(false)
+	// const [vego, setVego] = useState(false)
+	// const [price, setPrice] = useState(false)
+	// const [showAll, setShowAll] = useState(false)
 	const [query, setQuery] = useState(null)
 	const [filteredRestaurants, setFilteredRestaurants] = useState([])
-	const [toggleClassNameAll, setToggleClassNameAll] = useState(
-		"text-contrast-color w-40 border"
-	)
-	const [toggleClassNamePrice, setToggleClassNamePrice] = useState(
-		"text-contrast-color w-40 border"
-	)
-	const [toggleClassNameVego, setToggleClassNameVego] = useState(
-		"text-contrast-color w-40 border"
-	)
+	// const [toggleClassNameAll, setToggleClassNameAll] = useState(
+	// 	"text-contrast-color w-40 border"
+	// )
+	// const [toggleClassNamePrice, setToggleClassNamePrice] = useState(
+	// 	"text-contrast-color w-40 border"
+	// )
+	// const [toggleClassNameVego, setToggleClassNameVego] = useState(
+	// 	"text-contrast-color w-40 border"
+	// )
 
 	const { data: restaurants, isLoading } = useRestaurants(
 		"restaurants"
@@ -67,64 +68,50 @@ const HomePage = () => {
 	return (
 		filteredRestaurants && (
 			<>
-				<div className="flex flex-column md:flex-row bg-darkish-blue text-contrast-color">
-					<div>
+				<div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
+					<div className="w-full sm:w-1/4 p-2">
 						<div>
-							<div className="ui-sans-serif flex flex-row">
+							<div className="ui-sans-serif flex flex-col">
 								<button
-									className={
-										vego
-											? "text-contrast-color w-40 border bg-gray-500 "
-											: "text-contrast-color w-40 border "
-									}
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
-										handleFilter("vego")
+										query !== "vego"
+											? handleFilter("vego") && setQuery("vego")
+											: handleFilter('') && setQuery(null)
 									}}
-								>
-									{" "}
-									Vegetariskt{" "}
-								</button>
-								<button
-									className={
-										price
-											? "text-contrast-color w-40 border bg-gray-500 "
-											: "text-contrast-color w-40 border "
-									}
-									onClick={() => {
-										handleFilter("price")
-										setToggleClassNamePrice()
-									}}
-								>
-									{" "}
-									Billigt{" "}
-								</button>
-							</div>
+								>Vegetariskt</button>
 
-							<div>
 								<button
-									className={
-										showAll
-											? "text-contrast-color w-40 border bg-gray-500"
-											: "text-contrast-color w-40 border "
-									}
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
-										handleFilter("all")
+										query !== "price"
+											? handleFilter("price") && setQuery("price")
+											: handleFilter('') && setQuery(null)
 									}}
-								>
-									{" "}
-									Alla{" "}
-								</button>
+								>Billigt</button>
+
+								<button
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+									onClick={() => {
+										query !== "all"
+											? handleFilter("all") && setQuery("all")
+											: handleFilter('') && setQuery(null)
+									}}
+								>Alla</button>
 							</div>
 						</div>
 
-						<div>
-							<Sidebar
+						<div className="my-2">
+							{/* <Sidebar
 								restaurants={filteredRestaurants}
-							/>
+							/> */}
+							<RestaurantList restaurants={filteredRestaurants} />
+
 						</div>
 					</div>
 
 					<Map
+						className="w-full sm:w-3/4 h-full"
 						location={location}
 						restaurants={filteredRestaurants}
 					/>

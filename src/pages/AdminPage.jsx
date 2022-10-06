@@ -83,9 +83,10 @@ const AdminPage = () => {
 			</div>
 
 			<button
-				className={toggleForm
-					? "p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark"
-					: "p-2 m-3 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+				className={
+					toggleForm
+						? "p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark"
+						: "p-2 m-3 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 				}
 				onClick={() => setToggleForm(!toggleForm)}>
 				Lägg till hak

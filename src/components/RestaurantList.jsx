@@ -15,21 +15,13 @@ const RestaurantList = ({ restaurants }) => {
 				{restaurants &&
 					restaurants.map((res) => (
 						<div
-							className="border border-contrast-color flex justify-between"
+							className="my-1 border border-contrast-color rounded bg-nav flex justify-between hover:text-contrast-color-dark hover:bg-darkish-blue"
 							key={res.id}
+							onClick={() => toggleCard(res)}
 						>
 							<li
 								className="p-2"
-								onClick={() => toggleCard(res)}
-							>
-								{res.name}
-							</li>
-							<a
-								className="p-2 text-blue-900"
-								href={res.website}
-							>
-								Website
-							</a>
+							>{res.name}</li>
 						</div>
 					))}
 			</ul>
