@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom"
 import { useAuthContext } from "../../contexts/AuthContext"
 
 const Navigation = () => {
-	const { currentUser } = useAuthContext()
+	const { currentUser, userPhotoUrl, userEmail } = useAuthContext()
 
 	return (
 		<nav className="bg-nav text-contrast-color flex flex-col text-center sm:flex-row sm:text-left sm:justify-between py-4 px-6 sm:items-baseline w-full">
@@ -11,14 +11,18 @@ const Navigation = () => {
 				<a
 					href="/"
 					className="text-2xl no-underline text-grey-darkest hover:text-contrast-color-dark"
-				>
-					{" "}
-					🥴 FYLLEKÄK
-				</a>
+				>🥴 FYLLEKÄK</a>
 			</div>
-			<div>
+			<div className="flex flex-row items-center">
 				{currentUser ? (
 					<>
+						{userPhotoUrl && (
+							userPhotoUrl
+								? <div className="object-contain w-8 h-8" >
+									<img src={userPhotoUrl} />
+								</div>
+								: userEmail
+						)}
 						<NavLink
 							to="/admin"
 							className="
@@ -28,10 +32,17 @@ const Navigation = () => {
 									hover:text-blue-dark 
 									ml-2 
 									p-4
-							"
-						>
-							Admin
-						</NavLink>
+						">Admin</NavLink>
+						<NavLink
+							to="/update-profile"
+							className="
+									text-lg 
+									no-underline 
+									text-grey-darkest 
+									hover:text-blue-dark 
+									ml-2 
+									p-4
+						">Uppdatera profil</NavLink>
 						<NavLink
 							to="/logout"
 							className="
@@ -41,10 +52,7 @@ const Navigation = () => {
 									hover:text-blue-dark 
 									ml-2 
 									p-4
-							"
-						>
-							Log out
-						</NavLink>
+						">Log out</NavLink>
 					</>
 				) : (
 					<>
@@ -57,14 +65,12 @@ const Navigation = () => {
 						<NavLink
 							to="/usertips"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
-						>
-							User tips
+						>User tips
 						</NavLink>
 						<NavLink
 							to="/login"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
-						>
-							Login
+						>Login
 						</NavLink>
 					</>
 				)}

@@ -14,7 +14,10 @@ const DeleteRestaurantButton = ({ col, id }) => {
 	}
 
 	return (
-		<button className="p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark" onClick={deleteRestaurant}>Delete</button>
+		<button
+			className="p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark"
+			onClick={deleteRestaurant}
+		>Delete</button>
 	)
 }
 

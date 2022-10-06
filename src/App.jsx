@@ -10,7 +10,7 @@ import LogoutPage from "./pages/LogoutPage"
 import UserTipsPage from "./pages/UserTipsPage"
 import EditRestaurantPage from "./pages/EditRestaurantPage"
 import Navigation from "./pages/partials/Navigation"
-import UpdatdeProfilePage from "./pages/UpdateProfilePage"
+import UpdateProfilePage from "./pages/UpdateProfilePage"
 import RequireAuth from "./components/RequireAuth"
 
 import "./assets/App.css"
@@ -53,7 +53,7 @@ function App() {
 					path="/update-profile"
 					element={
 						<RequireAuth>
-							<UpdatdeProfilePage />
+							<UpdateProfilePage />
 						</RequireAuth>
 					}
 				/>

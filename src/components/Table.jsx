@@ -3,6 +3,9 @@ import { Link, Navigate } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+import { doc, deleteDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+
 
 const Table = ({ collection, columns, data }) => {
 	const navigate = useNavigate()
@@ -18,6 +21,14 @@ const Table = ({ collection, columns, data }) => {
 	const handleRowClick = (collection, row) => {
 		navigate(`/edit/${collection}/${row.original.id}`)
 	}
+
+	// const deleteRestaurant = async (id) => {
+	// 	console.log(id)
+	// 	const ref = doc(db, collection, id)
+	// 	// await deleteDoc(ref)
+
+	// 	navigate('/admin')
+	// }
 
 	return (
 		<table className="w-4/5 bg-darkish-blue">
@@ -41,7 +52,7 @@ const Table = ({ collection, columns, data }) => {
 								</span>
 							</th>
 						))}
-						<th className="text-center border border-yellow-600 w-[10%] bg-yellow-400">Ta bort</th>
+						{/* <th className="text-center border border-contrast-color bg-contrast-color"></th> */}
 					</tr>
 				))}
 			</thead>
@@ -49,18 +60,40 @@ const Table = ({ collection, columns, data }) => {
 			<tbody {...getTableBodyProps()}>
 				{rows.map((row) => {
 					prepareRow(row)
+					console.log(columns)
+
 
 					return (
 						<tr {...row.getRowProps()}
-							onClick={() => handleRowClick(collection, row)}
-						>
-							{row.cells.map((cell) => (
-								<td {...cell.getCellProps()} className="text-center border border-contrast-color w-[10%] px-2"
-								>
-									{cell.render("Cell")}
-								</td>
-							))}
-							<td className="text-center border border-yellow-600 w-[10%] px-2">❌</td>
+							onClick={() => {
+								if (collection != 'admin') {
+									handleRowClick(collection, row)
+								}
+							}}
+							className={
+								collection != 'admin'
+									? "hover:text-contrast-color-dark cursor-pointer"
+									: ""
+							}>
+							{row.cells.map((cell) => {
+								console.log(cell.column.Header)
+
+								return (
+									cell.column.Header == "Profilbild"
+										? <td {...cell.getCellProps()} className="text-center border border-contrast-color w-1/6">
+											<div className="w-20 h-20 flex justify-center items-center">
+												<img
+													src={cell.row.original.img}
+													alt='Profilbild'
+												/>
+											</div>
+										</td>
+										: < td {...cell.getCellProps()} className="text-center border border-contrast-color p-2 w-1/6" >
+											{cell.render("Cell")}
+										</td>
+								)
+							})}
+							{/* <td className="text-center border border-contrast-color w-[10%] px-2" onClick={deleteRestaurant}>❌</td> */}
 						</tr>
 					);
 				})}
@@ -70,3 +103,4 @@ const Table = ({ collection, columns, data }) => {
 };
 
 export default Table;
+

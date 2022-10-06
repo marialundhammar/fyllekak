@@ -50,59 +50,30 @@ const AdminPage = () => {
 				Header: "Description",
 				accessor: "description",
 			},
-			{
-				Header: "Website",
-				accessor: "website",
-			},
-			{
-				Header: "Phone",
-				accessor: "phone",
-			},
-			{
-				Header: "Email",
-				accessor: "email",
-			},
-			{
-				Header: "Facebook",
-				accessor: "facebook",
-			},
-			{
-				Header: "Instagram",
-				accessor: "instagram",
-			},
-			{
-				Header: "Vego",
-				accessor: "vego",
-			},
 		];
 	}, []);
 
 	const adminColumn = useMemo(() => {
 		return [
 			{
-				Header: 'Identifier',
-				accessor: 'identifier'
+				Header: 'Namn',
+				accessor: 'name'
 			},
 			{
-				Header: 'Img',
-				accessor: 'img-path'
+				Header: 'Email',
+				accessor: 'email'
 			},
 			{
-				Header: 'Uid',
-				accessor: 'uid'
+				Header: 'Profilbild',
+				accessor: 'img',
 			}
 		]
 	}, [])
 
 	return (
-		<div className="container min-h-screen max-w-full	 bg-darkish-blue text-contrast-color p-5">
+		<div className="container min-h-screen max-w-full bg-darkish-blue text-contrast-color p-5">
 			<div className="flex flex-col sm:flex-row justify-between py-3 ">
 				<h1 className="font-medium text-3xl p-3">Admins krypin</h1>
-
-				<div className="p-3">
-					<p className="py-1">Inloggad användare:</p>
-					<p className="py-1 italic">{currentUser.email}</p>
-				</div>
 			</div>
 
 			<button
@@ -119,42 +90,42 @@ const AdminPage = () => {
 				col={"restaurants"}
 			/>}
 
-			<div className="p-3">
-				<h2 className="text-2xl">Lista på Restauranger</h2>
+			<div className="flex flex-col overflow-x-auto p-3">
+				<div className="my-3 flex-shrink-0">
+					<h2 className="text-2xl my-2">Restauranger</h2>
+					{restaurantIsLoading && <p className="py-5 italic text-2xl">Loading...</p>}
 
-				{restaurantIsLoading && <p className="py-5 italic text-2xl">Loading...</p>}
+					{restaurantIsError && <p className="py-5 text-2xl">Error! {restaurantError.message}</p>}
 
-				{restaurantIsError && <p className="py-5 text-2xl">Error! {restaurantError.message}</p>}
+					{restaurants &&
+						<Table
+							collection={'restaurants'}
+							columns={columns}
+							data={restaurants} />
+					}
 
-				{restaurants &&
-					<Table
-						collection={'restaurants'}
-						columns={columns}
-						data={restaurants} />
-				}
-			</div>
-			<div className="p-3">
-				<h2 className="text-2xl">Lista på Användar tips</h2>
+				</div>
+				<div className="my-3 flex-shrink-0">
+					<h2 className="text-2xl my-2">Användartips</h2>
 
-				{userTipsIsLoading &&
-					<p className="py-5 italic text-2xl">Loading...</p>
-				}
+					{userTipsIsLoading && <p className="py-5 italic text-2xl">Loading...</p>}
 
-				{userTipsIsError &&
-					<p className="py-5 text-2xl">Error! {userTipsError.message}</p>
-				}
+					{userTipsIsError && <p className="py-5 text-2xl">Error! {userTipsError.message}</p>}
 
-				{userTipsIsError && <p>Error! {userTipsError.message}</p>}
+					{userTipsIsError && <p>Error! {userTipsError.message}</p>}
 
-				{userTips && <Table collection={'usertips'} columns={columns} data={userTips} />}
+					{userTips && <Table collection={'usertips'} columns={columns} data={userTips} />}
+				</div>
 
-				<h1 className="py-8 px-4 text-3xl">Lista över admins</h1>
+				<div className="my-3 flex-shrink-0">
+					<h2 className="text-2xl my-2">Admins</h2>
 
-				{adminsIsLoading && <p>Loading...</p>}
+					{adminsIsLoading && <p className="py-5 italic text-2xl">Loading...</p>}
 
-				{adminsIsError && <p>Error! {adminsError.message}</p>}
+					{adminsIsError && <p>Error! {adminsError.message}</p>}
 
-				{admins && <Table collection={'admin'} columns={adminColumn} data={admins} />}
+					{admins && <Table collection={'admin'} columns={adminColumn} data={admins} />}
+				</div>
 			</div>
 		</div>
 	)

@@ -1,11 +1,13 @@
 import { useRef, useState } from 'react'
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
+import { doc, addDoc, collection, updateDoc } from "firebase/firestore"
+import { db } from "../firebase"
 
 import { useAuthContext } from '../contexts/AuthContext'
 
-const UpdatdeProfilePage = () => {
+const UpdateProfilePage = () => {
 	const emailRef = useRef()
-	const photoRef = useRef()
+	const nameRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
 	const [photo, setPhoto] = useState(null)
@@ -31,10 +33,7 @@ const UpdatdeProfilePage = () => {
 		setPhoto(e.target.files[0])
 	}
 
-	const onSubmit = async (e) => {
-		console.log(emailRef)
-		// e.preventDefault()
-
+	const onSubmit = async (formData) => {
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
 			return setError("")
 		}
@@ -42,74 +41,85 @@ const UpdatdeProfilePage = () => {
 		setError(null)
 
 		try {
-			console.log("inne i try")
 			setLoading(true)
-
 			if (photo) {
 				console.log(photo)
 				await setProfilePicture(photo)
 			}
-
-
-			console.log("mellan photo och email")
-
 			if (emailRef.current.value !== currentUser.email) {
 				await setEmail(emailRef.current.value)
 			}
-
-			console.log("efter if-sats emailRef")
-
-			console.log(passwordRef)
-
 			if (passwordRef.current.value) {
 				await setPassword(passwordRef.current.value)
 			}
-
-			console.log("efter if-sats passwordRef")
-
-
 			await reloadUser()
 			setLoading(false)
-
 		} catch (e) {
 			setError(e.message)
 			setLoading(false)
 		}
+
+		await updateDoc(doc(db, 'admin',), {
+			name: formData.name,
+			email: formData.email,
+		})
+
 	}
+
 
 	return (
 		<>
-			<h1>Update Profile Page</h1>
-
-			<p>Inloggad användare: {currentUser.email}</p>
-
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>
-					<img src={currentUser.photoURL} />
-					<input id="photo-upload" type="file" onChange={handleFileChange} />
+			<div className="bg-darkish-blue text-contrast-color h-screen flex flex-col items-center">
+				<div className="flex flex-col sm:flex-row justify-between py-3">
+					<h1 className="font-medium text-3xl p-3">Uppdatera profil</h1>
 				</div>
 
-				<input
-					type="email"
-					// name="email"
-					placeholder="Email"
-					// {...rest}
-					ref={emailRef}
-				/>
-				<input
-					type="password"
-					placeholder="Nytt lösenord"
-					ref={passwordRef}
-				/>
-				<input
-					type="password"
-					placeholder="Bekräfta lösenord"
-					ref={passwordConfirmRef}
-				/>
-				<input type="submit" />
-			</form>
+				<form onSubmit={handleSubmit(onSubmit)}>
+					<div className="my-3 flex flex-col items-center">
+						<div className="w-20 h-20">
+							<img src={currentUser.photoURL} />
+						</div>
+						<input
+							type="file"
+							id="photo-upload"
+							onChange={handleFileChange}
+							{...register("img")}
+						/>
+					</div>
+
+					<div className="my-3 flex flex-col">
+						<input
+							className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+							type="text"
+							placeholder="Namn"
+							{...register("name")}
+							ref={nameRef}
+						/>
+						<input
+							className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+							type="email"
+							placeholder="Email"
+							{...register("email")}
+							ref={emailRef}
+						/>
+						<input
+							className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+							type="password"
+							placeholder="Nytt lösenord"
+							ref={passwordRef}
+						/>
+						<input
+							className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+							type="password"
+							placeholder="Bekräfta lösenord"
+							ref={passwordConfirmRef}
+						/>
+						<input className="p-2 my-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark" type="submit" />
+					</div>
+				</form>
+			</div>
 		</>
 	)
 }
 
-export default UpdatdeProfilePage
+export default UpdateProfilePage
