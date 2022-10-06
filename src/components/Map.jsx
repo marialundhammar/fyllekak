@@ -14,10 +14,8 @@ const Map = ({ location, restaurants }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 	const [selectedMarker, setSelectedMarker] = useState(null)
 
-	console.log(restaurants)
-
 	const containerStyle = {
-		width: "100vw",
+		width: "80vw",
 		height: "100vh",
 	}
 	const [mapCenter, setMapCenter] = useState({
@@ -25,12 +23,14 @@ const Map = ({ location, restaurants }) => {
 		lng: 12.997431424230891,
 	})
 
+	const libraries = ["places"]
+
 	const mapStyle = googleMapsStyle
 
 	const { isLoaded } = useJsApiLoader({
 		id: "google-map-script",
 		googleMapsApiKey: `${googleAPI}`,
-		libraries: ["places"],
+		libraries,
 	})
 
 	const gMaps = isLoaded ? window.google.maps : {}
@@ -60,44 +60,42 @@ const Map = ({ location, restaurants }) => {
 		isLoaded &&
 		restaurants && (
 			<>
-				<div className="flex flex-col lg:flex-row">
-					<SearchBar setMapCenter={setMapCenter} />
+				<SearchBar setMapCenter={setMapCenter} />
 
-					<GoogleMap
-						mapContainerStyle={containerStyle}
-						center={mapCenter}
-						zoom={15}
-						options={{ styles: mapStyle }}
-					>
-						{restaurants.map((restaurant) => (
-							<MarkerF
-								position={restaurant.coords}
-								label={{
-									text: restaurant.name,
-									className: "labelStyle",
-								}}
-								onClick={() => {
-									setSelectedMarker(restaurant)
-								}}
-								key={restaurant.id}
-								icon={iconRestaurant}
-							/>
-						))}
+				<GoogleMap
+					mapContainerStyle={containerStyle}
+					center={mapCenter}
+					zoom={15}
+					options={{ styles: mapStyle }}
+				>
+					{restaurants.map((restaurant) => (
 						<MarkerF
-							icon={iconUser}
-							position={location}
-							animation={1}
+							position={restaurant.coords}
+							label={{
+								text: restaurant.name,
+								className: "labelStyle",
+							}}
+							onClick={() => {
+								setSelectedMarker(restaurant)
+							}}
+							key={restaurant.id}
+							icon={iconRestaurant}
 						/>
-					</GoogleMap>
+					))}
+					<MarkerF
+						icon={iconUser}
+						position={location}
+						animation={1}
+					/>
+				</GoogleMap>
 
-					<div>
-						{selectedMarker && (
-							<RestaurantInfoCard
-								key={selectedMarker.id}
-								restaurant={selectedMarker}
-							/>
-						)}
-					</div>
+				<div>
+					{selectedMarker && (
+						<RestaurantInfoCard
+							key={selectedMarker.id}
+							restaurant={selectedMarker}
+						/>
+					)}
 				</div>
 			</>
 		)

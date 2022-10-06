@@ -67,64 +67,67 @@ const HomePage = () => {
 	return (
 		filteredRestaurants && (
 			<>
-				<div>
-					<div className="ui-sans-serif bg-darkish-blue flex flex-row">
-						<button
-							className={
-								vego
-									? "text-contrast-color w-40 border bg-gray-500 "
-									: "text-contrast-color w-40 border "
-							}
-							onClick={() => {
-								handleFilter("vego")
-								setToggleClassNameVego(
-									vego
-										? "text-contrast-color w-40 border bg-gray-500"
-										: "text-contrast-color w-40 border "
-								)
-							}}
-						>
-							{" "}
-							Vegetariskt{" "}
-						</button>
-						<button
-							className={
-								price
-									? "text-contrast-color w-40 border bg-gray-500 "
-									: "text-contrast-color w-40 border "
-							}
-							onClick={() => {
-								handleFilter("price")
-								setToggleClassNamePrice()
-							}}
-						>
-							{" "}
-							Billigt{" "}
-						</button>
-					</div>
-
+				<div className="flex flex-column md:flex-row bg-darkish-blue text-contrast-color">
 					<div>
-						<button
-							className={
-								showAll
-									? "text-contrast-color w-40 border bg-gray-500"
-									: "text-contrast-color w-40 border "
-							}
-							onClick={() => {
-								handleFilter("all")
-							}}
-						>
-							{" "}
-							Alla{" "}
-						</button>
+						<div>
+							<div className="ui-sans-serif flex flex-row">
+								<button
+									className={
+										vego
+											? "text-contrast-color w-40 border bg-gray-500 "
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("vego")
+									}}
+								>
+									{" "}
+									Vegetariskt{" "}
+								</button>
+								<button
+									className={
+										price
+											? "text-contrast-color w-40 border bg-gray-500 "
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("price")
+										setToggleClassNamePrice()
+									}}
+								>
+									{" "}
+									Billigt{" "}
+								</button>
+							</div>
+
+							<div>
+								<button
+									className={
+										showAll
+											? "text-contrast-color w-40 border bg-gray-500"
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("all")
+									}}
+								>
+									{" "}
+									Alla{" "}
+								</button>
+							</div>
+						</div>
+
+						<div>
+							<Sidebar
+								restaurants={filteredRestaurants}
+							/>
+						</div>
 					</div>
 
 					<Map
 						location={location}
 						restaurants={filteredRestaurants}
 					/>
-
-					<Sidebar restaurants={filteredRestaurants} />
 				</div>
 			</>
 		)

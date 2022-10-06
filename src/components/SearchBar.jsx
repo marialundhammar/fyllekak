@@ -35,7 +35,6 @@ const SearchBarTest = ({ setMapCenter }) => {
 
 	return (
 		<Combobox onSelect={handleSelect}>
-			w
 			<ComboboxInput
 				value={value}
 				onChange={(e) => {
