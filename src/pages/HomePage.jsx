@@ -50,6 +50,7 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if (isLoading) return
+
 		if (searchParams.get("filter")) {
 			handleFilter(searchParams.get("filter"))
 		}

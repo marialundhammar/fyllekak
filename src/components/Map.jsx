@@ -22,7 +22,7 @@ const Map = ({ location, restaurants }) => {
 		lng: 12.997431424230891,
 	})
 
-	const libraries = ["places"]
+	const [libraries] = useState(["places"])
 
 	const mapStyle = googleMapsStyle
 

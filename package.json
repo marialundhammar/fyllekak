@@ -9,7 +9,7 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
-		"@reach/combobox": "^0.17.0",
+		"@reach/combobox": "^0.15.0",
 		"@react-google-maps/api": "^2.12.2",
 		"@react-query-firebase/firestore": "^1.0.0-dev.7",
 		"axios": "^0.27.2",
