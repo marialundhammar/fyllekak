@@ -15,25 +15,33 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 		<>
 			{lat && lng && <PopUp lat={lat} lng={lng} />}
 
-			<div className="p-4 w-400 bg-darkish-blue text-slate-400">
-				<div className="flex flex-row">
-					<h1 className="text-3xl text-contrast-color">
-						{restaurant.name}
-					</h1>
-					{restaurant.vego && (
-						<p className="m-3">VEGO FRIENDLY!</p>
-					)}
+			<div className="p-2 w-400 bg-darkish-blue text-slate-400">
+
+				<div className="flex flex-row sm:flex-col justify-between items-center sm:items-start">
+					<h1
+						className="text-3xl sm:text-xl text-contrast-color"
+					>{restaurant.name}</h1>
+
+					{restaurant.vego && (<p
+						className="italic my-2 sm:text-md"
+					>VEGO FRIENDLY!</p>)}
 				</div>
-				<div className="flex flex-row">
-					<p className="my-3">
-						Address: {restaurant.street}{" "}
-						{restaurant.number}, {restaurant.city}
-					</p>
+
+				<div className="my-2 flex flex-row sm:flex-col justify-between items-center sm:items-start">
+					<div className="sm:my-2">
+						<p className="">
+							{restaurant.street}
+							<span className="mx-2">{restaurant.number}</span>
+						</p>
+						<p className="">
+							{restaurant.city}
+						</p>
+					</div>
 
 					<div
 						type="button"
 						data-modal-toggle="new-window-modal"
-						className="shadow-lg rounded-md bg-emerald-100 flex justify-center w-40 h-8 my-2 p-1 text-stone-900"
+						className="rounded-md bg-contrast-color flex justify-center w-40 sm:w-full h-full p-2 text-darkish-blue hover:bg-contrast-color-dark"
 						onClick={() => {
 							getDirection()
 						}}
@@ -42,12 +50,12 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 					</div>
 				</div>
 
-				<div className="flex flex-row my-4">
+				<div className="flex flex-row my-4 items-center">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						viewBox="0 0 24 24"
 						fill="currentColor"
-						className="w-6 h-6"
+						className="w-6 h-6 m-2"
 					>
 						<path
 							fillRule="evenodd"
@@ -55,13 +63,13 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 							clipRule="evenodd"
 						/>
 					</svg>
-					{restaurant.phone}
+					<p>{restaurant.phone}</p>
 				</div>
 
-				<div className="my-2 ">
+				<div className="my-3">
 					{restaurant.description && (
 						<div>
-							<div className="border rounded-md h-20 bg-slate-100 text-stone-900">
+							<div className="rounded-md bg-nav p-3 text-slate-400">
 								<p className="italic">
 									{restaurant.description}
 								</p>
@@ -69,20 +77,20 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 						</div>
 					)}
 				</div>
-				<div className="flex flex-row">
+				<div className="flex flex-row flex-wrap my-3">
 					{restaurant.facebook && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900 ">
+						<div className="rounded p-2 m-1 sm:my-1 bg-emerald-300 text-stone-900 sm:w-full">
 							<a href={restaurant.facebook}>Facebook</a>
 						</div>
 					)}
-					{restaurant.webiste && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
-							<a href={restaurant.webiste}>Website</a>
+					{restaurant.website && (
+						<div className="rounded p-2 m-1 sm:my-1 bg-emerald-300 text-stone-900 sm:w-full">
+							<a href={restaurant.website}>Website</a>
 						</div>
 					)}
 
 					{restaurant.instagram && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
+						<div className="rounded p-2 m-1 sm:my-1 bg-emerald-300 text-stone-900 sm:w-full">
 							<a href={restaurant.instagram}>
 								Instagram
 							</a>
@@ -90,7 +98,7 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 					)}
 
 					{restaurant.email && (
-						<div className="shadow-lg rounded-md p-2 bg-emerald-300 text-stone-900">
+						<div className="rounded p-2 m-1 sm:my-1 bg-emerald-300 text-stone-900 sm:w-full">
 							<a href={restaurant.email}>Email</a>
 						</div>
 					)}

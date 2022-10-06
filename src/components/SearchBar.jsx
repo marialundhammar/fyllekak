@@ -36,7 +36,9 @@ const SearchBarTest = ({ setMapCenter }) => {
 	return (
 		<Combobox onSelect={handleSelect}>
 			<ComboboxInput
+				className="text-darkish-blue rounded p-1 w-full"
 				value={value}
+				placeholder="Sök ort"
 				onChange={(e) => {
 					setValue(e.target.value)
 				}}

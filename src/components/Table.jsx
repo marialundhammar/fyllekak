@@ -20,7 +20,7 @@ const Table = ({ collection, columns, data }) => {
 	}
 
 	return (
-		<table className="w-4/5 bg-yellow-200">
+		<table className="w-4/5 bg-darkish-blue">
 			<thead>
 				{headerGroups.map((headerGroup) => (
 					<tr {...headerGroup.getHeaderGroupProps()}>
@@ -29,7 +29,7 @@ const Table = ({ collection, columns, data }) => {
 								{...column.getHeaderProps(
 									column.getSortByToggleProps()
 								)}
-								className="text-center border border-yellow-600 w-[10%] bg-yellow-400"
+								className="text-center text-darkish-blue border border-contrast-color w-[10%] bg-contrast-color"
 							>
 								{column.render("Header")}
 								<span>
@@ -55,7 +55,7 @@ const Table = ({ collection, columns, data }) => {
 							onClick={() => handleRowClick(collection, row)}
 						>
 							{row.cells.map((cell) => (
-								<td {...cell.getCellProps()} className="text-center border border-yellow-600 w-[10%] px-2"
+								<td {...cell.getCellProps()} className="text-center border border-contrast-color w-[10%] px-2"
 								>
 									{cell.render("Cell")}
 								</td>

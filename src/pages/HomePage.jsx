@@ -1,13 +1,38 @@
-import React, { useEffect } from "react"
-import Map from "../components/Map"
+import { useEffect, useState } from "react"
 import useRestaurants from "../hooks/useRestaurants"
-import { useState } from "react"
+
+import Map from "../components/Map"
+import RestaurantList from "../components/RestaurantList"
+
 import { getCoords } from "../services/MapsAPI"
-import SideBar from "../components/SideBar"
+import Sidebar from "../components/Sidebar"
+import { QueryConstraint } from "firebase/firestore"
+import { useSearchParams } from "react-router-dom"
 
 const HomePage = () => {
-	const restaurantQuery = useRestaurants("restaurants")
-	const [address, setAddress] = useState("")
+	const [query, setQuery] = useState(null)
+	const [filteredRestaurants, setFilteredRestaurants] = useState([])
+	const [searchParams, setSearchParams] = useSearchParams({
+		filter: "all",
+	})
+
+	const { data: restaurants, isLoading } = useRestaurants(
+		"restaurants"
+	)
+
+	const handleFilter = (query) => {
+		if (query === "all") {
+			setFilteredRestaurants(restaurants)
+			setSearchParams({ filter: "all" })
+			return
+		}
+
+		const filteredArray = restaurants.filter((res) => res[query])
+		setFilteredRestaurants(filteredArray)
+		setSearchParams({ filter: query })
+	}
+
+	console.log(filteredRestaurants)
 
 	const [location, setLocation] = useState({
 		lat: 55.59712105786678,
@@ -16,7 +41,6 @@ const HomePage = () => {
 
 	const getUserLocation = () => {
 		if (navigator.geolocation) {
-			console.log("yay")
 			navigator.geolocation.getCurrentPosition((position) => {
 				const userLocation = {
 					lat: position.coords.latitude,
@@ -31,22 +55,68 @@ const HomePage = () => {
 	}
 
 	useEffect(() => {
+		if (isLoading) return
+		if (searchParams.get("filter")) {
+			handleFilter(searchParams.get("filter"))
+			console.log("hiiiiii", searchParams.get("filter"))
+		}
 		getUserLocation()
-	}, [])
-
-	if (restaurantQuery.isLoading) {
-		return <div>"loading..."</div>
-	}
+	}, [query, isLoading])
 
 	return (
-		<>
-			<div className="ui-sans-serif bg-darkish-blue flex flex-row">
-				<Map
-					location={location}
-					data={restaurantQuery.data}
-				/>
-			</div>
-		</>
+		filteredRestaurants && (
+			<>
+				<div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
+					<div className="w-full sm:w-1/4 p-2">
+						<div>
+
+							<div className="ui-sans-serif flex flex-col">
+								<button
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+									onClick={() => {
+										query !== "vego"
+											? handleFilter("vego") && setQuery("vego")
+											: handleFilter('') && setQuery(null)
+									}}
+								>Vegetariskt</button>
+
+								<button
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+									onClick={() => {
+										query !== "price"
+											? handleFilter("price") && setQuery("price")
+											: handleFilter('') && setQuery(null)
+									}}
+								>Billigt</button>
+
+								<button
+									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+									onClick={() => {
+										query !== "all"
+											? handleFilter("all") && setQuery("all")
+											: handleFilter('') && setQuery(null)
+									}}
+								>Alla</button>
+							</div>
+						</div>
+
+						<div className="my-2">
+							{/* <Sidebar
+								restaurants={filteredRestaurants}
+							/> */}
+							<RestaurantList restaurants={filteredRestaurants} />
+
+						</div>
+					</div>
+
+					<Map
+						className="w-full sm:w-3/4 h-full"
+						location={location}
+						restaurants={filteredRestaurants}
+					/>
+				</div>
+			</>
+		)
 	)
 }
 
