@@ -1,13 +1,42 @@
 import React, { useEffect } from "react"
 import Map from "../components/Map"
 import useRestaurants from "../hooks/useRestaurants"
+
 import { useState } from "react"
 import { getCoords } from "../services/MapsAPI"
-import SideBar from "../components/SideBar"
+import Sidebar from "../components/Sidebar"
 
 const HomePage = () => {
-	const restaurantQuery = useRestaurants("restaurants")
-	const [address, setAddress] = useState("")
+	const [vego, setVego] = useState(false)
+	const [price, setPrice] = useState(false)
+	const [showAll, setShowAll] = useState(false)
+	const [query, setQuery] = useState(null)
+	const [filteredRestaurants, setFilteredRestaurants] = useState([])
+	const [toggleClassNameAll, setToggleClassNameAll] = useState(
+		"text-contrast-color w-40 border"
+	)
+	const [toggleClassNamePrice, setToggleClassNamePrice] = useState(
+		"text-contrast-color w-40 border"
+	)
+	const [toggleClassNameVego, setToggleClassNameVego] = useState(
+		"text-contrast-color w-40 border"
+	)
+
+	const { data: restaurants, isLoading } = useRestaurants(
+		"restaurants"
+	)
+
+	const handleFilter = (query) => {
+		if (query === "all") {
+			setFilteredRestaurants(restaurants)
+			return
+		}
+		const filteredArray = restaurants.filter((res) => res[query])
+
+		setFilteredRestaurants(filteredArray)
+	}
+
+	console.log(filteredRestaurants)
 
 	const [location, setLocation] = useState({
 		lat: 55.59712105786678,
@@ -16,7 +45,6 @@ const HomePage = () => {
 
 	const getUserLocation = () => {
 		if (navigator.geolocation) {
-			console.log("yay")
 			navigator.geolocation.getCurrentPosition((position) => {
 				const userLocation = {
 					lat: position.coords.latitude,
@@ -31,22 +59,78 @@ const HomePage = () => {
 	}
 
 	useEffect(() => {
+		if (isLoading) return
 		getUserLocation()
-	}, [])
-
-	if (restaurantQuery.isLoading) {
-		return <div>"loading..."</div>
-	}
+		setFilteredRestaurants(restaurants)
+	}, [query, isLoading])
 
 	return (
-		<>
-			<div className="ui-sans-serif bg-darkish-blue flex flex-row">
-				<Map
-					location={location}
-					data={restaurantQuery.data}
-				/>
-			</div>
-		</>
+		filteredRestaurants && (
+			<>
+				<div className="flex flex-column md:flex-row bg-darkish-blue text-contrast-color">
+					<div>
+						<div>
+							<div className="ui-sans-serif flex flex-row">
+								<button
+									className={
+										vego
+											? "text-contrast-color w-40 border bg-gray-500 "
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("vego")
+									}}
+								>
+									{" "}
+									Vegetariskt{" "}
+								</button>
+								<button
+									className={
+										price
+											? "text-contrast-color w-40 border bg-gray-500 "
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("price")
+										setToggleClassNamePrice()
+									}}
+								>
+									{" "}
+									Billigt{" "}
+								</button>
+							</div>
+
+							<div>
+								<button
+									className={
+										showAll
+											? "text-contrast-color w-40 border bg-gray-500"
+											: "text-contrast-color w-40 border "
+									}
+									onClick={() => {
+										handleFilter("all")
+									}}
+								>
+									{" "}
+									Alla{" "}
+								</button>
+							</div>
+						</div>
+
+						<div>
+							<Sidebar
+								restaurants={filteredRestaurants}
+							/>
+						</div>
+					</div>
+
+					<Map
+						location={location}
+						restaurants={filteredRestaurants}
+					/>
+				</div>
+			</>
+		)
 	)
 }
 
