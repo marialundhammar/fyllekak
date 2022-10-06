@@ -156,7 +156,8 @@ const AdminPage = () => {
 
 				{admins && <Table collection={'admin'} columns={adminColumn} data={admins} />}
 			</div>
-			);
-};
+		</div>
+	)
+}
 
-			export default AdminPage;
+export default AdminPage;
