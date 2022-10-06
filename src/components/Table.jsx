@@ -1,17 +1,10 @@
 import { useTable, useSortBy } from "react-table";
-import { Link, Navigate } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-
-import { doc, deleteDoc } from 'firebase/firestore'
-import { db } from '../firebase'
-
 
 const Table = ({ collection, columns, data }) => {
 	const navigate = useNavigate()
 
 	const {
-		getTableProps,
 		getTableBodyProps,
 		headerGroups,
 		rows,
@@ -22,16 +15,9 @@ const Table = ({ collection, columns, data }) => {
 		navigate(`/edit/${collection}/${row.original.id}`)
 	}
 
-	// const deleteRestaurant = async (id) => {
-	// 	console.log(id)
-	// 	const ref = doc(db, collection, id)
-	// 	// await deleteDoc(ref)
-
-	// 	navigate('/admin')
-	// }
-
 	return (
 		<table className="w-4/5 bg-darkish-blue">
+			{/* Table Heading */}
 			<thead>
 				{headerGroups.map((headerGroup) => (
 					<tr {...headerGroup.getHeaderGroupProps()}>
@@ -52,16 +38,14 @@ const Table = ({ collection, columns, data }) => {
 								</span>
 							</th>
 						))}
-						{/* <th className="text-center border border-contrast-color bg-contrast-color"></th> */}
 					</tr>
 				))}
 			</thead>
 
+			{/* Table Body */}
 			<tbody {...getTableBodyProps()}>
 				{rows.map((row) => {
 					prepareRow(row)
-					console.log(columns)
-
 
 					return (
 						<tr {...row.getRowProps()}
@@ -76,8 +60,6 @@ const Table = ({ collection, columns, data }) => {
 									: ""
 							}>
 							{row.cells.map((cell) => {
-								console.log(cell.column.Header)
-
 								return (
 									cell.column.Header == "Profilbild"
 										? <td {...cell.getCellProps()} className="text-center border border-contrast-color w-1/6">
@@ -93,9 +75,8 @@ const Table = ({ collection, columns, data }) => {
 										</td>
 								)
 							})}
-							{/* <td className="text-center border border-contrast-color w-[10%] px-2" onClick={deleteRestaurant}>❌</td> */}
 						</tr>
-					);
+					)
 				})}
 			</tbody>
 		</table >

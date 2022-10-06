@@ -5,8 +5,6 @@ import { useAuthContext } from "../contexts/AuthContext"
 import useRestaurants from "../hooks/useRestaurants"
 
 const AdminPage = () => {
-	const { currentUser } = useAuthContext()
-
 	const {
 		data: restaurants,
 		error: restaurantError,
@@ -31,23 +29,23 @@ const AdminPage = () => {
 	const columns = useMemo(() => {
 		return [
 			{
-				Header: "Name",
+				Header: "Namn",
 				accessor: "name",
 			},
 			{
-				Header: "Street",
+				Header: "Gata",
 				accessor: "street",
 			},
 			{
-				Header: "Number",
+				Header: "Gatunummer",
 				accessor: "number",
 			},
 			{
-				Header: "City",
+				Header: "Ort",
 				accessor: "city",
 			},
 			{
-				Header: "Description",
+				Header: "Om restaurangen",
 				accessor: "description",
 			},
 		];

@@ -1,12 +1,10 @@
-import React from "react"
+import { useState } from "react"
 import {
 	GoogleMap,
 	useJsApiLoader,
 	MarkerF,
 } from "@react-google-maps/api"
-import { useState } from "react"
 import RestaurantInfoCard from "./RestaurantInfoCard"
-import useRestaurants from "../hooks/useRestaurants"
 import googleMapsStyle from "../googleMapsStyle"
 import SearchBar from "../components/SearchBar"
 

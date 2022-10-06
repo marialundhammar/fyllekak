@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react"
-import useRestaurants from "../hooks/useRestaurants"
-
-import Map from "../components/Map"
-import RestaurantList from "../components/RestaurantList"
-
-import { getCoords } from "../services/MapsAPI"
-import Sidebar from "../components/Sidebar"
-import { QueryConstraint } from "firebase/firestore"
 import { useSearchParams } from "react-router-dom"
+
+import useRestaurants from "../hooks/useRestaurants"
+import RestaurantList from "../components/RestaurantList"
+import Map from "../components/Map"
 
 const HomePage = () => {
 	const [query, setQuery] = useState(null)
@@ -31,8 +27,6 @@ const HomePage = () => {
 		setFilteredRestaurants(filteredArray)
 		setSearchParams({ filter: query })
 	}
-
-	console.log(filteredRestaurants)
 
 	const [location, setLocation] = useState({
 		lat: 55.59712105786678,
@@ -58,7 +52,6 @@ const HomePage = () => {
 		if (isLoading) return
 		if (searchParams.get("filter")) {
 			handleFilter(searchParams.get("filter"))
-			console.log("hiiiiii", searchParams.get("filter"))
 		}
 		getUserLocation()
 	}, [query, isLoading])
@@ -67,9 +60,9 @@ const HomePage = () => {
 		filteredRestaurants && (
 			<>
 				<div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
+					{/* Sidebar */}
 					<div className="w-full sm:w-1/4 p-2">
 						<div>
-
 							<div className="ui-sans-serif flex flex-col">
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
@@ -101,14 +94,11 @@ const HomePage = () => {
 						</div>
 
 						<div className="my-2">
-							{/* <Sidebar
-								restaurants={filteredRestaurants}
-							/> */}
 							<RestaurantList restaurants={filteredRestaurants} />
-
 						</div>
 					</div>
 
+					{/* Maps component */}
 					<Map
 						className="w-full sm:w-3/4 h-full"
 						location={location}

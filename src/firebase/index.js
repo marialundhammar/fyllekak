@@ -25,7 +25,6 @@ const db = getFirestore(app)
 // Get Storage instance
 const storage = getStorage(app)
 
-
 export {
     app as default,
     auth,

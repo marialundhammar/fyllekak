@@ -1,20 +1,19 @@
 import { useState } from "react"
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 import { doc, addDoc, collection, updateDoc } from "firebase/firestore"
 import { db } from "../firebase"
 import { useAuthContext } from "../contexts/AuthContext"
-import MapsAPI from "../services/MapsAPI"
 import useGetCoords from "../hooks/useGetCoords"
 
 const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState("")
+	const { currentUser } = useAuthContext()
 
 	const { handleSubmit, register, reset } = useForm({
 		defaultValues: {
 			checkbox: false,
 		}
 	})
-	const { currentUser } = useAuthContext()
 
 	const updateToDoc = async (fetchCoords, formData, closing_time) => {
 		if (fetchCoords.status === "OK") {
@@ -99,7 +98,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 			sun: formData.sun
 		}
 
-		if (exData) {
+		if (exData && col === 'restaurants') {
 			await updateToDoc(fetchCoords, formData, closing_time)
 		} else {
 			await addToDoc(fetchCoords, formData, closing_time)
@@ -131,7 +130,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 						/>
 						<input
 							className="w-5/12 p-1 bg-darkish-blue border rounded border-nav"
-							type="number"
+							type="text"
 							placeholder="Gatunummer"
 							defaultValue={exData ? exData.number : ""}
 							{...register("number", { required: true })}

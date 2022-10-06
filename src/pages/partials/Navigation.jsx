@@ -52,25 +52,19 @@ const Navigation = () => {
 									hover:text-blue-dark 
 									ml-2 
 									p-4
-						">Log out</NavLink>
+						">Logga ut</NavLink>
 					</>
 				) : (
 					<>
-						{/* <NavLink
-							to="/restaurant"
-							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
-						>
-							Restaurant list
-						</NavLink> */}
 						<NavLink
 							to="/usertips"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
-						>User tips
+						>Tipsa oss!
 						</NavLink>
 						<NavLink
 							to="/login"
 							className="text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2 p-4"
-						>Login
+						>Admin Login
 						</NavLink>
 					</>
 				)}

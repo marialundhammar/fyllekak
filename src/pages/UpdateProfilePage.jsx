@@ -14,7 +14,6 @@ const UpdateProfilePage = () => {
 	const [error, setError] = useState(null)
 	const [loading, setLoading] = useState(null)
 
-
 	const { handleSubmit, register, reset } = useForm()
 
 	const {
@@ -35,7 +34,7 @@ const UpdateProfilePage = () => {
 
 	const onSubmit = async (formData) => {
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-			return setError("")
+			return setError("Ej matchande lösenord")
 		}
 
 		setError(null)
@@ -114,7 +113,12 @@ const UpdateProfilePage = () => {
 							placeholder="Bekräfta lösenord"
 							ref={passwordConfirmRef}
 						/>
+
 						<input className="p-2 my-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark" type="submit" />
+
+						{error && (<p>{error}</p>)}
+
+						{loading && (<p>Loading...</p>)}
 					</div>
 				</form>
 			</div>

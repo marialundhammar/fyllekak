@@ -1,4 +1,3 @@
-import React from "react"
 import { useState } from "react"
 import PopUp from "../components/PopUp"
 
@@ -14,9 +13,7 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 	return (
 		<>
 			{lat && lng && <PopUp lat={lat} lng={lng} />}
-
 			<div className="p-2 w-400 bg-darkish-blue text-slate-400">
-
 				<div className="flex flex-row sm:flex-col justify-between items-center sm:items-start">
 					<h1
 						className="text-3xl sm:text-xl text-contrast-color"

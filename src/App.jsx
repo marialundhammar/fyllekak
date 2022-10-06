@@ -3,7 +3,6 @@ import { ReactQueryDevtools } from "react-query/devtools"
 
 import HomePage from "./pages/HomePage"
 import NotFound from "./pages/NotFound"
-import RestaurantPage from "./pages/RestaurantPage"
 import AdminPage from "./pages/AdminPage"
 import LoginPage from "./pages/LoginPage"
 import LogoutPage from "./pages/LogoutPage"
@@ -24,10 +23,6 @@ function App() {
 				<Route path="*" element={<NotFound />} />
 				<Route path="/" element={<HomePage />} />
 
-				<Route
-					path="/restaurant"
-					element={<RestaurantPage />}
-				/>
 				<Route path="/usertips" element={<UserTipsPage />} />
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/logout" element={<LogoutPage />} />

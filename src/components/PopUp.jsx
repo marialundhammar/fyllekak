@@ -1,7 +1,6 @@
 import React from "react"
 
 const PopUp = (query) => {
-	console.log("this is query", query)
 	return (
 		<div
 			id="new-window-modal"

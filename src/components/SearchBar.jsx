@@ -1,6 +1,3 @@
-import React from "react"
-
-import { useState } from "react"
 import usePlacesAutocomplete, {
 	getGeocode,
 	getLatLng,
