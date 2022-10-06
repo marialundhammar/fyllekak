@@ -7,6 +7,7 @@ module.exports = {
 				"darkish-blue": "#152236",
 				nav: "#29446b",
 				"contrast-color": "#42f5c5",
+				"contrast-color-dark": "#1e8769",
 			},
 		},
 	},

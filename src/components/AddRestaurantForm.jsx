@@ -89,9 +89,6 @@ const AddRestaurantForm = ({ col, exData }) => {
 			formData.street + "+" + formData.number + "+" + formData.city
 		)
 
-		// Gör ett objekt av closing time
-		// const price = [0, formData.price]
-
 		const closing_time = {
 			mon: formData.mon,
 			tue: formData.tue,
@@ -111,138 +108,173 @@ const AddRestaurantForm = ({ col, exData }) => {
 
 	return (
 		<>
-			<form onSubmit={handleSubmit(onSubmit)} noValidate>
-				<input
-					type="text"
-					placeholder="Namn"
-					defaultValue={exData ? exData.name : ""}
-					{...register("name", { required: true })}
-				/>
-				<input
-					type="text"
-					placeholder="Gatuadress"
-					defaultValue={exData ? exData.street : ""}
-					{...register("street", { required: true })}
-				/>
-				<input
-					type="text"
-					placeholder="Gatunummer"
-					defaultValue={exData ? exData.number : ""}
-					{...register("number", { required: true })}
-				/>
-				<input
-					type="text"
-					placeholder="Ort"
-					defaultValue={exData ? exData.city : ""}
-					{...register("city", { required: true })}
-				/>
-				<input
-					type="text"
-					placeholder="Beskrivning"
-					defaultValue={exData ? exData.description : ""}
-					{...register("description", { required: true })}
-				/>
-
-				<label>
+			<form
+				className="m-3 flex flex-col sm:flex-row sm:flex-wrap"
+				onSubmit={handleSubmit(onSubmit)}
+				noValidate
+			>
+				<div className="sm:mx-2 flex flex-col sm:w-5/12 md:w-3/12">
 					<input
-						type="checkbox"
-						{...register("vego")}
-					// checked={exData.vego ? true : false}
-					/>Vegetariskt
-				</label>
-
-				<label>Prisklass (1 = Billigt, 3 = Dyrt)
-					<input
-						{...register("price", { required: true, max: 3, min: 1, message: "Välj prisklass" })}
-						type="number"
-						defaultValue={exData ? exData.price[1] : ""}
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="text"
+						placeholder="Namn"
+						defaultValue={exData ? exData.name : ""}
+						{...register("name", { required: true })}
 					/>
-				</label>
-
-				<div className="closing_time">
-					<h3>Stänger:</h3>
-					<label>Måndag
+					<div className="flex flex-row justify-between">
 						<input
-							type="time"
-							{...register("mon")}
-							defaultValue={exData ? exData.closing_time.mon : ""}
+							className="w-5/12 p-1 bg-darkish-blue border rounded border-nav"
+							type="text"
+							placeholder="Gatuadress"
+							defaultValue={exData ? exData.street : ""}
+							{...register("street", { required: true })}
 						/>
-					</label>
-					<label>Tisdag
 						<input
-							type="time"
-							{...register("tue")}
-							defaultValue={exData ? exData.closing_time.tue : ""}
+							className="w-5/12 p-1 bg-darkish-blue border rounded border-nav"
+							type="number"
+							placeholder="Gatunummer"
+							defaultValue={exData ? exData.number : ""}
+							{...register("number", { required: true })}
 						/>
-					</label>
-					<label>Onsdag
-						<input
-							type="time"
-							{...register("wed")}
-							defaultValue={exData ? exData.closing_time.wed : ""}
-						/>
-					</label>
-					<label>Torsdag
-						<input
-							type="time"
-							{...register("thu")}
-							defaultValue={exData ? exData.closing_time.thu : ""}
-						/>
-					</label>
-					<label>Fredag
-						<input
-							type="time"
-							{...register("fri")}
-							defaultValue={exData ? exData.closing_time.fri : ""}
-						/>
-					</label>
-					<label>Lördag
-						<input
-							type="time"
-							{...register("sat")}
-							defaultValue={exData ? exData.closing_time.sat : ""}
-						/>
-					</label>
-					<label>Söndag
-						<input
-							type="time"
-							{...register("sun")}
-							defaultValue={exData ? exData.closing_time.sun : ""}
-						/>
-					</label>
+					</div>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="text"
+						placeholder="Ort"
+						defaultValue={exData ? exData.city : ""}
+						{...register("city", { required: true })}
+					/>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="text"
+						placeholder="Beskrivning"
+						defaultValue={exData ? exData.description : ""}
+						{...register("description", { required: true })}
+					/>
 				</div>
 
-				<input
-					type="email"
-					placeholder="E-Post"
-					defaultValue={exData ? exData.email : ""}
-					{...register("email")}
-				/>
-				<input
-					type="tel"
-					placeholder="Telefon"
-					defaultValue={exData ? exData.phone : ""}
-					{...register("phone")}
-				/>
-				<input
-					type="url"
-					placeholder="Hemsida"
-					defaultValue={exData ? exData.website : ""}
-					{...register("website")}
-				/>
-				<input
-					type="url"
-					placeholder="Facebook"
-					defaultValue={exData ? exData.facebook : ""}
-					{...register("facebook")}
-				/>
-				<input
-					type="url"
-					placeholder="Instagram"
-					defaultValue={exData ? exData.instagram : ""}
-					{...register("instagram")}
-				/>
-				<input type="submit" />
+				<div className="sm:mx-2 py-2 file:flex flex-col sm:w-5/12 md:w-3/12">
+					<div className="flex flex-row justify-around">
+						<div className="flex flex-row">
+							<input type="checkbox" {...register("vego")} />
+							<label >Vegetariskt</label>
+						</div>
+						<div className="flex flex-row">
+							<input type="checkbox" {...register("price")} />
+							<label >Billigt</label>
+						</div>
+					</div>
+
+					<div className="flex flex-col">
+						<h3 className="text-xl">Stänger:</h3>
+
+						<div className="flex flex-row flex-wrap">
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Mån</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.mon : ""}
+									{...register("mon")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Tis</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.tue : ""}
+									{...register("tue")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Ons</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.wed : ""}
+									{...register("wed")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Tors</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.thu : ""}
+									{...register("thu")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Fre</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.fri : ""}
+									{...register("fri")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Lör</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.sat : ""}
+									{...register("sat")}
+								/>
+							</div>
+							<div className="w-2/5 flex flex-row justify-around">
+								<label className="text-sm">Sön</label>
+								<input
+									className="bg-darkish-blue hover:text-contrast-color-dark"
+									type="time"
+									defaultValue={exData ? exData.closing_time.sun : ""}
+									{...register("sun")}
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="sm:mx-2 flex flex-col sm:w-5/12 md:w-3/12">
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="email"
+						placeholder="E-Post"
+						defaultValue={exData ? exData.email : ""}
+						{...register("email")}
+					/>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="tel"
+						placeholder="Telefon"
+						defaultValue={exData ? exData.phone : ""}
+						{...register("phone")}
+					/>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="url"
+						placeholder="Hemsida"
+						defaultValue={exData ? exData.website : ""}
+						{...register("website")}
+					/>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="url"
+						placeholder="Facebook"
+						defaultValue={exData ? exData.facebook : ""}
+						{...register("facebook")}
+					/>
+					<input
+						className="my-2 p-1 bg-darkish-blue border rounded border-nav"
+						type="url"
+						placeholder="Instagram"
+						defaultValue={exData ? exData.instagram : ""}
+						{...register("instagram")}
+					/>
+					<input className="p-2 my-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark" type="submit" />
+				</div>
+
 			</form>
 			{message && <h3>{message}</h3>}
 		</>

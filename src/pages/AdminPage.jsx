@@ -72,34 +72,61 @@ const AdminPage = () => {
 	}, []);
 
 	return (
-		<div>
-			<h1>Admin Page</h1>
+		<div className="container min-h-screen max-w-full	 bg-darkish-blue text-contrast-color p-5">
+			<div className="flex flex-col sm:flex-row justify-between py-3 ">
+				<h1 className="font-medium text-3xl p-3">Admins krypin</h1>
 
-			<p>Inloggad användare: {currentUser.email}</p>
+				<div className="p-3">
+					<p className="py-1">Inloggad användare:</p>
+					<p className="py-1 italic">{currentUser.email}</p>
+				</div>
+			</div>
 
-			<button onClick={() => setToggleForm(!toggleForm)}>
-				Show add hak form
+			<button
+				className={toggleForm
+					? "p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark"
+					: "p-2 m-3 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+				}
+				onClick={() => setToggleForm(!toggleForm)}>
+				Lägg till hak
 			</button>
 
 			{toggleForm && <AddRestaurantForm
 				col={"restaurants"}
 			/>}
 
-			<h1 className="py-8 px-4 text-3xl">Lista på Restauranger</h1>
+			<div className="p-3">
+				<h2 className="text-2xl">Lista på Restauranger</h2>
 
-			{restaurantIsLoading && <p>Loading...</p>}
+				{restaurantIsLoading && <p className="py-5 italic text-2xl">Loading...</p>}
 
-			{restaurantIsError && <p>Error! {restaurantError.message}</p>}
+				{restaurantIsError && <p className="py-5 text-2xl">Error! {restaurantError.message}</p>}
 
-			{restaurants && <Table collection={'restaurants'} columns={columns} data={restaurants} />}
+				{restaurants &&
+					<Table
+						collection={'restaurants'}
+						columns={columns}
+						data={restaurants} />
+				}
+			</div>
+			<div className="p-3">
+				<h2 className="text-2xl">Lista på Användar tips</h2>
 
-			<h1 className="py-8 px-4 text-3xl">Lista på Användar tips</h1>
+				{userTipsIsLoading &&
+					<p className="py-5 italic text-2xl">Loading...</p>
+				}
 
-			{userTipsIsLoading && <p>Loading...</p>}
+				{userTipsIsError &&
+					<p className="py-5 text-2xl">Error! {userTipsError.message}</p>
+				}
 
-			{userTipsIsError && <p>Error! {userTipsError.message}</p>}
-
-			{userTips && <Table collection={'usertips'} columns={columns} data={userTips} />}
+				{userTips &&
+					<Table
+						collection={'usertips'}
+						columns={columns}
+						data={userTips} />
+				}
+			</div>
 		</div>
 	);
 };
