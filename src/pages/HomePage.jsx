@@ -6,22 +6,15 @@ import RestaurantList from "../components/RestaurantList"
 
 import { getCoords } from "../services/MapsAPI"
 import Sidebar from "../components/Sidebar"
+import { QueryConstraint } from "firebase/firestore"
+import { useSearchParams } from "react-router-dom"
 
 const HomePage = () => {
-	// const [vego, setVego] = useState(false)
-	// const [price, setPrice] = useState(false)
-	// const [showAll, setShowAll] = useState(false)
 	const [query, setQuery] = useState(null)
 	const [filteredRestaurants, setFilteredRestaurants] = useState([])
-	// const [toggleClassNameAll, setToggleClassNameAll] = useState(
-	// 	"text-contrast-color w-40 border"
-	// )
-	// const [toggleClassNamePrice, setToggleClassNamePrice] = useState(
-	// 	"text-contrast-color w-40 border"
-	// )
-	// const [toggleClassNameVego, setToggleClassNameVego] = useState(
-	// 	"text-contrast-color w-40 border"
-	// )
+	const [searchParams, setSearchParams] = useSearchParams({
+		filter: "all",
+	})
 
 	const { data: restaurants, isLoading } = useRestaurants(
 		"restaurants"
@@ -30,11 +23,13 @@ const HomePage = () => {
 	const handleFilter = (query) => {
 		if (query === "all") {
 			setFilteredRestaurants(restaurants)
+			setSearchParams({ filter: "all" })
 			return
 		}
-		const filteredArray = restaurants.filter((res) => res[query])
 
+		const filteredArray = restaurants.filter((res) => res[query])
 		setFilteredRestaurants(filteredArray)
+		setSearchParams({ filter: query })
 	}
 
 	console.log(filteredRestaurants)
@@ -61,8 +56,11 @@ const HomePage = () => {
 
 	useEffect(() => {
 		if (isLoading) return
+		if (searchParams.get("filter")) {
+			handleFilter(searchParams.get("filter"))
+			console.log("hiiiiii", searchParams.get("filter"))
+		}
 		getUserLocation()
-		setFilteredRestaurants(restaurants)
 	}, [query, isLoading])
 
 	return (
@@ -71,6 +69,7 @@ const HomePage = () => {
 				<div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
 					<div className="w-full sm:w-1/4 p-2">
 						<div>
+
 							<div className="ui-sans-serif flex flex-col">
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
