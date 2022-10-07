@@ -81,7 +81,7 @@ const AdminPage = () => {
 						: "p-2 m-3 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 				}
 				onClick={() => setToggleForm(!toggleForm)}>
-				Lägg till hak
+				Lägg till en restaurang
 			</button>
 
 			{toggleForm && <AddRestaurantForm

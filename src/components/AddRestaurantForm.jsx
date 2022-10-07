@@ -5,6 +5,7 @@ import { db } from "../firebase"
 import { useAuthContext } from "../contexts/AuthContext"
 import useGetCoords from "../hooks/useGetCoords"
 
+
 const AddRestaurantForm = ({ col, exData }) => {
 	const [message, setMessage] = useState("")
 	const { currentUser } = useAuthContext()
@@ -18,34 +19,34 @@ const AddRestaurantForm = ({ col, exData }) => {
 	const updateToDoc = async (fetchCoords, formData, closing_time) => {
 		if (fetchCoords.status === "OK") {
 			// Update restaurant to input value
-			await updateDoc(doc(db, 'restaurants', exData.id), {
-				name: formData.name,
-				street: formData.street,
-				number: formData.number,
-				city: formData.city,
-				description: formData.description,
-				vego: formData.vego,
-
-				price: formData.price,
-
-				closing_time: closing_time,
-
-				email: formData.email,
-				phone: formData.phone,
-				website: formData.website,
-				facebook: formData.facebook,
-				instagram: formData.instagram,
-				uid: currentUser ? currentUser.uid : "",
-				coords: fetchCoords.results[0].geometry.location,
-			})
-			// Reset form
-			reset()
-			setMessage("Restaurang uppdaterad!")
-			return
+			try {
+				await updateDoc(doc(db, 'restaurants', exData.id), {
+					name: formData.name,
+					street: formData.street,
+					number: formData.number,
+					city: formData.city,
+					description: formData.description,
+					vego: formData.vego,
+					price: formData.price,
+					closing_time: closing_time,
+					email: formData.email,
+					phone: formData.phone,
+					website: formData.website,
+					facebook: formData.facebook,
+					instagram: formData.instagram,
+					uid: currentUser ? currentUser.uid : "",
+					coords: fetchCoords.results[0].geometry.location,
+				})
+			} catch (err) {
+				console.log(err.message)
+			}
+		} else {
+			setMessage("Ogiltig adress")
+			// console.log("sorry mannen not a valid address")
 		}
-		else {
-			console.log("sorry mannen not a valid address")
-		}
+		// Reset form
+		reset()
+		setMessage("Restaurang uppdaterad!")
 	}
 
 	const addToDoc = async (fetchCoords, formData, closing_time) => {
@@ -55,32 +56,34 @@ const AddRestaurantForm = ({ col, exData }) => {
 
 		if (fetchCoords.status === "OK") {
 			// Write input value to collection
-			await addDoc(collection(db, col), {
-				name: formData.name,
-				street: formData.street,
-				number: formData.number,
-				city: formData.city,
-				description: formData.description,
-				vego: formData.vego,
-
-				price: formData.price,
-
-				closing_time: closing_time,
-
-				email: formData.email,
-				phone: formData.phone,
-				website: formData.website,
-				facebook: formData.facebook,
-				instagram: formData.instagram,
-				uid: currentUser ? currentUser.uid : "",
-				coords: fetchCoords.results[0].geometry.location,
-			})
+			try {
+				await addDoc(collection(db, col), {
+					name: formData.name,
+					street: formData.street,
+					number: formData.number,
+					city: formData.city,
+					description: formData.description,
+					vego: formData.vego,
+					price: formData.price,
+					closing_time: closing_time,
+					email: formData.email,
+					phone: formData.phone,
+					website: formData.website,
+					facebook: formData.facebook,
+					instagram: formData.instagram,
+					uid: currentUser ? currentUser.uid : "",
+					coords: fetchCoords.results[0].geometry.location,
+				})
+			} catch (err) {
+				console.log(err.message)
+			}
+			reset()
+			!currentUser
+				? setMessage("Tack för tipset!")
+				: setMessage("Restaurang tillagd!")
+		} else {
+			setMessage("Ogiltig adress!")
 		}
-		// Reset form & set message
-		reset()
-		!currentUser
-			? setMessage("Tack för tipset!")
-			: setMessage("Restaurang tillagd!")
 	}
 
 	const onSubmit = async (formData) => {
@@ -275,7 +278,7 @@ const AddRestaurantForm = ({ col, exData }) => {
 				</div>
 
 			</form>
-			{message && <h3>{message}</h3>}
+			{message && <h3 className="text-1xl text-red ">{message}</h3>}
 		</>
 	)
 }
