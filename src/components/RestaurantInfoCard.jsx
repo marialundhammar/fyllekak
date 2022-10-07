@@ -8,31 +8,35 @@ const RestaurantInfoCard = ({ restaurant, id }) => {
 	const getDirection = () => {
 		setLng(restaurant.coords.lng)
 		setLat(restaurant.coords.lat)
+		console.log("clicked")
 	}
 
+	console.log("latLng", { lat, lng })
 	return (
 		<>
-			{lat && lng && <PopUp lat={lat} lng={lng} />}
-			<div className="p-2 w-400 bg-darkish-blue text-slate-400">
+			{lat && lng && <PopUp latLng={{ lat, lng }} />}
+			<div className="p-2 w-400 bg-darkish-blue text-slate-400 z-0">
 				<div className="flex flex-row sm:flex-col justify-between items-center sm:items-start">
-					<h1
-						className="text-3xl sm:text-xl text-contrast-color"
-					>{restaurant.name}</h1>
+					<h1 className="text-3xl sm:text-xl text-contrast-color">
+						{restaurant.name}
+					</h1>
 
-					{restaurant.vego && (<p
-						className="italic my-2 sm:text-md"
-					>VEGO FRIENDLY!</p>)}
+					{restaurant.vego && (
+						<p className="italic my-2 sm:text-md">
+							VEGO FRIENDLY!
+						</p>
+					)}
 				</div>
 
 				<div className="my-2 flex flex-row sm:flex-col justify-between items-center sm:items-start">
 					<div className="sm:my-2">
 						<p className="">
 							{restaurant.street}
-							<span className="mx-2">{restaurant.number}</span>
+							<span className="mx-2">
+								{restaurant.number}
+							</span>
 						</p>
-						<p className="">
-							{restaurant.city}
-						</p>
+						<p className="">{restaurant.city}</p>
 					</div>
 
 					<div
