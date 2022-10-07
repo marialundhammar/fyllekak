@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-
+import { useAuthContext } from "../contexts/AuthContext"
 import useRestaurants from "../hooks/useRestaurants"
 import RestaurantList from "../components/RestaurantList"
 import Map from "../components/Map"
@@ -8,6 +8,9 @@ import Map from "../components/Map"
 const HomePage = () => {
 	const [query, setQuery] = useState(null)
 	const [filteredRestaurants, setFilteredRestaurants] = useState([])
+
+	const { infoCardRestaurant } = useAuthContext()
+
 	const [searchParams, setSearchParams] = useSearchParams({
 		filter: "all",
 	})
@@ -68,33 +71,47 @@ const HomePage = () => {
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
 										query !== "vego"
-											? handleFilter("vego") && setQuery("vego")
-											: handleFilter('') && setQuery(null)
+											? handleFilter("vego") &&
+											  setQuery("vego")
+											: handleFilter("") &&
+											  setQuery(null)
 									}}
-								>Vegetariskt</button>
+								>
+									Vegetariskt
+								</button>
 
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
 										query !== "price"
-											? handleFilter("price") && setQuery("price")
-											: handleFilter('') && setQuery(null)
+											? handleFilter("price") &&
+											  setQuery("price")
+											: handleFilter("") &&
+											  setQuery(null)
 									}}
-								>Billigt</button>
+								>
+									Billigt
+								</button>
 
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
 										query !== "all"
-											? handleFilter("all") && setQuery("all")
-											: handleFilter('') && setQuery(null)
+											? handleFilter("all") &&
+											  setQuery("all")
+											: handleFilter("") &&
+											  setQuery(null)
 									}}
-								>Alla</button>
+								>
+									Alla
+								</button>
 							</div>
 						</div>
 
 						<div className="my-2">
-							<RestaurantList restaurants={filteredRestaurants} />
+							<RestaurantList
+								restaurants={filteredRestaurants}
+							/>
 						</div>
 					</div>
 

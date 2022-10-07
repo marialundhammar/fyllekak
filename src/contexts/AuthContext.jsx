@@ -1,15 +1,14 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from "react"
 import {
 	signInWithEmailAndPassword,
 	signOut,
 	updateEmail,
 	updatePassword,
 	onAuthStateChanged,
-	updateProfile
-} from 'firebase/auth'
-import { ref, getDownloadURL, uploadBytes } from 'firebase/storage'
-import { auth, storage } from '../firebase'
-
+	updateProfile,
+} from "firebase/auth"
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage"
+import { auth, storage } from "../firebase"
 
 const AuthContext = createContext()
 
@@ -18,6 +17,7 @@ const useAuthContext = () => {
 }
 
 const AuthContextProvider = ({ children }) => {
+	const [infoCardRestaurant, setInfoCardRestaurant] = useState(null)
 	const [currentUser, setCurrentUser] = useState(null)
 	const [userEmail, setUserEmail] = useState(null)
 	const [loading, setLoading] = useState(true)
@@ -54,7 +54,10 @@ const AuthContextProvider = ({ children }) => {
 		let photoURL = auth.currentUser.photoURL
 
 		if (photo) {
-			const fileRef = ref(storage, `img/${auth.currentUser.email}/${photo.name}`)
+			const fileRef = ref(
+				storage,
+				`img/${auth.currentUser.email}/${photo.name}`
+			)
 
 			const uploadResult = await uploadBytes(fileRef, photo)
 
@@ -88,21 +91,16 @@ const AuthContextProvider = ({ children }) => {
 		setEmail,
 		setProfilePicture,
 		userEmail,
-		userPhotoUrl
+		userPhotoUrl,
+		infoCardRestaurant,
+		setInfoCardRestaurant,
 	}
 
 	return (
 		<AuthContext.Provider value={contextValues}>
-			{loading ? (
-				<h3>Loading...</h3>
-			) : (
-				children
-			)}
+			{loading ? <h3>Loading...</h3> : children}
 		</AuthContext.Provider>
 	)
 }
 
-export {
-	AuthContextProvider as default,
-	useAuthContext,
-}
+export { AuthContextProvider as default, useAuthContext }
