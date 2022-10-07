@@ -1,13 +1,18 @@
 import { useState } from "react"
 import RestaurantInfoCard from "./RestaurantInfoCard"
+import { useAuthContext } from "../contexts/AuthContext"
 
 const RestaurantList = ({ restaurants }) => {
 	const [infoCard, setInfoCard] = useState()
+	const {
+		infoCardRestaurant,
+		setInfoCardRestaurant,
+	} = useAuthContext()
 
-	const toggleCard = (res) => {
-		if (infoCard == res) setInfoCard()
-		if (infoCard != res) setInfoCard(res)
-	}
+	/* 
+	if (selectedRestaurant) {
+		setInfoCardRestaurant(selectedRestaurant)
+	} */
 
 	return (
 		<div>
@@ -17,19 +22,17 @@ const RestaurantList = ({ restaurants }) => {
 						<div
 							className="my-1 border border-contrast-color rounded bg-nav flex justify-between hover:text-contrast-color-dark hover:bg-darkish-blue"
 							key={res.id}
-							onClick={() => toggleCard(res)}
+							onClick={() => setInfoCardRestaurant(res)}
 						>
-							<li
-								className="p-2"
-							>{res.name}</li>
+							<li className="p-2">{res.name}</li>
 						</div>
 					))}
 			</ul>
 
-			{infoCard && (
+			{infoCardRestaurant && (
 				<RestaurantInfoCard
-					key={infoCard.id}
-					restaurant={infoCard}
+					key={infoCardRestaurant.id}
+					restaurant={infoCardRestaurant}
 				/>
 			)}
 		</div>

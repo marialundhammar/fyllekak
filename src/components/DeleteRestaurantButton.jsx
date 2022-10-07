@@ -1,12 +1,16 @@
 import { doc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const DeleteRestaurantButton = ({ col, id }) => {
+const DeleteRestaurantButton = () => {
+	const { id: idParams, collection: colParams } = useParams()
+
 	const navigate = useNavigate()
 
 	const deleteRestaurant = async () => {
-		const ref = doc(db, col, id)
+		// Get reference
+		const ref = doc(db, colParams, idParams)
+		// Delete restaurnt
 		await deleteDoc(ref)
 		//Redirect
 		navigate('/admin')
@@ -16,7 +20,7 @@ const DeleteRestaurantButton = ({ col, id }) => {
 		<button
 			className="p-2 m-3 border rounded border-contrast-color bg-contrast-color text-darkish-blue hover:border-contrast-color-dark hover:bg-contrast-color-dark"
 			onClick={deleteRestaurant}
-		>Delete</button>
+		>Radera restaurang</button>
 	)
 }
 
