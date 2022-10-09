@@ -1,20 +1,54 @@
 import { useState } from "react"
-import PopUp from "../components/PopUp"
 
 const RestaurantInfoCard = ({ restaurant, id }) => {
 	const [lng, setLng] = useState(null)
 	const [lat, setLat] = useState(null)
+	const [showModal, setShowModal] = useState(false)
 
 	const getDirection = () => {
 		setLng(restaurant.coords.lng)
 		setLat(restaurant.coords.lat)
-		console.log("clicked")
+		setShowModal(true)
 	}
 
 	console.log("latLng", { lat, lng })
 	return (
 		<>
-			{lat && lng && <PopUp latLng={{ lat, lng }} />}
+			{showModal && (
+				<div
+					id="new-window-modal"
+					className="bg-darkish-blue px-4 py-3 w-86 h-1/5 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 rounded-md "
+					aria-hidden="true"
+				>
+					<div>
+						<p className="mx-auto text-contrast-color p-4 ">
+							The link will be opened in a new window
+						</p>
+
+						<div
+							role="button"
+							className="rounded-md bg-contrast-color flex justify-center w-40 sm:w-full h-full p-2 text-darkish-blue hover:bg-contrast-color-dark"
+						>
+							<a
+								href={`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`}
+								target="_blank"
+							>
+								Open link in ny window
+							</a>
+						</div>
+
+						<div
+							role="button"
+							className="rounded-md  bg-nav flex justify-center w-40 sm:w-full h-full p-2 my-2 text-contrast-color hover:bg-contrast-color-dark"
+							onClick={() => {
+								setShowModal(false)
+							}}
+						>
+							Close Window
+						</div>
+					</div>
+				</div>
+			)}
 			<div className="p-2 w-400 bg-darkish-blue text-slate-400 z-0">
 				<div className="flex flex-row sm:flex-col justify-between items-center sm:items-start">
 					<h1 className="text-3xl sm:text-xl text-contrast-color">
