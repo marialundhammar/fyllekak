@@ -9,11 +9,6 @@ const RestaurantList = ({ restaurants }) => {
 		setInfoCardRestaurant,
 	} = useAuthContext()
 
-	/* 
-	if (selectedRestaurant) {
-		setInfoCardRestaurant(selectedRestaurant)
-	} */
-
 	return (
 		<div>
 			<ul className="">
