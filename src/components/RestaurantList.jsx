@@ -13,7 +13,7 @@ const RestaurantList = ({ restaurants }) => {
 		<div>
 			<ul className="">
 				{restaurants &&
-					restaurants.map((res) => (
+					restaurants.sort((a, b) => a.name !== b.name ? a.name < b.name ? -1 : 1 : 0).map((res) => (
 						<div
 							className="my-1 border border-contrast-color rounded bg-nav flex justify-between hover:text-contrast-color-dark hover:bg-darkish-blue"
 							key={res.id}
