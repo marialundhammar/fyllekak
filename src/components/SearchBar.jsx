@@ -12,7 +12,7 @@ import {
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
 
-const SearchBarTest = ({ setMapCenter }) => {
+const SearchBarTest = ({ setMapCenter, setSearchParams }) => {
 	const {
 		ready,
 		value,
@@ -23,6 +23,7 @@ const SearchBarTest = ({ setMapCenter }) => {
 
 	const handleSelect = async (address) => {
 		setValue(address, false)
+		setSearchParams({ address: address })
 		clearSuggestions()
 
 		const result = await getGeocode({ address })

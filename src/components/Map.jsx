@@ -1,3 +1,7 @@
+import {
+	getGeocode,
+	getLatLng,
+} from "use-places-autocomplete"
 import { useState } from "react"
 import {
 	GoogleMap,
@@ -9,20 +13,34 @@ import googleMapsStyle from "../googleMapsStyle"
 import SearchBar from "../components/SearchBar"
 import { useAuthContext } from "../contexts/AuthContext"
 
-const Map = ({ location, restaurants }) => {
+const Map = ({ location, restaurants, setSearchParams, address }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 
 	const { setInfoCardRestaurant } = useAuthContext()
-
-	const containerStyle = {
-		width: "100%",
-		height: "100%",
-	}
 
 	const [mapCenter, setMapCenter] = useState({
 		lat: 55.59712105786678,
 		lng: 12.997431424230891,
 	})
+
+	const loadMapCenter = async (address) => {
+		if (address) {
+			const result = await getGeocode({ address })
+			const latLng = await getLatLng(result[0])
+			setMapCenter(latLng)
+		} 
+
+		if (location !== mapCenter && !address) {
+			setMapCenter(location)
+		}
+	}
+
+	loadMapCenter(address)
+
+	const containerStyle = {
+		width: "100%",
+		height: "100%",
+	}
 
 	const libraries = ["places"]
 
@@ -63,7 +81,7 @@ const Map = ({ location, restaurants }) => {
 			<>
 				<div className="flex flex-col w-screen h-screen z-0">
 					<div className=" w-full">
-						<SearchBar setMapCenter={setMapCenter} />
+						<SearchBar setMapCenter={setMapCenter} setSearchParams={setSearchParams} />
 					</div>
 
 					<div className="flex justify-center items-center flex-grow">

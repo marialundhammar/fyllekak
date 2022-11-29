@@ -13,7 +13,11 @@ const HomePage = () => {
 
 	const [searchParams, setSearchParams] = useSearchParams({
 		filter: "all",
+		address: ""
 	})
+	const address = searchParams.get('address') ? searchParams.get('address') : ""
+	const filter = searchParams.get('filter')
+
 
 	const { data: restaurants, isLoading } = useRestaurants(
 		"restaurants"
@@ -22,13 +26,19 @@ const HomePage = () => {
 	const handleFilter = (query) => {
 		if (query === "all") {
 			setFilteredRestaurants(restaurants)
-			setSearchParams({ filter: "all" })
+			setSearchParams({ 
+				filter: "all",
+				address: address
+			})
 			return
 		}
 
 		const filteredArray = restaurants.filter((res) => res[query])
 		setFilteredRestaurants(filteredArray)
-		setSearchParams({ filter: query })
+		setSearchParams({ 
+			filter: query,
+			address: address
+		})
 	}
 
 	const [location, setLocation] = useState({
@@ -55,6 +65,12 @@ const HomePage = () => {
 		if (isLoading) return
 		if (searchParams.get("filter")) {
 			handleFilter(searchParams.get("filter"))
+		}
+		if (searchParams.get("address")) {
+			setSearchParams({
+				filter: filter,
+				address: address
+			})
 		}
 		getUserLocation()
 	}, [query, isLoading])
@@ -120,6 +136,8 @@ const HomePage = () => {
 						className="w-full sm:w-3/4 h-full"
 						location={location}
 						restaurants={filteredRestaurants}
+						setSearchParams={setSearchParams}
+						address={address}
 					/>
 				</div>
 			</>
