@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import {
 	GoogleMap,
 	useJsApiLoader,
@@ -8,7 +8,7 @@ import RestaurantInfoCard from "./RestaurantInfoCard"
 import googleMapsStyle from "../googleMapsStyle"
 import SearchBar from "../components/SearchBar"
 
-const Map = ({ location, restaurants }) => {
+const Map = ({ onLocationChange, location, restaurants }) => {
 	const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
 	const [selectedMarker, setSelectedMarker] = useState(null)
 
@@ -55,6 +55,10 @@ const Map = ({ location, restaurants }) => {
 		scale: 1.1,
 	}
 
+	const handleCityChange = useCallback((e) => {
+		onLocationChange(e)
+	}, [onLocationChange])
+
 	return (
 		isLoaded &&
 		restaurants && (
@@ -62,7 +66,7 @@ const Map = ({ location, restaurants }) => {
 				<div className="flex flex-col w-screen h-screen">
 
 					<div className="z-10 w-full">
-						<SearchBar setMapCenter={setMapCenter} />
+						<SearchBar setMapCenter={setMapCenter} onCityChange={handleCityChange} />
 					</div>
 
 					<div className="flex justify-center items-center flex-grow">

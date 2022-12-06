@@ -7,6 +7,7 @@ import Map from "../components/Map"
 
 const HomePage = () => {
 	const [query, setQuery] = useState(null)
+	const [city, setCity] = useState('')
 	const [filteredRestaurants, setFilteredRestaurants] = useState([])
 	const [searchParams, setSearchParams] = useSearchParams({
 		filter: "all",
@@ -17,6 +18,7 @@ const HomePage = () => {
 	)
 
 	const handleFilter = (query) => {
+		console.log(query)
 		if (query === "all") {
 			setFilteredRestaurants(restaurants)
 			setSearchParams({ filter: "all" })
@@ -55,6 +57,18 @@ const HomePage = () => {
 		}
 		getUserLocation()
 	}, [query, isLoading])
+
+
+
+	// Här är jag
+	// useEffect(() => {
+	// 	setSearchParams({
+	// 		city: city,
+	// 	})
+	// }, [setCity])
+
+
+
 
 	return (
 		filteredRestaurants && (
@@ -100,6 +114,7 @@ const HomePage = () => {
 
 					{/* Maps component */}
 					<Map
+						onLocationChange={setCity}
 						className="w-full sm:w-3/4 h-full"
 						location={location}
 						restaurants={filteredRestaurants}

@@ -1,3 +1,4 @@
+import { useState, useEffect, useCallback } from 'react'
 import usePlacesAutocomplete, {
 	getGeocode,
 	getLatLng,
@@ -11,8 +12,9 @@ import {
 	ComboboxOptionText,
 } from "@reach/combobox"
 import "@reach/combobox/styles.css"
+import isolateCityName from "../helpers/cityName"
 
-const SearchBarTest = ({ setMapCenter }) => {
+const SearchBarTest = ({ setMapCenter, onCityChange }) => {
 	const {
 		ready,
 		value,
@@ -22,6 +24,8 @@ const SearchBarTest = ({ setMapCenter }) => {
 	} = usePlacesAutocomplete()
 
 	const handleSelect = async (address) => {
+		handleCityChange(isolateCityName(address))
+
 		setValue(address, false)
 		clearSuggestions()
 
@@ -29,6 +33,10 @@ const SearchBarTest = ({ setMapCenter }) => {
 		const latLng = await getLatLng(result[0])
 		setMapCenter(latLng)
 	}
+
+	const handleCityChange = useCallback((city) => {
+		onCityChange(city)
+	}, [onCityChange])
 
 	return (
 		<Combobox onSelect={handleSelect}>
