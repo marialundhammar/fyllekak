@@ -9,7 +9,7 @@ const HomePage = () => {
 	const [query, setQuery] = useState(null);
 	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 	const { setMapCenter } = useAuthContext();
-
+	const [city, setCity] = useState('')
 	const [searchParams, setSearchParams] = useSearchParams({
 		filter: "all",
 	});
@@ -111,6 +111,7 @@ const HomePage = () => {
 					{/* Maps component */}
 
 					<Map
+						onLocationChange={setCity}
 						className="w-full sm:w-3/4 h-full"
 						location={location}
 						restaurants={filteredRestaurants}

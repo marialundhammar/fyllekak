@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import googleMapsStyle from "../googleMapsStyle";
 import SearchBar from "../components/SearchBar";
 import { useAuthContext } from "../contexts/AuthContext";
 
-const Map = ({ location, restaurants }) => {
+const Map = ({ onLocationChange, location, restaurants }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
 
   const { mapCenter, setMapCenter, setInfoCardRestaurant } = useAuthContext();
@@ -46,13 +46,17 @@ const Map = ({ location, restaurants }) => {
     scale: 1.1,
   };
 
+  const handleCityChange = useCallback((e) => {
+    onLocationChange(e)
+  }, [onLocationChange])
+
   return (
     isLoaded &&
     restaurants && (
       <>
         <div className="flex flex-col w-screen h-screen z-0">
           <div className=" w-full">
-            <SearchBar setMapCenter={setMapCenter} />
+            <SearchBar setMapCenter={setMapCenter} onCityChange={handleCityChange} />
           </div>
 
           <div className="flex justify-center items-center flex-grow">
