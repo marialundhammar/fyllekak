@@ -111,8 +111,8 @@ const HomePage = () => {
 					{/* Maps component */}
 
 					<Map
-						onLocationChange={setCity}
 						className="w-full sm:w-3/4 h-full"
+						onLocationChange={setCity}
 						location={location}
 						restaurants={filteredRestaurants}
 					/>
