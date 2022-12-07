@@ -1,39 +1,39 @@
-import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router-dom"
-
-import useRestaurants from "../hooks/useRestaurants"
-import RestaurantList from "../components/RestaurantList"
-import Map from "../components/Map"
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
+import useRestaurants from "../hooks/useRestaurants";
+import RestaurantList from "../components/RestaurantList";
+import Map from "../components/Map";
 
 const HomePage = () => {
-	const [query, setQuery] = useState(null)
-	const [city, setCity] = useState('')
-	const [filteredRestaurants, setFilteredRestaurants] = useState([])
+	const [query, setQuery] = useState(null);
+	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+	const { setMapCenter } = useAuthContext();
+
 	const [searchParams, setSearchParams] = useSearchParams({
 		filter: "all",
-	})
+	});
 
-	const { data: restaurants, isLoading } = useRestaurants(
-		"restaurants"
-	)
+	const { data: restaurants, isLoading } = useRestaurants("restaurants");
 
 	const handleFilter = (query) => {
-		console.log(query)
 		if (query === "all") {
-			setFilteredRestaurants(restaurants)
-			setSearchParams({ filter: "all" })
-			return
+			setFilteredRestaurants(restaurants);
+			setSearchParams({ filter: "all" });
+			return;
 		}
 
-		const filteredArray = restaurants.filter((res) => res[query])
-		setFilteredRestaurants(filteredArray)
-		setSearchParams({ filter: query })
-	}
+		const filteredArray = restaurants.filter((res) => res[query]);
+		console.log("this is query", query);
+		console.log("this is query", filteredArray);
+		setFilteredRestaurants(filteredArray);
+		setSearchParams({ filter: query });
+	};
 
 	const [location, setLocation] = useState({
 		lat: 55.59712105786678,
 		lng: 12.997431424230891,
-	})
+	});
 
 	const getUserLocation = () => {
 		if (navigator.geolocation) {
@@ -41,34 +41,24 @@ const HomePage = () => {
 				const userLocation = {
 					lat: position.coords.latitude,
 					lng: position.coords.longitude,
-				}
+				};
 
-				setLocation(userLocation)
-			})
+				setLocation(userLocation);
+				setMapCenter(userLocation);
+			});
 		} else {
-			return
+			return;
 		}
-	}
+	};
 
 	useEffect(() => {
-		if (isLoading) return
+		if (isLoading) return;
+
 		if (searchParams.get("filter")) {
-			handleFilter(searchParams.get("filter"))
+			handleFilter(searchParams.get("filter"));
 		}
-		getUserLocation()
-	}, [query, isLoading])
-
-
-
-	// Här är jag
-	// useEffect(() => {
-	// 	setSearchParams({
-	// 		city: city,
-	// 	})
-	// }, [setCity])
-
-
-
+		getUserLocation();
+	}, [query, isLoading]);
 
 	return (
 		filteredRestaurants && (
@@ -83,27 +73,33 @@ const HomePage = () => {
 									onClick={() => {
 										query !== "vego"
 											? handleFilter("vego") && setQuery("vego")
-											: handleFilter('') && setQuery(null)
+											: handleFilter("") && setQuery(null);
 									}}
-								>Vegetariskt</button>
+								>
+									Vegetariskt
+								</button>
 
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
 										query !== "price"
 											? handleFilter("price") && setQuery("price")
-											: handleFilter('') && setQuery(null)
+											: handleFilter("") && setQuery(null);
 									}}
-								>Billigt</button>
+								>
+									Billigt
+								</button>
 
 								<button
 									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
 									onClick={() => {
 										query !== "all"
 											? handleFilter("all") && setQuery("all")
-											: handleFilter('') && setQuery(null)
+											: handleFilter("") && setQuery(null);
 									}}
-								>Alla</button>
+								>
+									Alla
+								</button>
 							</div>
 						</div>
 
@@ -113,8 +109,8 @@ const HomePage = () => {
 					</div>
 
 					{/* Maps component */}
+
 					<Map
-						onLocationChange={setCity}
 						className="w-full sm:w-3/4 h-full"
 						location={location}
 						restaurants={filteredRestaurants}
@@ -122,7 +118,7 @@ const HomePage = () => {
 				</div>
 			</>
 		)
-	)
-}
+	);
+};
 
-export default HomePage
+export default HomePage;

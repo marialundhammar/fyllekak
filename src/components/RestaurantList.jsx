@@ -1,39 +1,41 @@
-import { useState } from "react"
-import RestaurantInfoCard from "./RestaurantInfoCard"
+import { useState } from "react";
+import RestaurantInfoCard from "./RestaurantInfoCard";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const RestaurantList = ({ restaurants }) => {
-	const [infoCard, setInfoCard] = useState()
+  const [infoCard, setInfoCard] = useState();
+  const { infoCardRestaurant, setInfoCardRestaurant } = useAuthContext();
 
-	const toggleCard = (res) => {
-		if (infoCard == res) setInfoCard()
-		if (infoCard != res) setInfoCard(res)
-	}
+  const { setMapCenter } = useAuthContext();
 
-	return (
-		<div>
-			<ul className="">
-				{restaurants &&
-					restaurants.map((res) => (
-						<div
-							className="my-1 border border-contrast-color rounded bg-nav flex justify-between hover:text-contrast-color-dark hover:bg-darkish-blue"
-							key={res.id}
-							onClick={() => toggleCard(res)}
-						>
-							<li
-								className="p-2"
-							>{res.name}</li>
-						</div>
-					))}
-			</ul>
+  const handleOnClickRestaurantCard = (res) => {
+    setInfoCardRestaurant(res);
+    setMapCenter(res.coords);
+  };
 
-			{infoCard && (
-				<RestaurantInfoCard
-					key={infoCard.id}
-					restaurant={infoCard}
-				/>
-			)}
-		</div>
-	)
-}
+  return (
+    <div>
+      <ul className="">
+        {restaurants &&
+          restaurants.map((res) => (
+            <div
+              className="my-1 border border-contrast-color rounded bg-nav flex justify-between hover:text-contrast-color-dark hover:bg-darkish-blue"
+              key={res.id}
+              onClick={() => handleOnClickRestaurantCard(res)}
+            >
+              <li className="p-2">{res.name}</li>
+            </div>
+          ))}
+      </ul>
 
-export default RestaurantList
+      {infoCardRestaurant && (
+        <RestaurantInfoCard
+          key={infoCardRestaurant.id}
+          restaurant={infoCardRestaurant}
+        />
+      )}
+    </div>
+  );
+};
+
+export default RestaurantList;
