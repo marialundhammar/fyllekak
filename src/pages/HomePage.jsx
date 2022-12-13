@@ -1,125 +1,151 @@
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import useRestaurants from "../hooks/useRestaurants";
 import RestaurantList from "../components/RestaurantList";
 import Map from "../components/Map";
+import { getAddress } from "../services/MapsAPI";
 
 const HomePage = () => {
-	const [query, setQuery] = useState(null);
-	const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-	const { setMapCenter } = useAuthContext();
-	const [city, setCity] = useState('')
-	const [searchParams, setSearchParams] = useSearchParams({
-		filter: "all",
-	});
+  const { setMapCenter, isMapLoaded } = useAuthContext();
+  const { data: restaurants, isLoading } = useRestaurants("restaurants");
 
-	const { data: restaurants, isLoading } = useRestaurants("restaurants");
+  const params = new URLSearchParams(useLocation().search);
+  const filterParam = params.get("filter");
+  const cityParam = params.get("city");
 
-	const handleFilter = (query) => {
-		if (query === "all") {
-			setFilteredRestaurants(restaurants);
-			setSearchParams({ filter: "all" });
-			return;
-		}
+  const [, setSearchParams] = useSearchParams({
+    filter: filterParam ? filterParam : "all",
+    city: cityParam ? cityParam : "malmö",
+  });
 
-		const filteredArray = restaurants.filter((res) => res[query]);
-		console.log("this is query", query);
-		console.log("this is query", filteredArray);
-		setFilteredRestaurants(filteredArray);
-		setSearchParams({ filter: query });
-	};
+  const [userLocation, setUserLocation] = useState(null);
+  const [isLocationLoaded, setIsLocationLoaded] = useState(false);
+  const [queryFilter, setQueryFilter] = useState(
+    filterParam ? filterParam : "all"
+  );
+  const [city, setCity] = useState(cityParam ? cityParam : null);
+  const [userCity, setUserCity] = useState();
+  const [filteredRestaurants, setFilteredRestaurants] = useState(restaurants);
 
-	const [location, setLocation] = useState({
-		lat: 55.59712105786678,
-		lng: 12.997431424230891,
-	});
+  const handleFilter = (queryFilter) => {
+    const filteredByCity = restaurants.filter(
+      (res) => res.city.toLowerCase() === city.toLowerCase()
+    );
 
-	const getUserLocation = () => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition((position) => {
-				const userLocation = {
-					lat: position.coords.latitude,
-					lng: position.coords.longitude,
-				};
+    if (queryFilter === "all") {
+      setFilteredRestaurants(filteredByCity);
+      setSearchParams({ filter: "all", city });
+      return;
+    }
 
-				setLocation(userLocation);
-				setMapCenter(userLocation);
-			});
-		} else {
-			return;
-		}
-	};
+    const filteredByQuery = restaurants
+      ? filteredByCity.filter((res) => res[queryFilter])
+      : [];
 
-	useEffect(() => {
-		if (isLoading) return;
+    setQueryFilter(queryFilter);
 
-		if (searchParams.get("filter")) {
-			handleFilter(searchParams.get("filter"));
-		}
-		getUserLocation();
-	}, [query, isLoading]);
+    setFilteredRestaurants(filteredByQuery);
 
-	return (
-		filteredRestaurants && (
-			<>
-				<div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
-					{/* Sidebar */}
-					<div className="w-full sm:w-1/4 p-2">
-						<div>
-							<div className="ui-sans-serif flex flex-col">
-								<button
-									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
-									onClick={() => {
-										query !== "vego"
-											? handleFilter("vego") && setQuery("vego")
-											: handleFilter("") && setQuery(null);
-									}}
-								>
-									Vegetariskt
-								</button>
+    setSearchParams({ filter: queryFilter, city: city });
+  };
 
-								<button
-									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
-									onClick={() => {
-										query !== "price"
-											? handleFilter("price") && setQuery("price")
-											: handleFilter("") && setQuery(null);
-									}}
-								>
-									Billigt
-								</button>
+  useEffect(() => {
+    if (isLoading || !isMapLoaded) return;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const coords = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        await setUserLocation(coords);
 
-								<button
-									className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
-									onClick={() => {
-										query !== "all"
-											? handleFilter("all") && setQuery("all")
-											: handleFilter("") && setQuery(null);
-									}}
-								>
-									Alla
-								</button>
-							</div>
-						</div>
+        const { results } = await getAddress(coords.lat, coords.lng);
 
-						<div className="my-2">
-							<RestaurantList restaurants={filteredRestaurants} />
-						</div>
-					</div>
+        results[0].address_components.forEach((component) => {
+          if (component.types.includes("postal_town")) {
+            const userCity = component.long_name.toLowerCase();
+            setUserCity(userCity);
+            if (!city) {
+              setCity(userCity);
+              setMapCenter(coords);
+              setSearchParams((params) => ({
+                filter: queryFilter,
+                city: userCity,
+              }));
+            } else if (city.toLowerCase() === userCity) {
+              setMapCenter(coords);
+            }
+            setIsLocationLoaded(true);
+          }
+        });
+      });
+    }
+  }, [isLoading]);
 
-					{/* Maps component */}
+  useEffect(() => {
+    if (!isLocationLoaded) return;
+    handleFilter(queryFilter);
+  }, [isLocationLoaded, queryFilter, city]);
 
-					<Map
-						className="w-full sm:w-3/4 h-full"
-						onLocationChange={setCity}
-						location={location}
-						restaurants={filteredRestaurants}
-					/>
-				</div>
-			</>
-		)
-	);
+  const handleLocationChange = (city) => {
+    setCity(city);
+    handleFilter(queryFilter);
+  };
+
+  if (isLoading || !isMapLoaded || !isLocationLoaded)
+    return (
+      <div className="flex justify-center items-center h-full">Loading...</div>
+    );
+  return (
+    <>
+      <div className="flex flex-col-reverse md:flex-row bg-darkish-blue text-contrast-color">
+        <div className="w-full sm:w-1/4 p-2">
+          <div>
+            <div className="ui-sans-serif flex flex-col">
+              <button
+                className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+                onClick={() => {
+                  handleFilter("vego");
+                }}
+              >
+                Vegetariskt
+              </button>
+
+              <button
+                className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+                onClick={() => {
+                  handleFilter("price");
+                }}
+              >
+                Billigt
+              </button>
+
+              <button
+                className="p-2 border rounded border-contrast-color hover:border-contrast-color-dark hover:text-contrast-color-dark"
+                onClick={() => {
+                  handleFilter("all");
+                }}
+              >
+                Alla
+              </button>
+            </div>
+          </div>
+
+          <div className="my-2">
+            <RestaurantList restaurants={filteredRestaurants} />
+          </div>
+        </div>
+
+        <Map
+          className="w-full sm:w-3/4 h-full"
+          onLocationChange={handleLocationChange}
+          location={userLocation}
+          restaurants={filteredRestaurants}
+        />
+      </div>
+    </>
+  );
 };
 
 export default HomePage;

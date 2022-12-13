@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+import { useCallback } from "react";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import googleMapsStyle from "../googleMapsStyle";
 import SearchBar from "../components/SearchBar";
 import { useAuthContext } from "../contexts/AuthContext";
@@ -7,35 +7,28 @@ import { useAuthContext } from "../contexts/AuthContext";
 const Map = ({ onLocationChange, location, restaurants }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
 
-  const { mapCenter, setMapCenter, setInfoCardRestaurant } = useAuthContext();
+  const { mapCenter, setMapCenter, setInfoCardRestaurant, isMapLoaded } =
+    useAuthContext();
 
   const containerStyle = {
     width: "100%",
     height: "100%",
   };
 
-  const [libraries] = useState(["places"]);
-
   const mapStyle = googleMapsStyle;
 
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: `${googleAPI}`,
-    libraries,
-  });
+  const gMaps = isMapLoaded ? window.google.maps : {};
 
-  const gMaps = isLoaded ? window.google.maps : {};
-
-  const iconRestaurant = isLoaded
+  const iconRestaurant = isMapLoaded
     ? {
-      path: "M12,2a8.009,8.009,0,0,0-8,8c0,3.255,2.363,5.958,4.866,8.819,0.792,0.906,1.612,1.843,2.342,2.791a1,1,0,0,0,1.584,0c0.73-.948,1.55-1.885,2.342-2.791C17.637,15.958,20,13.255,20,10A8.009,8.009,0,0,0,12,2Zm0,11a3,3,0,1,1,3-3A3,3,0,0,1,12,13Z",
-      fillColor: "#42f5c5",
-      fillOpacity: 1,
-      strokeOpacity: 0,
-      anchor: new gMaps.Point(12, 22),
-      scale: 1.5,
-      labelOrigin: new gMaps.Point(10, -8),
-    }
+        path: "M12,2a8.009,8.009,0,0,0-8,8c0,3.255,2.363,5.958,4.866,8.819,0.792,0.906,1.612,1.843,2.342,2.791a1,1,0,0,0,1.584,0c0.73-.948,1.55-1.885,2.342-2.791C17.637,15.958,20,13.255,20,10A8.009,8.009,0,0,0,12,2Zm0,11a3,3,0,1,1,3-3A3,3,0,0,1,12,13Z",
+        fillColor: "#42f5c5",
+        fillOpacity: 1,
+        strokeOpacity: 0,
+        anchor: new gMaps.Point(12, 22),
+        scale: 1.5,
+        labelOrigin: new gMaps.Point(10, -8),
+      }
     : {};
 
   const iconUser = {
@@ -46,17 +39,23 @@ const Map = ({ onLocationChange, location, restaurants }) => {
     scale: 1.1,
   };
 
-  const handleCityChange = useCallback((e) => {
-    onLocationChange(e)
-  }, [onLocationChange])
+  const handleCityChange = useCallback(
+    (city) => {
+      onLocationChange(city);
+    },
+    [onLocationChange]
+  );
 
   return (
-    isLoaded &&
+    isMapLoaded &&
     restaurants && (
       <>
         <div className="flex flex-col w-screen h-screen z-0">
           <div className=" w-full">
-            <SearchBar setMapCenter={setMapCenter} onCityChange={handleCityChange} />
+            <SearchBar
+              setMapCenter={setMapCenter}
+              onCityChange={handleCityChange}
+            />
           </div>
 
           <div className="flex justify-center items-center flex-grow">

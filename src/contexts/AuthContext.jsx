@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { auth, storage } from "../firebase";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 const AuthContext = createContext();
 
@@ -17,15 +18,27 @@ const useAuthContext = () => {
 };
 
 const AuthContextProvider = ({ children }) => {
+  const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
+  const [libraries] = useState(["places"]);
+
   const [infoCardRestaurant, setInfoCardRestaurant] = useState(null);
   const [mapCenter, setMapCenter] = useState({
     lat: 55.59712105786678,
     lng: 12.997431424230891,
   });
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: `${googleAPI}`,
+    libraries,
+  });
+
+  const [setFilteredRestaurantsNew, filteredRestaurantsNew] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [userEmail, setUserEmail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userPhotoUrl, setUserPhotoUrl] = useState(null);
+  const [city, setCity] = useState("");
 
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
@@ -75,7 +88,6 @@ const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // auth state changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setUserPhotoUrl(user?.photoURL);
@@ -99,6 +111,8 @@ const AuthContextProvider = ({ children }) => {
     setInfoCardRestaurant,
     setMapCenter,
     mapCenter,
+    setCity,
+    isMapLoaded: isLoaded,
   };
 
   return (
