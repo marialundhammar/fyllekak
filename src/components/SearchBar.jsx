@@ -22,22 +22,6 @@ const SearchBarTest = ({ setMapCenter, onCityChange, setSearchParams }) => {
 		clearSuggestions,
 	} = usePlacesAutocomplete();
 
-	/* INCOMING v
-	const SearchBarTest = ({ setMapCenter, setSearchParams }) => {
-		const {
-			ready,
-			value,
-			suggestions: { status, data },
-			setValue,
-			clearSuggestions,
-		} = usePlacesAutocomplete()
-
-		const handleSelect = async (address) => {
-			setValue(address, false)
-			setSearchParams({ address: address })
-			clearSuggestions()
-	*/
-
 	const handleSelect = async (address) => {
 		handleCityChange(isolateCityName(address));
 		setValue(address, false);

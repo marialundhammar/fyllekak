@@ -23,16 +23,6 @@ const HomePage = () => {
 	const address = searchParams.get('address') ? searchParams.get('address') : ""
 	const filter = searchParams.get('filter')
 
-	/* INCOMING v
-		const [searchParams, setSearchParams] = useSearchParams({
-			filter: "all",
-			address: ""
-		})
-
-		const address = searchParams.get('address') ? searchParams.get('address') : ""
-		const filter = searchParams.get('filter')
-	*/
-
 	const [userLocation, setUserLocation] = useState(null);
 	const [isLocationLoaded, setIsLocationLoaded] = useState(false);
 	const [queryFilter, setQueryFilter] = useState(
@@ -63,43 +53,6 @@ const HomePage = () => {
 
 		setSearchParams({ filter: queryFilter, city: city, address });
 	};
-
-	/* INCMONG v
-	
-	// const handleFilter = (query) => {
-	// 	if (query === "all") {
-	// 		setFilteredRestaurants(restaurants)
-	// 		setSearchParams({ 
-	// 			filter: "all",
-	// 			address: address
-	// 		})
-	// 		return
-	// 	}
-
-	// 	const filteredArray = restaurants.filter((res) => res[query])
-	// 	setFilteredRestaurants(filteredArray)
-	// 	setSearchParams({ 
-	// 		filter: query,
-	// 		address: address
-	// 	})
-	// }
-
-
-	// useEffect(() => {
-	// 	if (isLoading) return
-	// 	if (searchParams.get("filter")) {
-	// 		handleFilter(searchParams.get("filter"))
-	// 	}
-	// 	if (searchParams.get("address")) {
-	// 		setSearchParams({
-	// 			filter: filter,
-	// 			address: address
-	// 		})
-	// 	}
-	// 	getUserLocation()
-	// }, [queryFilter, isLoading])
-
-	*/
 
 	useEffect(() => {
 		if (isLoading || !isMapLoaded) return;

@@ -1,33 +1,12 @@
-import { useState, useCallback } from "react";
-import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
+import { useCallback } from "react";
+import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import googleMapsStyle from "../googleMapsStyle";
 import SearchBar from "../components/SearchBar";
 import { useAuthContext } from "../contexts/AuthContext";
 import { getGeocode, getLatLng, } from "use-places-autocomplete"
-import RestaurantInfoCard from "./RestaurantInfoCard"
 
 const Map = ({ onLocationChange, location, restaurants, setSearchParams, address }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
-
-  /* INCOMING v
-    import {
-      getGeocode,
-      getLatLng,
-    } from "use-places-autocomplete"
-    import { useState } from "react"
-    import {
-      GoogleMap,
-      useJsApiLoader,
-      MarkerF,
-    } from "@react-google-maps/api"
-    import RestaurantInfoCard from "./RestaurantInfoCard"
-    import googleMapsStyle from "../googleMapsStyle"
-    import SearchBar from "../components/SearchBar"
-    import { useAuthContext } from "../contexts/AuthContext"
-
-    const Map = ({ location, restaurants, setSearchParams, address }) => {
-      const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API
-  */
 
   const { mapCenter, setMapCenter, setInfoCardRestaurant, isMapLoaded } = useAuthContext();
 
@@ -39,13 +18,6 @@ const Map = ({ onLocationChange, location, restaurants, setSearchParams, address
   const mapStyle = googleMapsStyle;
 
   const gMaps = isMapLoaded ? window.google.maps : {};
-
-  /* INCOMING v
-    const [mapCenter, setMapCenter] = useState({
-      lat: 55.59712105786678,
-      lng: 12.997431424230891,
-    })
-  */
 
   const loadMapCenter = async (address) => {
     if (address) {
@@ -60,10 +32,6 @@ const Map = ({ onLocationChange, location, restaurants, setSearchParams, address
   }
 
   loadMapCenter(address)
-
-  /* INCOMING v
-    const libraries = ["places"]
-  */
 
   const iconRestaurant = isMapLoaded
     ? {
@@ -137,60 +105,3 @@ const Map = ({ onLocationChange, location, restaurants, setSearchParams, address
 };
 
 export default Map;
-
-
-
-
-
-
-
-
-/*    INCOMING v
-return (
-  isLoaded &&
-  restaurants && (
-    <>
-      <div className="flex flex-col w-screen h-screen z-0">
-        <div className=" w-full">
-          <SearchBar setMapCenter={setMapCenter} setSearchParams={setSearchParams} />
-        </div>
-        <div className="flex justify-center items-center flex-grow">
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={mapCenter}
-            zoom={15}
-            options={{ styles: mapStyle }}
-          >
-            {restaurants.map((restaurant) => (
-              <MarkerF
-                position={restaurant.coords}
-                label={{
-                  text: restaurant.name,
-                  className: "labelStyle",
-                }}
-                onClick={() => {
-                  setInfoCardRestaurant(
-                    restaurant
-                  )
-                  setMapCenter(
-                    restaurant.coords
-                  )
-                }}
-                key={restaurant.id}
-                icon={iconRestaurant}
-              />
-            ))}
-            <MarkerF
-              icon={iconUser}
-              position={location}
-              animation={1}
-            />
-          </GoogleMap>
-        </div>
-      </div>
-    </>
-  )
-)
-}
-
-*/
