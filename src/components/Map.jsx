@@ -3,12 +3,12 @@ import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import googleMapsStyle from "../googleMapsStyle";
 import SearchBar from "../components/SearchBar";
 import { useAuthContext } from "../contexts/AuthContext";
-import { getGeocode, getLatLng, } from "use-places-autocomplete"
 
-const Map = ({ onLocationChange, location, restaurants, setSearchParams, address }) => {
+const Map = ({ onLocationChange, location, restaurants }) => {
   const googleAPI = import.meta.env.VITE_GOOGLE_MAP_API;
 
-  const { mapCenter, setMapCenter, setInfoCardRestaurant, isMapLoaded } = useAuthContext();
+  const { mapCenter, setMapCenter, setInfoCardRestaurant, isMapLoaded } =
+    useAuthContext();
 
   const containerStyle = {
     width: "100%",
@@ -19,30 +19,16 @@ const Map = ({ onLocationChange, location, restaurants, setSearchParams, address
 
   const gMaps = isMapLoaded ? window.google.maps : {};
 
-  const loadMapCenter = async (address) => {
-    if (address) {
-      const result = await getGeocode({ address })
-      const latLng = await getLatLng(result[0])
-      setMapCenter(latLng)
-    }
-
-    if (location !== mapCenter && !address) {
-      setMapCenter(location)
-    }
-  }
-
-  loadMapCenter(address)
-
   const iconRestaurant = isMapLoaded
     ? {
-      path: "M12,2a8.009,8.009,0,0,0-8,8c0,3.255,2.363,5.958,4.866,8.819,0.792,0.906,1.612,1.843,2.342,2.791a1,1,0,0,0,1.584,0c0.73-.948,1.55-1.885,2.342-2.791C17.637,15.958,20,13.255,20,10A8.009,8.009,0,0,0,12,2Zm0,11a3,3,0,1,1,3-3A3,3,0,0,1,12,13Z",
-      fillColor: "#42f5c5",
-      fillOpacity: 1,
-      strokeOpacity: 0,
-      anchor: new gMaps.Point(12, 22),
-      scale: 1.5,
-      labelOrigin: new gMaps.Point(10, -8),
-    }
+        path: "M12,2a8.009,8.009,0,0,0-8,8c0,3.255,2.363,5.958,4.866,8.819,0.792,0.906,1.612,1.843,2.342,2.791a1,1,0,0,0,1.584,0c0.73-.948,1.55-1.885,2.342-2.791C17.637,15.958,20,13.255,20,10A8.009,8.009,0,0,0,12,2Zm0,11a3,3,0,1,1,3-3A3,3,0,0,1,12,13Z",
+        fillColor: "#42f5c5",
+        fillOpacity: 1,
+        strokeOpacity: 0,
+        anchor: new gMaps.Point(12, 22),
+        scale: 1.5,
+        labelOrigin: new gMaps.Point(10, -8),
+      }
     : {};
 
   const iconUser = {
@@ -69,7 +55,6 @@ const Map = ({ onLocationChange, location, restaurants, setSearchParams, address
             <SearchBar
               setMapCenter={setMapCenter}
               onCityChange={handleCityChange}
-              setSearchParams={setSearchParams}
             />
           </div>
 
