@@ -12,8 +12,10 @@ import {
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
 import isolateCityName from "../helpers/cityName";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const SearchBarTest = ({ setMapCenter, onCityChange }) => {
+  const { infoCardRestaurant, setInfoCardRestaurant } = useAuthContext();
   const {
     ready,
     value,
@@ -36,6 +38,7 @@ const SearchBarTest = ({ setMapCenter, onCityChange }) => {
   const handleCityChange = useCallback(
     (city) => {
       onCityChange(city);
+      setInfoCardRestaurant(null);
     },
     [onCityChange]
   );
